@@ -93,7 +93,7 @@ local boates = {
 		['SubText'] = "",
 		['Desc'] = "Nivel necessario [0]",
 		['Param'] = {
-			['Preço'] = 450.0,
+			['Preço'] = 450,
 			['Modelo'] = "keelboat",
 			['Level'] = 0
 		}
@@ -104,7 +104,7 @@ local boates = {
 		['SubText'] = "",
 		['Desc'] = "Nivel necessario [0]",
 		['Param'] = {
-			['Preço'] = 500.0,
+			['Preço'] = 500,
 			['Modelo'] = "boatsteam02x",
 			['Level'] = 0
 		}
