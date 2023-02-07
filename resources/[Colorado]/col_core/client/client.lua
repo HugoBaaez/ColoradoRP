@@ -145,15 +145,17 @@ Citizen.CreateThread(function()
         local coords = GetEntityCoords(playerPed)
         local Water = Citizen.InvokeNative(0x5BA7A68A346A5A91,coords.x+3, coords.y+3, coords.z)
         for k,v in pairs(WaterTypes) do 
-            if Water == WaterTypes[k]["waterhash"]  then
-                if IsPedOnFoot(playerPed) and not IsPlayerDead(playerPed) then
-                    if IsEntityInWater(playerPed) then
-                        local Wash  = CreateVarString(10, 'LITERAL_STRING',"Água")
-                        PromptSetActiveGroupThisFrame(WashGroup, Wash) 
-                        if PromptHasHoldModeCompleted(WashPrompt) then
-                        StartWash("amb_misc@world_human_wash_face_bucket@ground@male_a@idle_d", "idle_l")
-                        end                                         
-                    end                
+            if not IsPlayerDead(PlayerId()) then
+                if Water == WaterTypes[k]["waterhash"]  then
+                    if IsPedOnFoot(playerPed) then
+                        if IsEntityInWater(playerPed) then
+                            local Wash  = CreateVarString(10, 'LITERAL_STRING',"Água")
+                            PromptSetActiveGroupThisFrame(WashGroup, Wash) 
+                            if PromptHasHoldModeCompleted(WashPrompt) then
+                            StartWash("amb_misc@world_human_wash_face_bucket@ground@male_a@idle_d", "idle_l")
+                            end                                         
+                        end                
+                    end
                 end
             end
         end

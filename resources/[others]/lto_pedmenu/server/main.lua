@@ -111,6 +111,8 @@ AddEventHandler('lto_pedanim:groupcheck', function()
 		TriggerClientEvent("lto_pedanim:open",_source)
 	elseif first == "Cirdan" and last == "Elendil" then
 		TriggerClientEvent("lto_pedanim:open",_source)
+	elseif first == "Buzz" and last == "Michael" then
+		TriggerClientEvent("lto_pedanim:open",_source)
 	else
 		TriggerClientEvent("vorp:TipRight", _source, 'Você não tem permissão!', 4000)
 	end
@@ -432,6 +434,9 @@ AddEventHandler('ped6check', function()
 		TriggerClientEvent("able", _source)
 	elseif first == "Cirdan" and last == "Elendil" then
 		TriggerClientEvent("ped58", _source)
+		TriggerClientEvent("able", _source)
+	elseif first == "Buzz" and last == "Michael" then
+		TriggerClientEvent("ped78", _source)
 		TriggerClientEvent("able", _source)
 	else
 		TriggerClientEvent("vorp:TipRight", _source, 'Você não tem permissão!', 4000)
