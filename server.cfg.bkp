@@ -1,0 +1,101 @@
+﻿#######################################################################################
+##################                                               ######################
+##################                V#RP CORE                      ######################
+##################                FRAMEWORK                      ######################
+##################                                               ######################
+#######################################################################################
+
+
+
+# READ THIS  IS IMPORTANT
+#############################################################################################  
+# NOTE: THAT YOU MIGHT NEED TO TRANSLATE SOME SCRIPTS TO YOUR LANGUAGE                      #
+# YOU MIGHT ALSO HAVE INTERFERENCE WITH SCRIPTS USE WHAT YOU WANT WHAT YOU DONT WANT REMOVE #
+# CHECK FOR EVERY SCRIPT IF THEY HAVE A CONFIG.LUA FILE THATS WHERE YOU CHANGE THINGS       #
+# MAKE SURE TO CHECK FOR ERRORS IN YOUR CONSOLE OR IN GAME  PRESS F8                        #
+#############################################################################################
+
+#BY OUTSIDER
+
+# Set the file server
+
+#fileserver_remove ".*"
+#fileserver_add ".*" "https://coloradorp.fastdl.neephost.com/files"
+#adhesive_cdnKey "44975e14-55fd-49ba-ba00-9cf82bd1d3a3"
+
+
+# Only change the IP if you're using a server with multiple network interfaces, otherwise change the port only.
+endpoint_add_tcp "0.0.0.0:30270"
+endpoint_add_udp "0.0.0.0:30270"
+
+# #####################################################################
+
+set mysql_connection_string "mysql://root:!XR)!%F925(BK!_@127.0.0.1/0404coloradorp2022?connectTimeout=600000" # your DATABASE PATH
+set mysql_slow_query_warning 200    # to only show warnings above 700
+
+# ##################### EXCUTE FILES HERE ###################
+# #########################################################################################
+exec Resources.cfg  # These resources will start by default add them in the file.
+
+exec vorp_perms.cfg
+
+exec perms.cfg  # add your permissions in there
+
+exec permissions.cfg  #permissions for spooner.
+
+# ##########################################################################################
+# A comma-separated list of tags for your server.
+#sets tags "drifting, cars, racing"
+
+sets tags "roleplay, faroeste, brasil, bandidos, profissoes, hardrp"
+
+# A valid locale identifier for your server's primary language.
+# For example "en-US", "fr-CA", "nl-NL", "de-DE", "en-GB", "pt-BR"
+
+sets locale "pt-BR" 
+# please DO replace root-AQ on the line ABOVE with a real language!
+
+# Set your server's hostname
+sv_hostname "Colorado Roleplay"
+
+# Set your server's Project Name 
+sets sv_projectName "Colorado Roleplay"
+
+#set an invite link to your discord will show in redm server listing 
+sets Discord "discord.gg/coloradorp"
+sets website "rpcolorado.com"
+
+# Set your server's Project Description
+sets sv_projectDesc "Viva sua história, seja eterno!"
+
+
+# Hide player endpoints in external log output.
+# sv_endpointprivacy true
+
+load_server_icon 96x96.png  #REPLACE the icon.png found in the folder to your logo 96x96
+
+sets banner_detail "https://media.discordapp.net/attachments/998760018012807258/1028077110524379227/banner-list.png?width=1440&height=83"  #1865x108 size add a url here
+sets banner_connecting "https://media.discordapp.net/attachments/998760018012807258/1028077110893490216/banner-loading.png" # use a smaller size add a url here
+                      
+# sets activitypubFeed NAMEHERE@mstdn.social #if you want to use a news feed in your redM server listing page open an account at mstdn.social
+
+# ##########################################################################################
+set sv_enforceGameBuild 1491 # gamebuild change this when a newer exists 
+
+set gamename rdr3 # dont touch
+
+## [txAdmin CFG validator]: onesync MUST only be set in the txAdmin settings page.
+# set onesync on  #onesync is off or just uncomment f you want it on
+
+# Server player slot limit (must be between 1 and 32, unless using OneSync) with OneSync ON you can add 42 slots
+sv_maxclients  250
+
+#sv_master1 "-"
+
+# Steam Web API key, if you want to use Steam authentication (https://steamcommunity.com/dev/apikey)
+# -> replace "xxxxxx" with the key
+# (https://steamcommunity.com/dev/apikey) get it here
+set steam_webApiKey "6A1BDBCCFDD8823CA64E36684FBB92F6"
+
+# (https://keymaster.fivem.net)
+set sv_licenseKey "cfxk_1MSKubGKXQeIqtkO7aEdb_2aGmKN"

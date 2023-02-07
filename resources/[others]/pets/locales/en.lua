@@ -1,0 +1,17 @@
+Locales['en'] = {
+    NoMoney = 'Você não tem dinheiro suficiente',
+    Shoptext = 'Pressione (E) para exibir os Pets à venda',
+    GiveAway = 'Doar animal de estimação',
+    ReleasePet = 'você soltou seu animal de estimação',
+    PetAway = 'Você mandou seu pet fugir',
+    PetHealed = 'Pet foi curado por um médico',
+    SpawnLimiter = 'Seu pet está cansado, aguarde alguns segundos antes de chamá-lo novamente',
+    ReplacePet = 'Você substituiu seu antigo animal de estimação',
+    NewPet = 'Você comprou um novo animal de estimação',
+    NoPet = 'Você não tem um animal de estimação',
+    NoFood = 'Você não tem nenhum alimento para animais de estimação',
+    NotHungry = 'Seu animal de estimação não está com fome',
+    Hungry = 'Seu animal de estimação está com fome',
+    PetDead = 'Seu animal de estimação foi ferido e precisa de tempo para se recuperar!',
+    FedPet = 'Você alimentou seu animal de estimação!',
+}
