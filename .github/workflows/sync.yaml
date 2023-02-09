@@ -14,7 +14,7 @@ jobs:
       - name: "Pull remote changes"
         uses: appleboy/ssh-action@v0.1.7
         env:
-          REPO_PATH: "C:/Server/server-data"
+          REPO_PATH: "C:/ColoradoRP"
         with:
           host: ${{ secrets.SSH_HOST }}
           username: Administrator
