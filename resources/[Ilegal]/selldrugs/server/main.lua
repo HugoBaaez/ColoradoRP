@@ -55,69 +55,57 @@ AddEventHandler('FrankieSellToNPC:CheckTabAndSellItMyGuy', function(Coords)
     local _source = source
     local kis = math.random(1)
     local AmountToSell = math.random(1,3)
-	local luck = math.random(1,10)
+    local luck = math.random(1,10)
     local count = 0
     local Character = VorpCore.getUser(_source).getUsedCharacter
     local sellFcked = 0
     local dis = getDistance(Coords, Config.coordinates[1])
 
---    print(json.encode(dis))
+    --print(json.encode(dis))
 
---------------------------------------coords check----------------------------------------
+    --------------------------------------coords check----------------------------------------
     if  (Config.distance - dis) > 0 then
         sellFcked = 1
---    else
---        sellDcked = 0
     end
 
---------------------------------------CHECK PD----------------------------------------
+    --------------------------------------CHECK PD----------------------------------------
 
-    
     if checkPD == 0 then
         TriggerClientEvent("vorp:TipRight", _source, 'Não há policiais suficientes', 6000)
     elseif checkPD == 1 then
         
- --------------------------------------------------------------------------------  
-        local randomitem = 0
-        local playeritem = {}
-        local _x = 0
-        for _k,_v in pairs(Config.item) do
-            if Inventory.getItemCount(_source, _v.item) ~= nil then
-                _x = _x + 1
-                playeritem[_x] = _v.item
-            end
-       
+        for _, item in ipairs(Config.item) do
+            local itemCount = Inventory.getItemCount(_source, item.item)
 
-            if _x > 1 then
-                randomitem = playeritem [math.random(1,_x)]
-                count = Inventory.getItemCount(_source, randomitem)
-            end
- 
-            if sellFcked == 1 then
-                print(json.encode("sorte "..luck))
-                if luck > 8 then
-                    TriggerClientEvent("vorp:TipRight", _source, 'Eu não quero suas coisas, seu idiota', 6000)
-                else
-                    print(json.encode("quantidade "..count))
-                    print(json.encode("item "..randomitem))
-                    if count >= AmountToSell then
-                        Inventory.subItem(_source, randomitem, AmountToSell)
-                        local price = _v.priceMax
-                        local text = AmountToSell.. ' ' .._v.name.. ' por '..price..' dólares' 
-                        Character.addCurrency(0 , price)
-                        TriggerClientEvent("vorp:TipRight", _source, 'Você vendeu '..AmountToSell.. ' '.._v.name..' por ' ..price..' dólares ', 6000)
-                        local webhook = Config.WebHook
-                        SendWebhook(webhook, _source, text)
+            if itemCount ~= nil then
+                if sellFcked == 1 then
+                    print(json.encode("sorte "..luck))
+                    if luck > 8 then
+                        TriggerClientEvent("vorp:TipRight", _source, 'Eu não quero suas coisas, seu idiota', 6000)
                     else
-                        TriggerClientEvent("vorp:TipRight", _source, 'Eu quero '..AmountToSell.." ".._v.name..' e você não tem!', 6000) 
+                        print(json.encode("quantidade "..itemCount))
+                        print(json.encode("item "..item.item))
+                        if itemCount >= AmountToSell then
+                            Inventory.subItem(_source, item.item, AmountToSell)
+                            local price = AmountToSell* (item.priceMax - item.priceMin) + item.priceMin
+                            price = tonumber(string.format("%.2f", price))
+                            local text = AmountToSell.. ' ' ..item.name.. ' por '..price..' dólares' 
+                            Character.addCurrency(0 , price)
+                            TriggerClientEvent("vorp:TipRight", _source, 'Você vendeu '..AmountToSell.. ' '..item.name..' por ' ..price..' dólares ', 6000)
+                            local webhook = Config.WebHook
+                            SendWebhook(webhook, _source, text)
+                        else
+                            TriggerClientEvent("vorp:TipRight", _source, 'Eu quero '..AmountToSell.." "..item.name..' e você não tem!', 6000) 
+                        end
                     end
+                else
+                    TriggerClientEvent("vorp:TipRight", _source, 'Você está muito longe', 6000)
                 end
-            else
-                TriggerClientEvent("vorp:TipRight", _source, 'Você está muito longe', 6000)
             end
         end
     end
 end)
+
 
 
 -----police notify-----------
@@ -132,11 +120,93 @@ AddEventHandler("policenotify3", function(players, coords)
         for each, player in ipairs(players) do
             TriggerEvent("vorp:getCharacter", player, function(user)
                 if user ~= nil then
-                    if user.job == user.job == "police" then
+                    if user.job == "police" then
                         TriggerClientEvent("Witness:ToggleNotification3", player, coords)
                     end
                 end
             end)
         end
+    end
+end)
+
+RegisterServerEvent('moonshiner:original')
+AddEventHandler("moonshiner:original", function()
+    local _source = tonumber(source)
+    local User = VorpCore.getUser(_source) 
+    local Character = User.getUsedCharacter         
+    local count = Inventory.getItemCount(_source, "acucar")
+    local count2 = Inventory.getItemCount(_source, "agua")
+    local count3 = Inventory.getItemCount(_source, "milho")
+	if count >= 1 and count2 >= 5 and count3 >= 5 then		    
+        Inventory.subItem(_source,"acucar", 1)
+        Inventory.subItem(_source,"agua", 5)
+        Inventory.subItem(_source,"milho", 5) 
+        TriggerClientEvent('shiner:moonshine', _source)
+        Wait(30000)
+        Inventory.addItem(_source, "moonshine", 5)
+            
+    else
+        TriggerClientEvent("vorp:NotifyLeft", _source, "~e~Erro!", "Você precisa de: 1 Açucar, 5 Água e 5 Milhos.", "menu_textures", "cross", 3000, "COLOR_WHITE")
+    end
+end)
+
+RegisterServerEvent('moonshiner:tropical')
+AddEventHandler("moonshiner:tropical", function()
+    local _source = tonumber(source)
+    local User = VorpCore.getUser(_source) 
+    local Character = User.getUsedCharacter         
+    local count = Inventory.getItemCount(_source, "tropicalPunchMash")
+    local count2 = Inventory.getItemCount(_source, "alcool")
+	if count >= 1 and count2 >= 2 then		    
+        Inventory.subItem(_source,"tropicalPunchMash", 1)
+        Inventory.subItem(_source,"alcool", 2)
+        TriggerClientEvent('shiner:moonshine', _source)
+        Wait(30000)
+        Inventory.addItem(_source, "tropicalPunchMoonshine", 1)
+            
+    else
+        TriggerClientEvent("vorp:NotifyLeft", _source, "~e~Erro!", "Você precisa de: 1 Mosto, 1 Alcool", "menu_textures", "cross", 3000, "COLOR_WHITE")
+    end
+end)
+
+RegisterServerEvent('moonshiner:alcool')
+AddEventHandler("moonshiner:alcool", function()
+    local _source = tonumber(source)
+    local User = VorpCore.getUser(_source) 
+    local Character = User.getUsedCharacter         
+    local count = Inventory.getItemCount(_source, "Yarrow")
+    local count2 = Inventory.getItemCount(_source, "agua")
+	if count >= 3 and count2 >= 1 then		    
+        Inventory.subItem(_source,"Yarrow", 4)
+        Inventory.subItem(_source,"agua", 1)
+        TriggerClientEvent('shiner:mistura', _source)
+        Wait(30000)
+        Inventory.addItem(_source, "alcool", 1)
+            
+    else
+        TriggerClientEvent("vorp:NotifyLeft", _source, "~e~Erro!", "Você precisa de: 4 milefólio, 1 Água", "menu_textures", "cross", 3000, "COLOR_WHITE")
+    end
+end)
+
+RegisterServerEvent('moonshiner:mosto')
+AddEventHandler("moonshiner:mosto", function()
+    local _source = tonumber(source)
+    local User = VorpCore.getUser(_source) 
+    local Character = User.getUsedCharacter         
+    local count = Inventory.getItemCount(_source, "Agarita")
+    local count2 = Inventory.getItemCount(_source, "ginseng_alaska")
+    local count3 = Inventory.getItemCount(_source, "ginseng_americano")
+    local count4 = Inventory.getItemCount(_source, "agua")
+	if count >= 2 and count2 >= 2 and cout3 >= 2 and count >= 1 then		    
+        Inventory.subItem(_source,"Agarita", 2)
+        Inventory.subItem(_source,"ginseng_alaska", 2)
+        Inventory.subItem(_source,"ginseng_americano", 2)
+        Inventory.subItem(_source,"agua", 1)
+        TriggerClientEvent('shiner:mistura', _source)
+        Wait(30000)
+        Inventory.addItem(_source, "tropicalPunchMash", 1)
+            
+    else
+        TriggerClientEvent("vorp:NotifyLeft", _source, "~e~Erro!", "Você precisa: 2 Agarita, 2 Ginseng do Alasca, 2 Ginseng Americano, 1 Água", "menu_textures", "cross", 3000, "COLOR_WHITE")
     end
 end)

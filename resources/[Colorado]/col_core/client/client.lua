@@ -4,13 +4,32 @@ Citizen.CreateThread(function()
         TriggerServerEvent('salario:pagamento')
     end
 end)
-
+-------------------- BARCOS
+Citizen.CreateThread(function() 
+    while true do 
+        Citizen.Wait(1)
+        Citizen.InvokeNative(0xC1E8A365BF3B29F2, PlayerPedId(), 364, true)
+        SetPedConfigFlag(PlayerPedId(),169,true) -- Disable Grapple
+        SetPedConfigFlag(PlayerPedId(),340,true) -- Disable All Melee TakeDowns
+    end
+end)
+-------------------- BARCOS
+local ragdoll = true
 CreateThread(function()
     while true do
-        Citizen.Wait(2)
-        if IsControlJustPressed(0, 0xA65EBAB4) then -- SETA ESQUERDA
-            local myPed = PlayerPedId()
-            SetPedToRagdoll(myPed, 1000, 1000, 0, 0, 0, 0)
+        Wait(2)
+        if IsControlJustPressed(0, 0x26E9DC00) then -- Z
+            if ragdoll then
+                ragdoll = false
+                ClearPedSecondaryTask(PlayerPedId())
+                ClearPedTasks(PlayerPedId())
+                ExecuteCommand('annullere')
+            else 
+                ragdoll = true
+                local myPed = PlayerPedId()
+                SetPedToRagdoll(myPed, 1000, 1000, 0, 0, 0, 0)
+            end
+            Wait(500)
         end
     end
 end)
@@ -43,16 +62,53 @@ CreateThread(function()
     end        
 end)
 ----------------------------------------- Chamados
+function Anim(actor, dict, body, duration, flags, introtiming, exittiming)
+    Citizen.CreateThread(function()
+        RequestAnimDict(dict)
+        local dur = duration or -1
+        local flag = flags or 1
+        local intro = tonumber(introtiming) or 1.0
+        local exit = tonumber(exittiming) or 2.0
+        timeout = 5
+        while (not HasAnimDictLoaded(dict) and timeout>0) do
+            timeout = timeout-1
+            if timeout == 0 then
+                print("Animation Failed to Load")
+            end
+            Citizen.Wait(300)
+        end
+        TaskPlayAnim(actor, dict, body, intro, exit, dur, flag --[[1 for repeat--]], 1, false, false, false, 0, true)
+    end)
+end
+
+function animSendPombo()
+    ped = PlayerPedId()
+    local coords = GetEntityCoords(ped)
+    Anim(ped,"script_common@mth_generic_enters@squat@in_place", "enter_lf", -1,0)
+    Wait(2000)
+    local npc = CreatePed(GetHashKey('A_C_Pigeon'), coords.x, coords.y+0.3, coords.z-1, GetEntityHeading(ped), true, true, 0, 0)
+    Citizen.InvokeNative(0x283978A15512B2FE, npc, true) -- SetRandomOutfitVariation
+    SetEntityNoCollisionEntity(PlayerPedId(), npc, false)
+    Wait(2000)
+    DeletePed(npc)
+    DeleteEntity(npc)
+end
+
 local blips = {}
+
 RegisterCommand('alertdoctor', function(source, args, rawCommand)
-    if IsEntityDead(PlayerPedId()) then                    
+    if IsEntityDead(PlayerPedId()) then
         TriggerEvent('RedM:Notify', 'notify', 'Você não pode fazer isso!')
     else
-        local chamado = true
-        local tipo = "medic"
-        local msg = 'Chamado medico, \n verifique as coordenadas'
-        local coords = GetEntityCoords(PlayerPedId())
-        TriggerServerEvent("RedM:sendalert",'doctor', tipo, msg, coords, chamado)                    
+        TriggerEvent("vorpinputs:getInput", "Mensagem", "Anuncio",function(cb)
+            local mensagem = tostring(cb)
+            Citizen.Wait(1)
+            local chamado = true
+            local tipo = "medic-player"
+            animSendPombo()
+            local coords = GetEntityCoords(PlayerPedId())
+            TriggerServerEvent("RedM:sendalert",'doctor', tipo, mensagem, coords, chamado)
+        end)
     end
 end)
 RegisterCommand('alertpolice', function(source, args, rawCommand)
@@ -63,6 +119,7 @@ RegisterCommand('alertpolice', function(source, args, rawCommand)
         local tipo = "complaint"
         local msg = 'Chamado policial,\n verifique as coordenadas'
         local coords = GetEntityCoords(PlayerPedId())
+        animSendPombo()
         TriggerServerEvent("RedM:sendalert",'police', tipo, msg, coords, chamado)                    
     end
 end)

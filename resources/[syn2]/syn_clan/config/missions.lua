@@ -19,9 +19,9 @@ Config.missionoverdistance = 300 -- end mission if player is this far from missi
 Config.blipai = true -- add enemy blips to AI 
 Config.supplymissioncooldown = 30 -- time in minutes between each supply mission player is allowed to do 
 Config.deliverymissioncooldown = 60
-Config.smalldelivery = 25 -- small deliver wagon stock needed 
-Config.middelivery = 50 
-Config.largedelivery = 100
+Config.smalldelivery = 0--25 -- small deliver wagon stock needed 
+Config.middelivery = 0--50 
+Config.largedelivery = 0--100
 Config.autoresetmissiontimer = 60 -- timer in minutes to auto re-add mission into available mission pool after being occupied for this amount of time in minutes
 
 

@@ -6,7 +6,7 @@ local VorpCore = {}
 TriggerEvent("getCore",function(core)
     VorpCore = core
 end)
---- RACCOLTA -----
+
 RegisterServerEvent('vorp:itemreward')
 AddEventHandler('vorp:itemreward', function()
 	local _source = source
@@ -19,18 +19,18 @@ AddEventHandler('vorp:itemreward', function()
 	if rng == 1 then
 		TriggerClientEvent("vorp:TipRight", _source, "Você não encontrou nada", 5000)
 					
-	elseif rng > 1 and rng < 30 then
+	elseif rng > 1 and rng < 20 then
 		local count = VorpInv.getItemCount(_source, "rocks")
-		if count >= 30 then
+		if count >= 40 then
 			TriggerClientEvent("vorp:TipRight", _source, "Você não tem espaço suficiente", 5000)
 		else
 			TriggerClientEvent("vorp:TipRight", _source, "Você encontrou pedra sedimentar", 5000)
 			VorpInv.addItem(_source, 'rocks', math.random(3,5) )
 		end
 						
-	elseif rng >= 31 and rng < 60 then
+	elseif rng >= 21 and rng < 60 then
 		local count = VorpInv.getItemCount(_source, "magnetite")
-		if count >= 20 then
+		if count >= 40 then
 			TriggerClientEvent("vorp:TipRight", _source, "Você não tem espaço suficiente", 5000)
 		else
 			TriggerClientEvent("vorp:TipRight", _source, "Você encontrou magnetita", 5000)
@@ -39,11 +39,11 @@ AddEventHandler('vorp:itemreward', function()
 					
 	elseif rng >= 61 and rng <= 100 then
 		local count = VorpInv.getItemCount(_source, "grafite")
-		if count >= 20 then
+		if count >= 40 then
 			TriggerClientEvent("vorp:TipRight", _source, "Você não tem espaço suficiente", 5000)
 		else
 			TriggerClientEvent("vorp:TipRight", _source, "Você encontrou grafite ", 5000)
-			VorpInv.addItem(_source, 'grafite', math.random(1,3) )
+			VorpInv.addItem(_source, 'grafite', math.random(2,4) )
 		end
 	end
 end)
@@ -378,7 +378,7 @@ AddEventHandler('ferreiro:faca', function()
 		TriggerClientEvent('vorp:TipRight', _source, 'Você criou uma faca', 3000)
 		TriggerClientEvent('stress:modify', 0.5)
 	else 
-		TriggerClientEvent('vorp:tipRight', _source, ' Você não tem os materiais necessários', 3000)
+		TriggerClientEvent('vorp:TipRight', _source, ' Você não tem os materiais necessários', 3000)
 	end
 end)
 end)
@@ -398,7 +398,103 @@ AddEventHandler('ferreiro:facao', function()
 		TriggerClientEvent('vorp:TipRight', _source, 'Você criou um facao',3000)
 		TriggerClientEvent('stress:modify', 0.5)
 	else 
-		TriggerClientEvent('vorp:tipRight', _source, 'Você não tem os materiais necessários', 3000)
+		TriggerClientEvent('vorp:TipRight', _source, 'Você não tem os materiais necessários', 3000)
 	end
 end)
+end)
+
+RegisterServerEvent('ferreiro:picareta')
+AddEventHandler('ferreiro:picareta', function()
+	local _source= source
+	local count2 = VorpInv.getItemCount(_source,'laminag')
+	local count1 = VorpInv.getItemCount(_source,'cabomadeira')
+	TriggerEvent('stress:getStress', _source, function(stress)
+		if count2 >= 2 and count1 >= 2 and stress < 99 then
+			TriggerClientEvent('miniera:animazionep',_source)
+			VorpInv.subItem(_source,'laminag', 2)
+			VorpInv.subItem(_source,'cabomadeira', 2)
+			Wait(15000)
+			VorpInv.addItem(_source, "picareta", 2,{description = "Durabilidade = 100", durability = 100})
+			TriggerClientEvent('vorp:TipRight', _source, 'Você criou 2x picareta',3000)
+			TriggerClientEvent('stress:modify', 0.5)
+		else 
+			TriggerClientEvent('vorp:TipRight', _source, 'Você precisa de 2x Lamina Grande e 2 Cabos de Madeira', 3000)
+		end
+	end)
+end)
+
+RegisterServerEvent('ferreiro:machado')
+AddEventHandler('ferreiro:machado', function()
+	local _source= source
+	local count2 = VorpInv.getItemCount(_source,'laminag')
+	local count1 = VorpInv.getItemCount(_source,'cabomadeira')
+	TriggerEvent('stress:getStress', _source, function(stress)
+		if count2 >= 2 and count1 >= 2 and stress < 99 then
+			TriggerClientEvent('miniera:animazionep',_source)
+			VorpInv.subItem(_source,'laminag', 2)
+			VorpInv.subItem(_source,'cabomadeira', 2)
+			Wait(15000)
+			VorpInv.addItem(_source, "machado", 2,{description = "Durabilidade = 100", durability = 100})
+			TriggerClientEvent('vorp:TipRight', _source, 'Você criou 2x machado',3000)
+			TriggerClientEvent('stress:modify', 0.5)
+		else 
+			TriggerClientEvent('vorp:TipRight', _source, 'Você precisa de 2x Lamina Grande e 2 Cabos de Madeira', 3000)
+		end
+	end)
+end)
+RegisterServerEvent('ferreiro:cabomadeira')
+AddEventHandler('ferreiro:cabomadeira', function()
+	local _source= source
+	local count1 = VorpInv.getItemCount(_source,'tira_cedro')
+	TriggerEvent('stress:getStress', _source, function(stress)
+		if count1 >= 3 and stress < 99 then
+			TriggerClientEvent('miniera:animazionep',_source)
+			VorpInv.subItem(_source,'tira_cedro', 3)
+			Wait(15000)
+			VorpInv.addItem(_source, "cabomadeira", 3)
+			TriggerClientEvent('vorp:TipRight', _source, 'Você criou 3x cabo de madeira',3000)
+			TriggerClientEvent('stress:modify', 0.5)
+		else 
+			TriggerClientEvent('vorp:TipRight', _source, 'Você precisa de 3x Tiras de Cedro!', 3000)
+		end
+	end)
+end)
+
+--------------------------------------------------------- CHECK PICARETA
+RegisterServerEvent('mining:checkpicareta')
+AddEventHandler('mining:checkpicareta', function()
+	local _source = source
+	local picareta = VorpInv.getItem(_source, "picareta")
+	if picareta ~= nil then
+		TriggerEvent('stress:getStress', _source, function(stress)
+			if stress < 99 then
+				local meta =  picareta["metadata"]
+				if next(meta) == nil then 
+					VorpInv.subItem(_source, "picareta", 1,{})
+					VorpInv.addItem(_source, "picareta", 1,{description = "Durabilidade = 100", durability = 100})
+					TriggerClientEvent("minatore:updatejob", _source)
+				else
+					local durability = meta.durability - 0.02
+					local description = "Durabilidade = "
+					VorpInv.subItem(_source, "picareta", 1,meta)
+					if 0 >= durability then 
+						local random = math.random(1,2)
+						if random == 1 then 
+							TriggerClientEvent("vorp:TipRight", _source, "Você quebrou a picareta!", 2000)
+						else
+							VorpInv.addItem(_source, "picareta", 1,{description = description.."1",durability = 1})
+							TriggerClientEvent("minatore:updatejob", _source)
+						end
+					else
+						VorpInv.addItem(_source, "picareta", 1,{description = description..durability,durability = durability})
+						TriggerClientEvent("minatore:updatejob", _source)
+					end
+				end
+			else
+				TriggerClientEvent("vorp:TipRight", _source, "Você está cansado! Volte quando estiver descansado", 4000)
+			end
+		end)
+	else
+		TriggerClientEvent("vorp:TipRight", _source, "Você não tem uma picareta!", 4000)
+	end
 end)

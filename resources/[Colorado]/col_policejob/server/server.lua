@@ -413,14 +413,24 @@ end)
 RegisterServerEvent("RedM:sendalert")
 AddEventHandler("RedM:sendalert", function(job, tipo, text, coords, chamado)
     local _source = source
+    local Character = VorpCore.getUser(_source).getUsedCharacter
+    local group = Character.job
+    local username = Character.firstname.. ' ' ..Character.lastname
     local users = GetPlayers()
     for each, player in ipairs(users) do
         TriggerEvent("vorp:getCharacter", player, function(user)
-            if user ~= nil then   
+            if user ~= nil then
                 if user.job == job then
-                    TriggerClientEvent('RedM:Notify', player, tipo, text)
-                    if chamado then 
-                        TriggerClientEvent('RedM:createblip', player, coords)
+                    if chamado then
+                        if tipo == 'medic-player' then
+                            TriggerClientEvent('RedM:Notification', player, tipo, text, username)
+                            TriggerClientEvent('RedM:createblip', player, coords)
+                        else
+                            TriggerClientEvent('RedM:Notification', player, tipo, text)
+                            TriggerClientEvent('RedM:createblip', player, coords)
+                        end
+                    else
+                        TriggerClientEvent('RedM:Notification', player, tipo, text, username)
                     end
                 end
             end

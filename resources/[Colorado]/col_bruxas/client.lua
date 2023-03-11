@@ -35,34 +35,6 @@ AddEventHandler('lto_headbucket:BucketActif', function(time)
 	end)
 end)
 
-function BucketHead(hash)
-    local Chaudiere = GetHashKey(hash)
-    Wait(500)
-    RequestModel(Chaudiere)
-    if not HasModelLoaded(Chaudiere) then 
-    RequestModel(Chaudiere) 
-    end
-    while not HasModelLoaded(Chaudiere) do 
-    Citizen.Wait(1) 
-    end
-    local playerPed = PlayerPedId()
-    local x,y,z = table.unpack(GetEntityCoords(playerPed))
-    Bucket = CreateObject(Chaudiere, x, y, z + 0.2, true, true, true)
-    local boneIndex = GetEntityBoneIndexByName(playerPed, "skel_head")
-    SetEntityAsMissionEntity(Bucket, true, true)
-    AttachEntityToEntity(Bucket, playerPed,boneIndex, 0.200, 0.0, 0.0, 1.024, -90.0, -70.0, true, true, false, true, 1, true)
-	open = true
-	SendNUIMessage({action = "open"})	
-end	
-
-function RemoveBucketHead()
-	DetachEntity(Bucket,false,true)
-    ClearPedTasks(player)
-    DeleteObject(Bucket)
-    open = false
-    SendNUIMessage({action = "close"})
-end	
-
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1)
@@ -132,6 +104,54 @@ AddEventHandler('bruxas:client:OpenMenu', function()
             params = {
                 isServer = true,
                 event = "ginsengUSA",
+            }
+        },
+		{
+            header = "Cogumelo",
+            txt = "$0.05",
+            params = {
+                isServer = true,
+                event = "cogumelo",
+            }
+        },
+		{
+            header = "Parasol",
+            txt = "$70",
+            params = {
+                isServer = true,
+                event = "parasolb",
+            }
+        },
+		{
+            header = "Cachimbo",
+            txt = "$100",
+            params = {
+                isServer = true,
+                event = "cachimbob",
+            }
+        },
+		{
+            header = "Leque",
+            txt = "$100",
+            params = {
+                isServer = true,
+                event = "leque_dobrável",
+            }
+        },
+		{
+            header = "Bengala",
+            txt = "$100",
+            params = {
+                isServer = true,
+                event = "bengalab",
+            }
+        },
+		{
+            header = "Buque",
+            txt = "$100",
+            params = {
+                isServer = true,
+                event = "buqueb",
             }
         },
         {

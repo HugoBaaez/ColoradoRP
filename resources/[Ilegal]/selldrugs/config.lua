@@ -1,9 +1,9 @@
 Config = {}
 
 Config.item = {
- 	{item = "oppio", name = "Óppio", priceMax = 1.22, priceMin = 0.74},
-	{item = "moonshine", name = "Moonshine Original", priceMax = 0.74, priceMin = 0.42},
-	{item = "tropicalPunchMoonshine", name = "Moonshine Tropical", priceMax = 2.10, priceMin = 0.94},
+ 	{item = "oppio", name = "Óppio", priceMax = 2, priceMin = 1},
+	{item = "moonshine", name = "Moonshine Original", priceMax = 4.74, priceMin = 3.50},
+	{item = "tropicalPunchMoonshine", name = "Moonshine Tropical", priceMax = 6.99, priceMin = 5.30},
 
 }
 

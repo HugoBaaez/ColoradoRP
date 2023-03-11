@@ -6,9 +6,16 @@ local enableTypeRadar = Config.enableTypeRadar
 local HealthData = {}
 local pvp = Config.PVP
 local playerHash = GetHashKey("PLAYER")
-local multiplierHealth
+local multiplierHealth, multiplierStamina
 
 --===================================== FUNCTIONS ======================================--
+TogglePVP = function ()
+    pvp = not pvp
+    TriggerEvent("vorp:setPVPUi", pvp)
+    return pvp
+end
+
+
 setPVP = function()
 
     NetworkSetFriendlyFireOption(pvp)
@@ -56,7 +63,7 @@ AddEventHandler('playerSpawned', function()
     Wait(2000)
     TriggerServerEvent("vorp:playerSpawn")
     Wait(9000) -- give time to load in
-    --ExecuteCommand("rc") --reload char so it doesnt come invisible
+    ExecuteCommand("rc") --reload char so it doesnt come invisible
     Wait(2000)
     ShutdownLoadingScreen()
     CreateThread(function()
@@ -98,14 +105,28 @@ CreateThread(function()
     while true do
         Wait(500)
         if not firstSpawn then
-            local multiplier = Citizen.InvokeNative(0x22CD23BB0C45E0CD, PlayerId()) -- GetPlayerHealthRechargeMultiplier
+            local multiplierH = Citizen.InvokeNative(0x22CD23BB0C45E0CD, PlayerId()) -- GetPlayerHealthRechargeMultiplier
 
-            if multiplierHealth and multiplierHealth ~= multiplier then
+            if multiplierHealth and multiplierHealth ~= multiplierH then
+                Wait(500)
                 Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), Config.HealthRecharge.multiplier) -- SetPlayerHealthRechargeMultiplier
 
-            elseif not multiplierHealth and multiplier then
+            elseif not multiplierHealth and multiplierH then
+                Wait(500)
                 Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), 0.0) -- SetPlayerHealthRechargeMultiplier
             end
+
+            local multiplierS = Citizen.InvokeNative(0x617D3494AD58200F, PlayerId()) -- GetPlayerStaminaRechargeMultiplier
+
+            if multiplierStamina and multiplierStamina ~= multiplierS then
+                Wait(500)
+                Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId(), Config.StaminaRecharge.multiplier) -- SetPlayerStaminaRechargeMultiplier
+
+            elseif not multiplierStamina and multiplierS then
+                Wait(500)
+                Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId(), 0.0) -- SetPlayerStaminaRechargeMultiplier
+            end
+
         end
     end
 end)
@@ -145,7 +166,6 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             ShutdownLoadingScreen()
         end
     else -- is player not dead
-        HealPlayer()
         ExecuteCommand("rc")
         if Config.Loadinscreen then
             Citizen.InvokeNative(0x1E5B70E53DB661E5, 0, 0, 0, Config.Langs.Hold, Config.Langs.Load, Config.Langs.Almost)
@@ -155,14 +175,12 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
         end
         if Config.SavePlayersStatus then
             TriggerServerEvent("vorp:GetValues")
-            Wait(6000)
+            Wait(10000)
             Citizen.InvokeNative(0xC6258F41D86676E0, player, 0, HealthData.hInner)
-            SetEntityHealth(player, 100)
+            SetEntityHealth(player, HealthData.hOuter + HealthData.hInner)
             Citizen.InvokeNative(0xC6258F41D86676E0, player, 1, HealthData.sInner)
             Citizen.InvokeNative(0x675680D089BFA21F, player, HealthData.sOuter / 1065353215 * 100)
             HealthData = {}
-            HealPlayer()
-            SetEntityHealth(PlayerPedId(), 0, 100)
         else
             HealPlayer()
         end
@@ -173,6 +191,14 @@ RegisterNetEvent('vorp:initCharacter', function(coords, heading, isdead)
             Citizen.InvokeNative(0x8899C244EBCF70DE, PlayerId(), Config.HealthRecharge.multiplier) -- SetPlayerHealthRechargeMultiplier
             multiplierHealth = Citizen.InvokeNative(0x22CD23BB0C45E0CD, PlayerId()) -- GetPlayerHealthRechargeMultiplier
         end
+
+        if not Config.StaminaRecharge.enable then
+            Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId(), 0.0) -- SetPlayerStaminaRechargeMultiplier
+        else
+            Citizen.InvokeNative(0xFECA17CF3343694B, PlayerId(), Config.StaminaRecharge.multiplier) -- SetPlayerStaminaRechargeMultiplier
+            multiplierStamina = Citizen.InvokeNative(0x617D3494AD58200F, PlayerId()) -- GetPlayerStaminaRechargeMultiplier
+        end
+
     end
 
 end)
@@ -223,7 +249,7 @@ CreateThread(function()
         Wait(0)
 
         local pped = PlayerPedId()
-        Citizen.InvokeNative(0x4CC5F2FC1332577F, 1058184710)
+        Citizen.InvokeNative(0x4CC5F2FC1332577F, 1058184710) -- Disable weapon ammo hud
         DisableControlAction(0, 0x580C4473, true) -- Disable hud
         DisableControlAction(0, 0xCF8A4ECA, true) -- Disable hud
         DisableControlAction(0, 0x9CC7A1A4, true) -- disable special ability when open hud

@@ -511,8 +511,8 @@ Config = {
       HashName = "WEAPON_THROWN_POISONBOTTLE",
     },
     {
-      Name = "Metal Detector",
-      Desc = "helps you find valuables",
+      Name = "Detector de Metal",
+      Desc = "Ajuda a encontrar coisas valiosas",
       HashName = "WEAPON_KIT_METAL_DETECTOR",
     },
     {

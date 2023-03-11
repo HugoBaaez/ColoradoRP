@@ -53,6 +53,9 @@ Config.teleporterhouses = { -- use your own mlos to make teleporter homes the on
     ["Bw-03"] = {location = {x = -967.11, y = -1254.22, z = 34.01}},
     ["Bw-04"] = {location = {x = -942.1, y = -1225.51, z = 33.54}},
     ["Fazenda Armadillo"] = {location = {x = -4790.62, y = -2723.48, z = -33.79}},
+    ["Fazenda Emerald"] = {location = {x = 1458.9, y = 311.19, z = 70.6}},
+    ["FortWalace"] = {location = {x = -4194.17, y = -3450.97, z = 17.17}},
+    ["Arsenal"] = {location = {x = -4216.6, y = -3452.72, z = 17.2}},
 }
 
 Config.Locations = { -- money for houses bought goes here. sellers have it to collected from here. 
@@ -329,6 +332,11 @@ Config.furniture = { -- you can add more furniture by following the format and g
     ["Boneca de brinquedo"] = { cost = 20, hash = -923990860, item = "bonecabrinq"},
     ["Cama de luxo"] = { cost = 300, hash = -719712911, item = "camaluxo"},
     ["Ventilador"] = { cost = 150, hash = 955044476, item = "ventilador"},
+    ["Chifre de Parede"] = { cost = 600, hash = -1697851069, item = "p_horn01x"},
+    ["Cabeça de Boi"] = { cost = 600, hash = -468521395, item = "p_skullcattle03x"},
+    ["Pinico de Luxo"] = { cost = 400, hash = 158554511, item = "p_chamberpot01x"},
+    ["Tamburete"] = { cost = 80, hash = 2016655359, item = "p_stool08x"},
+    ["Jacaré Empalhado de Chapéu"] = { cost = 500, hash = 840028633, item = "p_tuxyoungaligator01x"},
 },
 }
 ---------------------------------------------------------

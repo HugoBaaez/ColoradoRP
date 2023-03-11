@@ -751,6 +751,7 @@ function maniAddon(itemId, name, max, id, model, typeItem) {
 }
 
 function openComponentManage(components) {
+    $('#gridManageBags').hide();
     const tableManageBags = document.getElementById('gridManageComp');
     dataCompsHtml = ""
     for (var a in components) {

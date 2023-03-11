@@ -221,6 +221,8 @@ end)
 
 RegisterNetEvent('vorp:heal', function()
     HealPlayer()
+    TriggerEvent('DevDokus:Metabolism:C:Thirst', 100)
+    TriggerEvent('DevDokus:Metabolism:C:Hunger', 100)
 end)
 
 RegisterNetEvent('vorp:ban', function(target, banTime)

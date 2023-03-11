@@ -46,10 +46,10 @@ Citizen.CreateThread(function()
         for k,v in pairs(Config.Shacks) do
             local dist = #(coords - v.outside)
             local dist2 = #(coords - v.inside)
-            if dist < 50 then
+            if dist < 1.8 then
                 isInMarker = true
                 tempZone = k
-            elseif dist2 < 50 then
+            elseif dist2 < 1.8 then
                 isInMarker = true
                 tempZone = k
             end
@@ -78,7 +78,7 @@ function ZoneLoop(zone)
                 if k ~= 'interior' and k ~= 'interior_sets' then
                     local dist = #(coords - v)
                     if dist < 1.8 then
-                        local label  = CreateVarString(10, 'LITERAL_STRING', "Door")
+                        local label  = CreateVarString(10, 'LITERAL_STRING', "Porta")
                         PromptSetActiveGroupThisFrame(PromptGorup, label)
                         if PromptHasHoldModeCompleted(UseDoorPrompt) then
                             if k == 'outside' then

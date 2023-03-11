@@ -87,8 +87,8 @@ Config.ParrotTalkingXPReq = 1 --required XP for parrot's talking ability
 
 Config.ScavengerItems = {
     [1] = {
-        name = "goldtooth",--inventory 2.0 itemname
-        amount = 3,--amount of the gathered items
+        name = "consumable_haycube",--inventory 2.0 itemname
+        amount = 2,--amount of the gathered items
         xp = 5, --xp for birds after collecting the item
         xpreq = 300,--minimum bird xp to get a chance to find this item
     },
@@ -98,47 +98,41 @@ Config.ScavengerItems = {
         xp = 2, 
         xpreq = 15,
     },
-    [11] = {
-        name = "charuto",
+    [3] = {
+        name = "p_baitWorm01x",
         amount = 3,
         xp = 2, 
         xpreq = 5,
     },
-    [12] = {
-        name = "cigarro",
-        amount = 3,
+    [4] = {
+        name = "telegram",
+        amount = 1,
         xp = 1, 
         xpreq = 0,
     },
-    [13] = {
+    [5] = {
         name = "feather",
         amount = 1,
         xp = 1, 
         xpreq = 10,
     },
-    [14] = {
-        name = "milho",
+    [6] = {
+        name = "barbaseed",
         amount = 1,
         xp = 1, 
         xpreq = 25,
     },
-    [15] = {
-        name = "p_baitCorn01x",
+    [7] = {
+        name = "pao",
         amount = 1,
         xp = 2, 
         xpreq = 25,
     },
-    [16] = {
-        name = "Wild_Mint",
+    [8] = {
+        name = "garrafavazia",
         amount = 1,
         xp = 2, 
         xpreq = 25,
-    },
-    [18] = {
-        name = "goldring",
-        amount = 1,
-        xp = 2, 
-        xpreq = 10,
     },
 }
 

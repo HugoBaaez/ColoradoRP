@@ -61,6 +61,23 @@ AddEventHandler('ginsengA', function()
     end      
 end)
 
+RegisterServerEvent('cogumelo')
+AddEventHandler('cogumelo', function()
+    local _source = source
+    local User = VorpCore.getUser(_source) 
+    local Character = User.getUsedCharacter
+    local money = Character.money
+  
+    if money >= 0.05 then
+        TriggerEvent("vorp:removeMoney", _source, 0, 0.05) 
+        VORP.addItem(_source, "cogumelo", 2)
+
+        TriggerClientEvent("vorp:TipRight",_source, 'Você comprou 2X cogumelos!', 2000)
+    else
+        TriggerClientEvent("vorp:TipRight",_source, 'Você precisa de $0.05.', 4500)
+    end      
+end)
+
 RegisterServerEvent('ginsengUSA')
 AddEventHandler('ginsengUSA', function()
     local _source = source
@@ -75,6 +92,91 @@ AddEventHandler('ginsengUSA', function()
         TriggerClientEvent("vorp:TipRight",_source, 'Você comprou 2X ginseng americano!', 2000)
     else
         TriggerClientEvent("vorp:TipRight",_source, 'Você precisa de $0.05.', 4500)
+    end      
+end)
+
+RegisterServerEvent('parasolb')
+AddEventHandler('parasolb', function()
+    local _source = source
+    local User = VorpCore.getUser(_source) 
+    local Character = User.getUsedCharacter
+    local money = Character.money
+  
+    if money >= 70 then
+        TriggerEvent("vorp:removeMoney", _source, 0, 70) 
+        VORP.addItem(_source, "parasol", 1)
+
+        TriggerClientEvent("vorp:TipRight",_source, 'Você comprou Parasol!', 2000)
+    else
+        TriggerClientEvent("vorp:TipRight",_source, 'Você precisa de $70.', 4500)
+    end      
+end)
+
+RegisterServerEvent('cachimbob')
+AddEventHandler('cachimbob', function()
+    local _source = source
+    local User = VorpCore.getUser(_source) 
+    local Character = User.getUsedCharacter
+    local money = Character.money
+  
+    if money >= 100 then
+        TriggerEvent("vorp:removeMoney", _source, 0, 100) 
+        VORP.addItem(_source, "pipe", 1)
+
+        TriggerClientEvent("vorp:TipRight",_source, 'Você comprou Cachimbo!', 2000)
+    else
+        TriggerClientEvent("vorp:TipRight",_source, 'Você precisa de $100.', 4500)
+    end      
+end)
+
+RegisterServerEvent('bengalab')
+AddEventHandler('bengalab', function()
+    local _source = source
+    local User = VorpCore.getUser(_source) 
+    local Character = User.getUsedCharacter
+    local money = Character.money
+  
+    if money >= 100 then
+        TriggerEvent("vorp:removeMoney", _source, 0, 100) 
+        VORP.addItem(_source, "cane", 1)
+
+        TriggerClientEvent("vorp:TipRight",_source, 'Você comprou Bengala!', 2000)
+    else
+        TriggerClientEvent("vorp:TipRight",_source, 'Você precisa de $100.', 4500)
+    end      
+end)
+
+RegisterServerEvent('leque_dobrável')
+AddEventHandler('leque_dobrável', function()
+    local _source = source
+    local User = VorpCore.getUser(_source) 
+    local Character = User.getUsedCharacter
+    local money = Character.money
+  
+    if money >= 100 then
+        TriggerEvent("vorp:removeMoney", _source, 0, 100) 
+        VORP.addItem(_source, "fan", 1)
+
+        TriggerClientEvent("vorp:TipRight",_source, 'Você comprou Leque Dobrável!', 2000)
+    else
+        TriggerClientEvent("vorp:TipRight",_source, 'Você precisa de $100.', 4500)
+    end      
+end)
+
+RegisterServerEvent('buqueb')
+AddEventHandler('buqueb', function()
+    local _source = source
+    local User = VorpCore.getUser(_source) 
+    local Character = User.getUsedCharacter
+    local money = Character.money
+  
+    if money >= 100 then
+        TriggerEvent("vorp:removeMoney", _source, 0, 100) 
+        VORP.addItem(_source, "unique_bouquet", 1)
+
+        TriggerClientEvent("vorp:TipRight",_source, 'Você comprou Buque!', 2000)
+    else
+        TriggerClientEvent("vorp:TipRight",_source, 'Você precisa de $100.', 4500)
     end      
 end)
 

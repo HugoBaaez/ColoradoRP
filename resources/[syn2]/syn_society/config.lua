@@ -733,6 +733,44 @@ Config.jobs = {
         salary = false,
 
     },
+    Padeiro = {	   
+        Pos = { 
+            {x = 2673.67, y = -1157.3, z = 50.79},    
+        }, 
+        jobmenu = { 
+            {x = 2673.67, y = -1157.3, z = 50.79},
+        },
+        blipsprite = 2107754879,
+        showblip = false,
+		Name = 'Padaria',
+        recruitmentrank = 3,
+        bossrank = 3,
+        containerid = 90,
+        containername = "Baú Padaria",
+        billing = true,
+        webhook = "https://discord.com/api/webhooks/1075521902816272507/w9gUwNBT7za73bb_a3Y256oKLWxme5kJxZlnytSfUnOrLf-qXRqkhJvoTnrzq6WPy7yH",
+        salary = false,
+
+    },
+    Confeiteiro = {	   
+        Pos = { 
+            {x = -787.56, y = -1293.99, z = 43.74},    
+        }, 
+        jobmenu = { 
+            {x = -787.56, y = -1293.99, z = 43.74},
+        },
+        blipsprite = 2107754879,
+        showblip = false,
+		Name = 'Confeiteiro',
+        recruitmentrank = 3,
+        bossrank = 3,
+        containerid = 95,
+        containername = "Baú Doceria",
+        billing = true,
+        webhook = "https://discord.com/api/webhooks/1075521989168594984/rkDv4kP4jHZbggIvlHLYBfJGvUpZ6kwgsIcPM13gRq8YWdzj-pBiP1NbT9IyOuKKOWrs",
+        salary = false,
+
+    },
 }
 -------------------
 Config.alertsfunction = false 

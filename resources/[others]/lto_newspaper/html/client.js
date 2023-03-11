@@ -113,85 +113,134 @@ window.addEventListener('message', (event) => {
             StartBook({data:{pages:[
                 {   //1 cover
                     content:"",
-                    background:"https://media.discordapp.net/attachments/960641129605398558/1050164163093213354/Jornal_Colorado_79.png?width=448&height=634",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691100894036088/00-capa.png?width=519&height=676",
                     backgroundColor:"#fff",
                     color:"white",
                 },
                 {   //2 index
                     content:"",
-                    background:"https://media.discordapp.net/attachments/960641129605398558/1050164311030513724/image_29.png?width=448&height=634",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691101175066645/01-E.png?width=519&height=676",
                     backgroundColor:"#fff",
                     color:"white",
                 },
                 {   //3 ad
                     content:"",
-                    background:"https://media.discordapp.net/attachments/960641129605398558/1050164390877483048/image_30.png?width=448&height=634",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691101443510362/002-D.png?width=519&height=676",
                     backgroundColor:"#fff",
                     color:"white",
                 },
                 {   // 4
                     content:"",
-                    background:"https://media.discordapp.net/attachments/960641129605398558/1050164502953472120/anonimo_jesus.png?width=448&height=634",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691101783244830/03-E.png?width=519&height=676",
                     backgroundColor:"#fff",
                     color:"white",
                 },
                 {   // 5
                     content:"",
-                    background:"https://media.discordapp.net/attachments/960641129605398558/1050164639712956456/Jornal_Colorado_69.png?width=448&height=634",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691102169124935/04-D.png?width=519&height=676",
                     backgroundColor:"#fff",
                     color:"white",
                 },
                 {   // 6
                     content:"",
-                    background:"https://media.discordapp.net/attachments/960641129605398558/1050164665902174278/catalogo.png?width=448&height=634",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691102626283542/05-E.png?width=519&height=676",
                     backgroundColor:"#fff",
                     color:"white",
                 },
                 {   // 7
                     content:"",
-                    background:"https://media.discordapp.net/attachments/960641129605398558/1050164831870779543/Jornal_Colorado_75.png?width=448&height=634",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691103054119032/06-D.png?width=519&height=676",
                     backgroundColor:"#fff",
                     color:"white",
                 },
                 {   // 8
                     content:"",
-                    background:"https://media.discordapp.net/attachments/960641129605398558/1050164870064111777/image_31.png?width=448&height=634",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691103351918663/07-E.png?width=519&height=676",
                     backgroundColor:"#fff",
                     color:"white",
                 },
                 {   // 9
                     content:"",
-                    background:"https://media.discordapp.net/attachments/960641129605398558/1050164987143913562/image_32.png?width=448&height=634",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691142467993690/08-D.png?width=519&height=676",
                     backgroundColor:"#fff",
                     color:"white",
                 },
                 {   // 10
                     content:"",
-                    background:"https://media.discordapp.net/attachments/960641129605398558/1050165067297083452/image_33.png?width=448&height=634",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691142828695663/09-E.png?width=519&height=676",
                     backgroundColor:"#fff",
                     color:"white",
                 },
+
                 {   // 11
                     content:"",
-                    background:"https://media.discordapp.net/attachments/960641129605398558/1050165172410535966/Jornal_Colorado_77.png?width=448&height=634",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691143193608315/10-D.png?width=519&height=676",
                     backgroundColor:"#fff",
                     color:"white",
                 },
                 {   // 12
                     content:"",
-                    background:"https://media.discordapp.net/attachments/960641129605398558/1050165272306253935/Jornal_Colorado_80.png?width=448&height=634",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691143562698772/11-E.png?width=519&height=676",
                     backgroundColor:"#fff",
                     color:"white",
                 },
                 {   // 13
                     content:"",
-                    background:"https://media.discordapp.net/attachments/960641129605398558/1050165430049853440/Jornal_Colorado_81.png?width=448&height=634",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691143994703902/12-D.png?width=519&height=676",
                     backgroundColor:"#fff",
                     color:"white",
                 },
                 {   // 14
                     content:"",
-                    background:"https://media.discordapp.net/attachments/960641129605398558/1050165675030761563/final_1.png?width=448&height=634",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691144296710205/13-E.png?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   // 15
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691144741298216/14-D.png?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   // 16
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691145030697000/15-E.png?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   // 17
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691176039186492/16-D.png?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   // 18
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691176404111482/17-E.png?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   // 19
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691176739635341/18-D.png?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   // 20
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691177096171520/19-E.png?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   // 21
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691177406533673/20-D.png?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   // 22
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/960641129605398558/1082691177700130907/21C-Capa-E.png?width=519&height=676",
                     backgroundColor:"#fff",
                     color:"white",
                 },
@@ -667,6 +716,146 @@ window.addEventListener('message', (event) => {
                 {   //1 cover
                     content:"",
                     background:"https://media.discordapp.net/attachments/1027392656067805255/1069374297593892914/Autorizacao_Armamento.png?width=478&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+            ],
+        },
+        edit: (url.searchParams.get("edit") != null),
+    })
+        bookIsOpen = true;
+        } else if (event.data.value === false) {
+            if (bookIsOpen) {
+                StopBook();
+            }
+        }
+    }
+    if (event.data.type == 'Ccasamento') {
+        if (event.data.value == true) {
+            $.post("http://vorp_inventory/NUIFocusOff", JSON.stringify({}));
+            isOpen = false;
+            StartBook({data:{pages:[
+                {   //1 cover
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/949891460046651422/1075668745307029565/certificado_papel.png?width=485&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+            ],
+        },
+        edit: (url.searchParams.get("edit") != null),
+    })
+        bookIsOpen = true;
+        } else if (event.data.value === false) {
+            if (bookIsOpen) {
+                StopBook();
+            }
+        }
+    }
+    if (event.data.type == 'livrolemoyne') {
+        if (event.data.value == true) {
+            $.post("http://vorp_inventory/NUIFocusOff", JSON.stringify({}));
+            isOpen = false;
+            StartBook({data:{pages:[
+                {   //1 cover
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/1007752575728238612/1077231539156435146/1.jpg?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   //2 
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/1007752575728238612/1077231588326244472/2.jpg?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   //3 
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/1007752575728238612/1077231588624044112/3.jpg?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   //4
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/1007752575728238612/1077231588984750261/4.jpg?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   //5
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/1007752575728238612/1077231589274177617/5.jpg?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   //6
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/1007752575728238612/1077231589584535632/6.jpg?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   //7
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/1007752575728238612/1077231589852991519/7.jpg?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   //8
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/1007752575728238612/1077231590184325312/8.jpg?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   //9
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/1007752575728238612/1077231620999893002/9.jpg?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   //10
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/1007752575728238612/1077231621306056724/10.jpg?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   //11
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/1007752575728238612/1077231621561929789/11.jpg?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   //12
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/1007752575728238612/1077231621876498562/12.jpg?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   //13
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/1007752575728238612/1077231622170083328/13.jpg?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   //14
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/1007752575728238612/1077231622493065237/14.jpg?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   //15
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/1007752575728238612/1077231622774063194/15.jpg?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   //16
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/1007752575728238612/1077231623185125426/16.jpg?width=519&height=676",
+                    backgroundColor:"#fff",
+                    color:"white",
+                },
+                {   //17
+                    content:"",
+                    background:"https://media.discordapp.net/attachments/1007752575728238612/1077231639333187614/17.jpg?width=519&height=676",
                     backgroundColor:"#fff",
                     color:"white",
                 },

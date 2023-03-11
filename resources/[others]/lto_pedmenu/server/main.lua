@@ -53,21 +53,13 @@ AddEventHandler('lto_pedanim:groupcheck', function()
 		TriggerClientEvent("lto_pedanim:open",_source)
 	elseif first == "Armando" and last == "Scott" then
 		TriggerClientEvent("lto_pedanim:open",_source)
-	elseif first == "Ezio" and last == "Picaretinha" then
-		TriggerClientEvent("lto_pedanim:open",_source)
 	elseif first == "Fabio" and last == "Lavalla" then
 		TriggerClientEvent("lto_pedanim:open",_source)
 	elseif first == "Nítev" and last == "BellWatcher" then
 		TriggerClientEvent("lto_pedanim:open",_source)
-	elseif first == "Eustacio" and last == "Louzada" then
-		TriggerClientEvent("lto_pedanim:open",_source)
 	elseif first == "Zira" and last == "Mo'Black" then
 		TriggerClientEvent("lto_pedanim:open",_source)
 	elseif first == "Rufus" and last == "Sol" then
-		TriggerClientEvent("lto_pedanim:open",_source)
-	elseif first == "Jhonny" and last == "Caramelo" then
-		TriggerClientEvent("lto_pedanim:open",_source)
-	elseif first == "Bob" and last == "Dark" then
 		TriggerClientEvent("lto_pedanim:open",_source)
 	elseif first == "Jack" and last == "Holliday" then
 		TriggerClientEvent("lto_pedanim:open",_source)
@@ -76,8 +68,6 @@ AddEventHandler('lto_pedanim:groupcheck', function()
 	elseif first == "Morgana" and last == "Sinclair" then
 		TriggerClientEvent("lto_pedanim:open",_source)
 	elseif first == "Alfredo" and last == "Lasanha" then
-		TriggerClientEvent("lto_pedanim:open",_source)
-	elseif first == "Chico" and last == "Cat" then
 		TriggerClientEvent("lto_pedanim:open",_source)
 	elseif first == "Harumi" and last == "Dutton" then
 		TriggerClientEvent("lto_pedanim:open",_source)
@@ -95,54 +85,30 @@ AddEventHandler('lto_pedanim:groupcheck', function()
 		TriggerClientEvent("lto_pedanim:open",_source)
 	elseif first == "John" and last == "Miller" then
 		TriggerClientEvent("lto_pedanim:open",_source)
-	elseif first == "Hida" and last == "Cachorrinha" then
-		TriggerClientEvent("lto_pedanim:open",_source)
 	elseif first == "Lunna" and last == "Cremon" then
 		TriggerClientEvent("lto_pedanim:open",_source)
 	elseif first == "Horus" and last == "Bennett" then
-		TriggerClientEvent("lto_pedanim:open",_source)
-	elseif first == "Denver" and last == "Whisky" then
 		TriggerClientEvent("lto_pedanim:open",_source)
 	elseif first == "Koda" and last == "Kenai" then
 		TriggerClientEvent("lto_pedanim:open",_source)
 	elseif first == "Astra" and last == "Armani" then
 		TriggerClientEvent("lto_pedanim:open",_source)
-	elseif first == "jack" and last == "hartman" then
-		TriggerClientEvent("lto_pedanim:open",_source)
 	elseif first == "Cirdan" and last == "Elendil" then
 		TriggerClientEvent("lto_pedanim:open",_source)
 	elseif first == "Buzz" and last == "Michael" then
 		TriggerClientEvent("lto_pedanim:open",_source)
-	else
-		TriggerClientEvent("vorp:TipRight", _source, 'Você não tem permissão!', 4000)
-	end
-end)
-
--- PED1
-RegisterServerEvent('ped1check')
-AddEventHandler('ped1check', function()
-	local _source = source
-	local User = VorpCore.getUser(_source) 
-	local Character = User.getUsedCharacter
-	local job = Character.job 
-	local rank = Character.jobGrade
-	if job == "indios"  or job == "indiosBW" or job == "indiosAR" and rank >= 2 then
-		TriggerClientEvent("1lobo",_source)
-	else
-		TriggerClientEvent("vorp:TipRight", _source, 'Você não tem permissão!', 4000)
-	end
-end)
-
--- PED2
-RegisterServerEvent('ped3check')
-AddEventHandler('ped3check', function()
-	local _source = source
-	local User = VorpCore.getUser(_source) 
-	local Character = User.getUsedCharacter
-	local job = Character.job 
-	local rank = Character.jobGrade
-	if job == "indios" or job == "indiosBW" or job == "indiosAR" and rank >= 2 then
-		TriggerClientEvent("coruja",_source)
+	elseif first == "Melissa" and last == "Slade" then
+		TriggerClientEvent("lto_pedanim:open",_source)
+	elseif first == "Tulach" and last == "Belucci" then
+		TriggerClientEvent("lto_pedanim:open",_source)
+	elseif first == "Lester" and last == "Lins" then
+		TriggerClientEvent("lto_pedanim:open",_source)
+	elseif first == "Lua" and last == "Black" then
+		TriggerClientEvent("lto_pedanim:open",_source)
+	elseif first == "Denver" and last == "Whisky" then
+		TriggerClientEvent("lto_pedanim:open",_source)
+	elseif first == "Maji" and last == "Tayen" then
+		TriggerClientEvent("lto_pedanim:open",_source)
 	else
 		TriggerClientEvent("vorp:TipRight", _source, 'Você não tem permissão!', 4000)
 	end
@@ -233,7 +199,14 @@ AddEventHandler('ped6check', function()
 		TriggerClientEvent("ped51", _source)
 		TriggerClientEvent("able", _source)
 	elseif first == "James" and last == "Mazak" then
+		TriggerClientEvent("ped57", _source) 
+		TriggerClientEvent("able", _source)
+	elseif first == "Maji" and last == "Tayen" then
+		TriggerClientEvent("ped57", _source) 
+		TriggerClientEvent("able", _source)
+	elseif first == "Denver" and last == "Whisky" then
 		TriggerClientEvent("ped57", _source)
+		TriggerClientEvent("able", _source)
 	elseif first == "Steve" and last == "MacGuire" then
 		TriggerClientEvent("ped61", _source)
 		TriggerClientEvent("able", _source)
@@ -261,9 +234,6 @@ AddEventHandler('ped6check', function()
 	elseif first == "Olivia" and last == "Dutton" then
 		TriggerClientEvent("ped78", _source)
 		TriggerClientEvent("able", _source)
-	elseif first == "Denver" and last == "Whisky" then
-		TriggerClientEvent("ped78", _source)
-		TriggerClientEvent("able", _source)
 	elseif first == "Jhon" and last == "Dutton" then
 		TriggerClientEvent("ped79", _source)
 		TriggerClientEvent("able", _source)
@@ -282,7 +252,7 @@ AddEventHandler('ped6check', function()
 	elseif first == "Katty" and last == "Wilson" then
 		TriggerClientEvent("ped10", _source)
 		TriggerClientEvent("able", _source)
-	elseif first == "Bibiana" and last == "Rosa" then
+	elseif first == "Margaret" and last == "Ann" then
 		TriggerClientEvent("ped20", _source)
 		TriggerClientEvent("able", _source)
 	elseif first == "Brando" and last == "Banes" then
@@ -297,9 +267,6 @@ AddEventHandler('ped6check', function()
 	elseif first == "Otto" and last == "Bellini" then
 		TriggerClientEvent("ped97", _source)
 		TriggerClientEvent("able", _source)
-	elseif first == "Hida" and last == "Cachorrinha" then
-		TriggerClientEvent("ped97", _source)
-		TriggerClientEvent("able", _source)
 	elseif first == "Guimera" and last == "Luzietti" then
 		TriggerClientEvent("ped57", _source)
 		TriggerClientEvent("able", _source)
@@ -308,9 +275,6 @@ AddEventHandler('ped6check', function()
 		TriggerClientEvent("able", _source)
 	elseif first == "Anna" and last == "Windsor" then
 		TriggerClientEvent("ped8", _source)
-		TriggerClientEvent("able", _source)
-	elseif first == "Ezio" and last == "Picaretinha" then
-		TriggerClientEvent("ped58", _source)
 		TriggerClientEvent("able", _source)
 	elseif first == "Carmina" and last == "Wesley" then
 		TriggerClientEvent("ped94", _source)
@@ -324,17 +288,11 @@ AddEventHandler('ped6check', function()
 	elseif first == "Caty" and last == "Jones" then
 		TriggerClientEvent("ped101", _source)
 		TriggerClientEvent("able", _source)
-	elseif first == "Eustacio" and last == "Louzada" then
-		TriggerClientEvent("ped102", _source)
-		TriggerClientEvent("able", _source)
 	elseif first == "Calisto" and last == "Wilson" then
 		TriggerClientEvent("ped9", _source)
 		TriggerClientEvent("able", _source)
 	elseif first == "Zira" and last == "Mo'Black" then
 		TriggerClientEvent("ped58", _source)
-		TriggerClientEvent("able", _source)
-	elseif first == "Helena" and last == "Partash" then
-		TriggerClientEvent("ped14", _source)
 		TriggerClientEvent("able", _source)
 	elseif first == "Neil" and last == "Westfall" then
 		TriggerClientEvent("ped103", _source)
@@ -344,15 +302,6 @@ AddEventHandler('ped6check', function()
 		TriggerClientEvent("able", _source)
 	elseif first == "Lyall" and last == "Crowler" then
 		TriggerClientEvent("ped74", _source)
-		TriggerClientEvent("able", _source)
-	elseif first == "Jhonny" and last == "Caramelo" then
-		TriggerClientEvent("ped97", _source)
-		TriggerClientEvent("able", _source)
-	elseif first == "Bob" and last == "Dark" then
-		TriggerClientEvent("ped78", _source)
-		TriggerClientEvent("able", _source)
-	elseif first == "Liliana" and last == "Escobar" then
-		TriggerClientEvent("ped12", _source)
 		TriggerClientEvent("able", _source)
 	elseif first == "Jack" and last == "Holliday" then
 		TriggerClientEvent("ped58", _source)
@@ -369,17 +318,11 @@ AddEventHandler('ped6check', function()
 	elseif first == "Morgana" and last == "Sinclair" then
 		TriggerClientEvent("ped58", _source)
 		TriggerClientEvent("able", _source)
-	elseif first == "Erwin" and last == "Mars" then
-		TriggerClientEvent("ped50", _source)
-		TriggerClientEvent("able", _source)
 	elseif first == "Alfredo" and last == "Lasanha" then
 		TriggerClientEvent("ped58", _source)
 		TriggerClientEvent("able", _source)
 	elseif first == "Enzo" and last == "West" then
 		TriggerClientEvent("ped41", _source)
-		TriggerClientEvent("able", _source)
-	elseif first == "Chico" and last == "Cat" then
-		TriggerClientEvent("ped58", _source)
 		TriggerClientEvent("able", _source)
 	elseif first == "Esmeralda" and last == "Wesley" then
 		TriggerClientEvent("ped68", _source)
@@ -429,14 +372,32 @@ AddEventHandler('ped6check', function()
 	elseif first == "Astra" and last == "Armani " then
 		TriggerClientEvent("ped7", _source)
 		TriggerClientEvent("able", _source)
-	elseif first == "jack" and last == "hartman" then
-		TriggerClientEvent("ped7", _source)
-		TriggerClientEvent("able", _source)
 	elseif first == "Cirdan" and last == "Elendil" then
 		TriggerClientEvent("ped58", _source)
 		TriggerClientEvent("able", _source)
 	elseif first == "Buzz" and last == "Michael" then
 		TriggerClientEvent("ped78", _source)
+		TriggerClientEvent("able", _source)
+	elseif first == "Esmeralda" and last == "Nika" then
+		TriggerClientEvent("ped33", _source)
+		TriggerClientEvent("able", _source)
+	elseif first == "Waya" and last == "Cherokee" then
+		TriggerClientEvent("ped110", _source)
+		TriggerClientEvent("able", _source)
+	elseif first == "Melissa" and last == "Slade" then
+		TriggerClientEvent("ped7", _source)
+		TriggerClientEvent("able", _source)
+	elseif first == "Tulach" and last == "Belucci" then
+		TriggerClientEvent("ped7", _source)
+		TriggerClientEvent("able", _source)
+	elseif first == "Isabella" and last == "Martinez" then
+		TriggerClientEvent("ped17", _source)
+		TriggerClientEvent("able", _source)
+	elseif first == "Lester" and last == "Lins" then
+		TriggerClientEvent("ped57", _source)
+		TriggerClientEvent("able", _source)
+	elseif first == "Lua" and last == "Black" then
+		TriggerClientEvent("ped58", _source)
 		TriggerClientEvent("able", _source)
 	else
 		TriggerClientEvent("vorp:TipRight", _source, 'Você não tem permissão!', 4000)

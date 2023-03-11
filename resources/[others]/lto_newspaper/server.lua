@@ -13,27 +13,44 @@ Citizen.CreateThread(function()
 	end)
 	VORP.RegisterUsableItem("bestiario", function(data)
 		local _source = source
-		TriggerClientEvent('lto_newspaper:open2', data.source)
+		local type = "Bestiario"
+		TriggerClientEvent('lto_newspaper:open', data.source, type)
 	--	VORP.subItem(data.source, "diario", 1)
 	end)
 	VORP.RegisterUsableItem("dcarterslade", function(data)
 		local _source = source
-		TriggerClientEvent('lto_newspaper:open3', data.source)
+		local type = "DCarterSlade"
+		TriggerClientEvent('lto_newspaper:open', data.source, type)
 	--	VORP.subItem(data.source, "diario", 1)
 	end)
 	VORP.RegisterUsableItem("livroinfantil", function(data)
 		local _source = source
-		TriggerClientEvent('lto_newspaper:open4', data.source)
+		local type = "livroinfantil"
+		TriggerClientEvent('lto_newspaper:open', data.source, type)
 	--	VORP.subItem(data.source, "diario", 1)
 	end)
 	VORP.RegisterUsableItem("tratado", function(data)
 		local _source = source
-		TriggerClientEvent('lto_newspaper:open5', data.source)
+		local type = "Tratado"
+		TriggerClientEvent('lto_newspaper:open', data.source, type)
 	--	VORP.subItem(data.source, "diario", 1)
 	end)
 	VORP.RegisterUsableItem("licenca12", function(data)
 		local _source = source
-		TriggerClientEvent('lto_newspaper:open6', data.source)
+		local type = "Carteira12"
+		TriggerClientEvent('lto_newspaper:open', data.source, type)
+	--	VORP.subItem(data.source, "diario", 1)
+	end)
+	VORP.RegisterUsableItem("casamento", function(data)
+		local _source = source
+		local type = "Ccasamento"
+		TriggerClientEvent('lto_newspaper:open', data.source, type)
+	--	VORP.subItem(data.source, "diario", 1)
+	end)
+	VORP.RegisterUsableItem("livrolemoyne", function(data)
+		local _source = source
+		local type = "livrolemoyne"
+		TriggerClientEvent('lto_newspaper:open', data.source, type)
 	--	VORP.subItem(data.source, "diario", 1)
 	end)
 end)
@@ -42,12 +59,13 @@ RegisterServerEvent('newspaper:checkjornal')
 AddEventHandler('newspaper:checkjornal', function(source)
 	local _source = source
 	local jornal = VORP.getItem(_source, "newspaper")
+	local type = "OpenBookGui"
 	if jornal ~= nil then
 		local meta =  jornal["metadata"]
 		if next(meta) == nil then 
 			VORP.subItem(_source, "newspaper", 1,{})
-			VORP.addItem(_source, "newspaper", 1,{description = "Leituras = 5",durability = 5})
-			TriggerClientEvent('lto_newspaper:open', _source)
+			VORP.addItem(_source, "newspaper", 1,{description = "Leituras = 3",durability = 3})
+			TriggerClientEvent('lto_newspaper:open', _source, type)
 		else
 			local durability = meta.durability - 1
 			local description = "Leituras = "
@@ -58,31 +76,20 @@ AddEventHandler('newspaper:checkjornal', function(source)
 					TriggerClientEvent("vorp:TipRight", _source, "Você leu todo o jornal!", 2000)
 				else
 					VORP.addItem(_source, "newspaper", 1,{description = description.."1",durability = 1})
-					TriggerClientEvent('lto_newspaper:open', _source)
+					TriggerClientEvent('lto_newspaper:open', _source, type)
 				end
 			else
 				VORP.addItem(_source, "newspaper", 1,{description = description..durability,durability = durability})
-				TriggerClientEvent('lto_newspaper:open', _source)
+				TriggerClientEvent('lto_newspaper:open', _source, type)
 			end
 		end
 	end
 end)
 
-RegisterServerEvent("jornal:addjornal")
-AddEventHandler("jornal:addjornal", function()
-    local _source = source 
-    local playerinv = VORP.getUserInventory(_source) 
-    local count = VORP.getItemCount(_source, 'newspaper') 
-    
-    VORP.addItem(_source, 'newspaper', 10) 
-end)
-
-RegisterServerEvent("Checkjob:jornal")
-AddEventHandler("Checkjob:jornal", function ()
+RegisterCommand('addjornal', function(source,rawCommand)
 	local _source = source
-	local User = VorpCore.getUser(_source) 
-	local Character = User.getUsedCharacter        
-	if Character.job == "newspaper" then
-		TriggerClientEvent("jornalista:onduty", _source, true)
+	local User = VorpCore.getUser(source).getUsedCharacter        
+	if User.job == "newspaper" then
+		VORP.addItem(_source, 'newspaper', 5, {description = "Leituras = 3",durability = 3})
 	end
 end)

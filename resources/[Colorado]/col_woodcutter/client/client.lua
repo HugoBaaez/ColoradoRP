@@ -34,7 +34,7 @@ end)
 local blips = {
     { name = 'Colheita de madeira', sprite = 1904459580, x = 582.7, y = 1684.7, z = 187.6},
     { name = 'Colheita de madeira', sprite = 1904459580, x = -2524.2, y = -1361.59, z = 152.09},
-    { name = 'Processo de madeira', sprite = 2107754879, x = 556.76, y = 1708.5, z= 186.0},
+    { name = 'Processo de madeira', sprite = 2107754879, x = -1821.77, y = -431.44, z = 160.68},
 }
 
 
@@ -615,10 +615,10 @@ end
 Citizen.CreateThread(function()
     while true do
         Wait(0)
-        Citizen.InvokeNative(0x2A32FAA57B937173, 0x07DCE236, 575.6,1687.0,187.7 - 1.0, 0, 0, 0, 0, 0, 0, 4.0, 4.0, 1.5, 255, 23, 23, 155, 0, 0, 2, 0, 0, 0, 0)
+        Citizen.InvokeNative(0x2A32FAA57B937173, 0x07DCE236, -1829.37, -445.86, 159.94 - 1.0, 0, 0, 0, 0, 0, 0, 4.0, 4.0, 1.5, 255, 23, 23, 155, 0, 0, 2, 0, 0, 0, 0)
         local pos = GetEntityCoords(PlayerPedId())
-        if (Vdist(pos.x, pos.y, pos.z, 575.6,1687.0,187.7) < 3.0) then
-          DrawText3D(575.6,1687.0,187.7, "Pressione [~e~ENTER~q~] para abrir o processo de Armeiro")
+        if (Vdist(pos.x, pos.y, pos.z, -1829.37, -445.86, 159.94) < 3.0) then
+          DrawText3D(-1829.37, -445.86, 159.94, "Pressione [~e~ENTER~q~] para abrir o processo de Armeiro")
             if IsControlJustReleased(0, 0xC7B5340A) then
                 Wait(50)
                 TriggerServerEvent('weaponsmith:checkp')

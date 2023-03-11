@@ -45,6 +45,9 @@ Citizen.CreateThread(function()
                         if playerJob == v.saloonjob then
                             TriggerEvent("saloon:client:OpenMenu")
                             Citizen.Wait(200)
+                        elseif playerJob == v.doceria then
+                            TriggerEvent("doceria:client:OpenMenu")
+                            Citizen.Wait(200)
                         else
                            TriggerEvent("vorp:TipRight", Config.Language.notasaloon .. " ", 4000)
                         end
@@ -469,4 +472,229 @@ function animazionecucina()
 	ClearPedTasks(PlayerPedId())
 end
 
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+RegisterNetEvent('doceria:client:OpenMenu')
+AddEventHandler('doceria:client:OpenMenu', function()
+    local Doceria = {
+        {
+            header = "Doceria",
+            txt = "Prepare as melhores receitas",
+            isMenuHeader = true, --título, janela nao clicável
+        },
+        {
+            header = "Bebidas",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "doceria:checkbebidas",
+            }
+        },
+        {
+            header = "Comidas",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "doceria:checkcomidas",
+            }
+        },
+        {
+            header = "Fechar",
+            params = {
+                event = "col-menu:closeMenu",
+            }
+        },
+    }
+    exports['col-menu']:openMenu(Doceria)
+end)
 
+RegisterNetEvent('doceria:menuComidas')
+AddEventHandler('doceria:menuComidas', function()
+    TriggerEvent('doceria:client:Comidas')
+end)
+
+RegisterNetEvent('doceria:client:Comidas')
+AddEventHandler('doceria:client:Comidas', function()
+    local DoceriaComidas = {
+        {
+            header = "Comidas",
+            txt = "Prepare as melhores receitas",
+            isMenuHeader = true, --título, janela nao clicável
+        },
+        {
+            header = "Bolo de Chocolate",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "doceria:chocolate",
+            }
+        },
+        {
+            header = "Bolo de Cenoura",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "doceria:cenoura",
+            }
+        },
+        {
+            header = "Bala de Amora",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "doceria:amora",
+            }
+        },
+        {
+            header = "Pirulito",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "doceria:pirulito",
+            }
+        },
+        {
+            header = "Barra de Chocolate",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "doceria:barrachocolate",
+            }
+        },
+        {
+            header = "Sorvete de Hortelã",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "doceria:sorvHortela",
+            }
+        },
+        {
+            header = "Fechar",
+            params = {
+                event = "col-menu:closeMenu",
+            }
+        },
+    }
+    exports['col-menu']:openMenu(DoceriaComidas)
+end)
+------------------------------------------------------
+RegisterNetEvent('padaria:menuComidas')
+AddEventHandler('padaria:menuComidas', function()
+    TriggerEvent('padaria:client:Comidas')
+end)
+RegisterNetEvent('padaria:client:Comidas')
+AddEventHandler('padaria:client:Comidas', function()
+    local PadariaComidas = {
+        {
+            header = "Comidas",
+            txt = "Prepare as melhores receitas",
+            isMenuHeader = true, --título, janela nao clicável
+        },
+        {
+            header = "Croassant de Porco",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "padaria:CroassantP",
+            }
+        },
+        {
+            header = "Croassant de Animal",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "padaria:CroassantA",
+            }
+        },
+        {
+            header = "Cachorro Quente",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "padaria:hotdog",
+            }
+        },
+        {
+            header = "Fechar",
+            params = {
+                event = "col-menu:closeMenu",
+            }
+        },
+    }
+    exports['col-menu']:openMenu(PadariaComidas)
+end)
+
+RegisterNetEvent('padaria:menuBebidas')
+AddEventHandler('padaria:menuBebidas', function()
+    TriggerEvent('padaria:client:Bebidas')
+end)
+
+RegisterNetEvent('padaria:client:Bebidas')
+AddEventHandler('padaria:client:Bebidas', function()
+    local PadariaBebidas = {
+        {
+            header = "Bebidas",
+            txt = "Prepare as melhores receitas",
+            isMenuHeader = true, --título, janela nao clicável
+        },
+        {
+            header = "MilkShake de Groselha",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "padaria:MSgroselha",
+            }
+        },
+        {
+            header = "MilkShake de Beterraba",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "padaria:MSbeterraba",
+            }
+        },
+        {
+            header = "Suco de Hortelã",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "padaria:sucoHortela",
+            }
+        },
+        {
+            header = "Suco de Amora",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "padaria:sucoAmora",
+            }
+        },
+        {
+            header = "Fechar",
+            params = {
+                event = "col-menu:closeMenu",
+            }
+        },
+    }
+    exports['col-menu']:openMenu(PadariaBebidas)
+end)
+------------------------------------------------------
+RegisterNetEvent('doceria:animação')
+AddEventHandler('doceria:animação', function()
+    cozinhando()
+end)
+
+function cozinhando() 
+    FreezeEntityPosition(PlayerPedId(), true)
+    exports['progressBars']:startUI(20000, "Preparando...")  
+    RequestAnimDict("amb_camp@prop_camp_foodprep@working@seasoning@male_b@idle_c")
+    while not HasAnimDictLoaded("amb_camp@prop_camp_foodprep@working@seasoning@male_b@idle_c") do
+        Citizen.Wait(1)
+		RequestAnimDict("amb_camp@prop_camp_foodprep@working@seasoning@male_b@idle_c")
+    end	
+     TaskPlayAnim(PlayerPedId(), "amb_camp@prop_camp_foodprep@working@seasoning@male_b@idle_c", "idle_h", 1.0, 8.0, -1, 1, 0, false, 0, false, 0, false)
+    Wait(20000)
+    FreezeEntityPosition(PlayerPedId(), false)
+	ClearPedTasks(PlayerPedId())
+end

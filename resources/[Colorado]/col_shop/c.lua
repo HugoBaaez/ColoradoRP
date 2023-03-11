@@ -712,6 +712,26 @@ Citizen.CreateThread(function()
 
                 TriggerServerEvent('shop:compra', 500, "mesafestas")
                 WarMenu.CloseMenu()
+            elseif WarMenu.Button("Chifre de parede  $600") then
+
+                TriggerServerEvent('shop:compra', 600, "p_horn01x ")
+                WarMenu.CloseMenu()
+            elseif WarMenu.Button("Cabeça de boi de parede  $600") then
+
+                TriggerServerEvent('shop:compra', 600, "p_skullcattle03x")
+                WarMenu.CloseMenu()
+            elseif WarMenu.Button("Pinico de Luxo  $400") then
+
+                TriggerServerEvent('shop:compra', 400, "p_chamberpot01x")
+                WarMenu.CloseMenu()
+            elseif WarMenu.Button("Tamburete  $80") then
+
+                TriggerServerEvent('shop:compra', 80, "p_stool08x")
+                WarMenu.CloseMenu()
+            elseif WarMenu.Button("Jacaré empalhado com Chapéu  $500") then
+
+                TriggerServerEvent('shop:compra', 500, "p_tuxyoungaligator01x")
+                WarMenu.CloseMenu()-----------------------------------------
             elseif WarMenu.Button("Armario com Livros  $80") then
 
                 TriggerServerEvent('shop:compra', 80, "ArmLivros")

@@ -46,12 +46,14 @@ RegisterNetEvent("wcrp_robbery:payout")
 AddEventHandler("wcrp_robbery:payout", function()
     TriggerEvent('vorp:getCharacter', source, function(user)
         local _source = source
-        local _user = user
-        randommoney = math.random(100,150)
+        local _user = user 
+        local playername = user.firstname.. ' ' ..user.lastname
+        randommoney = math.random(180,320)
     --    ritem = math.random(10,15)
     --    local randomitempull = math.random(1, #Config.Items)
     --    local itemName = Config.Items[randomitempull]
         TriggerEvent("vorp:addMoney", _source, 0, randommoney)
+        SendWebhookMessage(wbhk,"```prolog\n[Roubo a Loja]: ".. playername.." \n Finalizou o roubo a loja e pegou $"..randommoney.." "..os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S").." \r```")
     end)
         --TriggerClientEvent("vorp:TipBottom", _source, 'You got goldnuggets', 5000)
 end)

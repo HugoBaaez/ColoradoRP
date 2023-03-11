@@ -85,15 +85,6 @@ local EndDeathCam = function()
     DestroyAllCams(true)
 end
 
-RegisterNetEvent('vorp:killPlayer', function()
-    killPlayer()
-end)
-function killPlayer()
-    local player = PlayerPedId()
-    ApplyDamageToPed(player, 5000, false, true,true)
-    DisplayHud(false)
-    DisplayRadar(false)
-end
 local keepdown
 local ResurrectPlayer = function(currentHospital, currentHospitalName, justrevive)
     local player = PlayerPedId()
@@ -116,6 +107,8 @@ local ResurrectPlayer = function(currentHospital, currentHospitalName, justreviv
     end
     Wait(2000)
     HealPlayer() -- heal fully the player
+    TriggerEvent('DevDokus:Metabolism:C:Thirst', 100)
+    TriggerEvent('DevDokus:Metabolism:C:Hunger', 100)
     if Config.RagdollOnResurrection and not justrevive then
 
         keepdown = true
@@ -163,8 +156,8 @@ ResspawnPlayer = function()
     end
     ResurrectPlayer(coords, closestLocation, false)
     TriggerServerEvent("vorpcharacter:getPlayerSkin")
-    TriggerEvent('DevDokus:Metabolism:C:Hunger', 100)
     TriggerEvent('DevDokus:Metabolism:C:Thirst', 100)
+    TriggerEvent('DevDokus:Metabolism:C:Hunger', 100)
 end
 
 --[[local StartDeathCam = function()
@@ -238,7 +231,7 @@ end)
 RegisterNetEvent('vorp:resurrectPlayer', function(just)
     local dont = false
     local justrevive = just or true
-    ResurrectPlayer(dont, justrevive)
+    ResurrectPlayer(dont, nil, justrevive)
 end)
 
 -- respawn player from server side

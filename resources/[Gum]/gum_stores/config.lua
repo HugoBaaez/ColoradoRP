@@ -449,11 +449,11 @@ Config.Buy_Spot = {
                 coord = {-1796.26, -385.8487, 159.9325},
                 camer = {-1796.26, -385.8487, 159.9325, 139.16}
             },
-            shoptoken = {
-                name = "Token de Loja", props = "s_inv_coinsack01x", price = 800.00, tax = 0.03,
-                coord = {-1792.1, -382.6463, 159.9507},
-                camer = {-1792.1, -382.6463, 159.9507, 311.27}
-            }
+--            shoptoken = {
+  --              name = "Token de Loja", props = "s_inv_coinsack01x", price = 800.00, tax = 0.03,
+    --            coord = {-1792.1, -382.6463, 159.9507},
+      --          camer = {-1792.1, -382.6463, 159.9507, 311.27}
+        --    }
         },
 
     },
@@ -639,9 +639,50 @@ Config.Buy_Spot = {
                 camer = {-3684.046, -2622.233, -13.90135, 4.71}
             },
             dynamite = {
-                name = "Dinamite", props = "p_dynamite02x", price = 10, tax = 0.03,
+                name = "Dinamite", props = "p_dynamite02x", price = 700, tax = 0.03,
                 coord = {-3689.433, -2626.063, -13.63341},
                 camer = {-3689.433, -2626.063, -13.63341, 356.61},
+            },
+        }
+    },
+    Emerald_Ranch = {
+        butcher = false,
+        blip = true,
+        blip_name = "Emerald",
+        blip_type = 1475879922,
+        center = {1419.44, 376.85, 90.32, 10.0},
+        enable_tax = false,
+        min_max = {40.0, 100.0},
+        expand_cd = {},
+        wagon_cd = {},
+        box_tax = {},--TAX | Price
+
+        back_wagon_cd = {}, 
+        items = {
+            fermento = {
+                name = "Fermento", props = "p_canempty09x", price = 0.50, tax = 0.01,
+                coord = {1417.14, 378.04, 89.97},
+                camer = {1417.83, 377.90, 90.53,72.50},
+            },
+            salsicha = {
+                name = "Salsicha", props = "p_cs_sausage01x", price = 0.25, tax = 0.01,
+                coord = {1417.08, 375.44, 89.98 },
+                camer = {1417.19, 376.06, 90.67,166.01},
+            },
+            farinha = {
+                name = "Farinha de Trigo", props = "p_floursack07x", price = 0.50, tax = 0.03,
+                coord = {1420.526, 380.3097, 89.97018},
+                camer = {1420.39, 379.67, 90.45, -15.87},
+            },
+            sementecacau = {
+                name = "Semente de Cacau", props = "p_packetseeds01x", price = 0.20, tax = 0.01,
+                coord = {1418.78, 380.07, 89.96},
+                camer = {1418.72, 379.75, 90.42, -12.40},
+            },
+            sementepessego = {
+                name = "Semente de Pessego", props = "p_packetseeds01x", price = 0.20, tax = 0.01,
+                coord = {1420.37, 374.52, 89.97},
+                camer = {1420.47, 375.03, 90.20, 168.56},
             },
         }
     },
@@ -979,7 +1020,7 @@ Config.Sell_Spot = {
                 price = 1.85,
                 tax = 0.0,
             },
-            goldring = {
+            token = {
                 price = 1.85,
                 tax = 0.0,
             },
@@ -988,6 +1029,10 @@ Config.Sell_Spot = {
                 tax = 0.0,
             },
             piratecoin = {
+                price = 1.85,
+                tax = 0.0,
+            },
+            goldring = {
                 price = 1.85,
                 tax = 0.0,
             }

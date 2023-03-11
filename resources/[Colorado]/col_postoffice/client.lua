@@ -10,10 +10,7 @@ CreateThread(function()
         coordPed = GetEntityCoords(ped)
         local sleep = 1000
         local coordblip = vector3(2730.32, -1402.59, 46.18)
-        local blip = N_0x554d9d53f696d002(1664425300, coordblip.x, coordblip.y, coordblip.z)
-		SetBlipSprite(blip, 1861010125, 1)
-        SetBlipScale(blip, 0.2)
-        Citizen.InvokeNative(0x9CB1A1623062F402, blip, 'Entregador de Cartas')
+        
         if not inDelivery then
             local distance = #(coordPed - coordblip)
             if distance < 1 then
@@ -160,3 +157,10 @@ function DrawText(text, fontId, x, y, scaleX, scaleY, r, g, b, a)
     Citizen.InvokeNative(0xADA9255D, fontId); -- Loads the font requested
     DisplayText(CreateVarString(10, "LITERAL_STRING", text), x, y);
 end
+Citizen.CreateThread(function()
+    local coordblip = {x = 2730.32, y = -1402.59, z = 46.18}
+    local blip = N_0x554d9d53f696d002(1664425300, coordblip.x, coordblip.y, coordblip.z)
+    SetBlipSprite(blip, 1861010125, 1)
+    SetBlipScale(blip, 0.2)
+    Citizen.InvokeNative(0x9CB1A1623062F402, blip, 'Entregador de Cartas')
+end)

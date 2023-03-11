@@ -83,7 +83,7 @@ RegisterServerEvent('doctor:buysiringhe')
 AddEventHandler('doctor:buysiringhe', function(n) 
 
 	local _source = source
-	local price = 0.1
+	local price = 2
 	local User = VorpCore.getUser(_source)
 	local Character = User.getUsedCharacter
 	
@@ -289,7 +289,7 @@ AddEventHandler("clinics:pay:revive", function(closestPlayer)
 	local job = Character.job  
 	local playername = Character.firstname.. ' ' ..Character.lastname 
     if checkMED == 0 then
-		if job == 'indios' or job == "indiosBW" then
+		if job == 'indios' or job == "indiosBW" or job == "indiosAR" then
 			if Character.money >= 2 then
 				--print(_source, _closestPlayer)
 				TriggerEvent("vorp:removeMoney", _source, 0, 2)

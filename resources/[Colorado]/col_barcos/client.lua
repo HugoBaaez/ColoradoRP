@@ -195,8 +195,8 @@ end)
 
 -- | Spawn boat | --
 
-RegisterNetEvent( 'elrp:spawnBoat' )
-AddEventHandler( 'elrp:spawnBoat', function ( boat )
+RegisterNetEvent('elrp:spawnBoat')
+AddEventHandler('elrp:spawnBoat', function ( boat )
 
 	local player = PlayerPedId()
 
@@ -238,17 +238,17 @@ end
 
 RegisterCommand("barco", function(source, args, raw)
     if recentlySpawned <= 0 then
-				recentlySpawned = 600 --10 minutos
-				TriggerServerEvent('elrp:dropboat')
-			else
-				TriggerEvent('chat:systemMessage', 'Você tem que esperar ' .. recentlySpawned .. ' Segundos antes de colocar seu barco na água.')
-				TriggerEvent('chat:addMessage', {
-					color = { 171, 59, 36 },
-					multiline = true,
-					args = {"Anti-Spam", 'Você tem que esperar ' .. recentlySpawned .. ' Segundos antes de colocar seu barco na água.'}
-				})
-			end
-   end)
+		recentlySpawned = 600 --10 minutos
+		TriggerServerEvent('elrp:dropboat')
+	else
+		TriggerEvent('chat:systemMessage', 'Você tem que esperar ' .. recentlySpawned .. ' Segundos antes de colocar seu barco na água.')
+		TriggerEvent('chat:addMessage', {
+			color = { 171, 59, 36 },
+			multiline = true,
+			args = {"Anti-Spam", 'Você tem que esperar ' .. recentlySpawned .. ' Segundos antes de colocar seu barco na água.'}
+		})
+	end
+end)
 
 Citizen.CreateThread(function()
     while true do

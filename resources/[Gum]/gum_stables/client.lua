@@ -67,6 +67,7 @@ local open_menu_horse = false
 local horse_data_all = {}
 local cant_spam = false
 local horsenetwork = nil
+local wagonnetwork = nil
 local active_expand = false
 local checked = false
 local tamming = false
@@ -75,6 +76,7 @@ local random_table = {}
 local num = 0
 local horse_is_broken = false
 local filtered_horses = {}
+local filtered_wild_horses = {}
 local filtered_carts = {}
 local in_action = false
 local first_veh_hunt = nil
@@ -172,6 +174,26 @@ Citizen.CreateThread(function()
             end
         end
     end
+    filtered_wild_horses = {}
+    for k,v in pairs(Config.Horses) do
+        for k2,v2 in pairs(v) do
+            if k2 ~= "name" then
+                for a,b in pairs(v2[6]) do
+                    if v2[2] < 50 then
+                        table.insert(filtered_wild_horses, {category=v.name, data={k2, v2[1], 1, v2[2], v2[3], v2[4], v2[5], v2[6]}})
+                    elseif v2[2] < 150 then
+                        table.insert(filtered_wild_horses, {category=v.name, data={k2, v2[1], 2, v2[2], v2[3], v2[4], v2[5], v2[6]}})
+                    elseif v2[2] < 250 then
+                        table.insert(filtered_wild_horses, {category=v.name, data={k2, v2[1], 3, v2[2], v2[3], v2[4], v2[5], v2[6]}})
+                    else
+                        table.insert(filtered_wild_horses, {category=v.name, data={k2, v2[1], 4, v2[2], v2[3], v2[4], v2[5], v2[6]}})
+                    end
+                end
+            end
+        end
+    end
+
+    
     Citizen.Wait(0)
     for k,v in pairs(Config.Wagons) do
         for a,b in pairs(v[6]) do
@@ -216,6 +238,24 @@ function Open_Stable_Menu(openHere)
                         else
                             table.insert(filtered_horses, {category=v.name, data={k2, v2[1], 4, v2[2], v2[3], v2[4], v2[5], v2[6]}})
                         end
+                    end
+                end
+            end
+        end
+    end
+    filtered_wild_horses = {}
+    for k,v in pairs(Config.Horses) do
+        for k2,v2 in pairs(v) do
+            if k2 ~= "name" then
+                for a,b in pairs(v2[6]) do
+                    if v2[2] < 50 then
+                        table.insert(filtered_wild_horses, {category=v.name, data={k2, v2[1], 1, v2[2], v2[3], v2[4], v2[5], v2[6]}})
+                    elseif v2[2] < 150 then
+                        table.insert(filtered_wild_horses, {category=v.name, data={k2, v2[1], 2, v2[2], v2[3], v2[4], v2[5], v2[6]}})
+                    elseif v2[2] < 250 then
+                        table.insert(filtered_wild_horses, {category=v.name, data={k2, v2[1], 3, v2[2], v2[3], v2[4], v2[5], v2[6]}})
+                    else
+                        table.insert(filtered_wild_horses, {category=v.name, data={k2, v2[1], 4, v2[2], v2[3], v2[4], v2[5], v2[6]}})
                     end
                 end
             end
@@ -323,11 +363,11 @@ function CloseMenuData()
     horse_breed_slots[1] = nil
     horse_breed_slots[2] = nil
     Citizen.Wait(500)
-    delete_obj(horse_preview)
-    delete_obj(horse_preview_2)
-    delete_obj(horse_preview_3)
-    delete_obj(horse_preview_4)
-    delete_obj(wagon_preview)
+    delete_obj(horse_preview, true)
+    delete_obj(horse_preview_2, true)
+    delete_obj(horse_preview_3, true)
+    delete_obj(horse_preview_4, true)
+    delete_obj(wagon_preview, true)
     preview_type = "New"
     preview_id = nil
     active_3 = false
@@ -1904,9 +1944,9 @@ RegisterNUICallback('clear_preview', function(data, cb)
     TriggerEvent("gum_stables:deleteShowMarker")
     active_camera = true
     if horse_preview ~= nil then
-        delete_obj(horse_preview)
-        delete_obj(horse_preview_2)
-        delete_obj(horse_preview_3)
+        delete_obj(horse_preview, true)
+        delete_obj(horse_preview_2, true)
+        delete_obj(horse_preview_3, true)
     end
     if wagon_preview ~= nil then
         DeleteVehicle(wagon_preview)
@@ -1987,9 +2027,10 @@ RegisterNUICallback('right_cart', function(data, cb)
         end
     end
 end)
+
 RegisterNUICallback('shwo_prepare_breed', function(data, cb)
     if horse_preview_2 ~= nil then
-        delete_obj(horse_preview_2)
+        delete_obj(horse_preview_2, true)
     end
     local id = tonumber(data.id)
     local model = ""
@@ -2501,9 +2542,6 @@ AddEventHandler('gum_stables:send_horses_data', function(table_hs, job)
     if Config.CallFromStableHorse or Config.SpotForTake then
     else
         for k,v in pairs(horse_table) do
-            if v["selected"] == 1 then
-                exp_horse = v["exp"]
-            end
             count_horse = k
         end
     end
@@ -2531,11 +2569,62 @@ end)
 
 RegisterNetEvent('gum_stables:fleeHorse')
 AddEventHandler('gum_stables:fleeHorse', function()
-    if horseentity ~= nil then
-        NetworkRequestControlOfEntity(horseentity)
-        TriggerServerEvent("gum_stables:fix_this", NetworkGetNetworkIdFromEntity(horseentity))
-        delete_obj(horseentity)
+    TriggerServerEvent("gum_stables:fix_this", NetworkGetNetworkIdFromEntity(horseentity))
+    if DoesEntityExist(horseentity) then
+        if Config.CallFromStableHorse or Config.SpotForTake then
+            local table = horse_table
+            for a,b in pairs(table) do
+                if b.id == tonumber(idForStorageHorse) then
+                    if Config.SaveStatus then
+                        if b.status ~= nil then
+                            local statusTable = json.decode(b.status)
+                            local stamina = Citizen.InvokeNative(0x36731AC041289BB1, horseentity, 1) 
+                            local health = Citizen.InvokeNative(0x36731AC041289BB1, horseentity, 0)
+                            if stamina == false then stamina = 0 end
+                            if health == false then health = 0 end
+                            statusTable["stamina"] = stamina
+                            statusTable["health"] = health
+                            b.status = json.encode(statusTable)
+                            TriggerServerEvent("gum_stables:saveStatus", b.id, b.status)
+                        end
+                    end
+                    TriggerServerEvent("gum_stables:exp_update_id", idForStorageHorse, exp_horse+(exp_writed))
+                    b["exp"] = exp_horse+(exp_writed)
+                end
+            end
+            horse_table = table
+        else
+            local table = horse_table
+            for k,v in pairs(table) do
+                if tonumber(v["selected"]) == 1 then
+                    if Config.SaveStatus then
+                        if v.status ~= nil then
+                            local statusTable = json.decode(v.status)
+                            local stamina = Citizen.InvokeNative(0x36731AC041289BB1, horseentity, 1) 
+                            local health = Citizen.InvokeNative(0x36731AC041289BB1, horseentity, 0)
+                            if stamina == false then stamina = 0 end
+                            if health == false then health = 0 end
+                            statusTable["stamina"] = stamina
+                            statusTable["health"] = health
+                            v.status = json.encode(statusTable)
+                            TriggerServerEvent("gum_stables:saveStatus", v.id, v.status)
+                        end
+                    end
+                    v["exp"] = exp_horse+(exp_writed)
+                    TriggerServerEvent("gum_stables:exp_update_id", idForStorageHorse, exp_horse+(exp_writed))
+                end
+            end
+            horse_table = table
+        end
+        Citizen.Wait(200)
+        exp_writed = 0
     end
+    NetworkRequestControlOfEntity(horseentity)
+    Wait(500)
+    idForStorageHorse = 0
+    horseIdForSave = 0
+    delete_obj(horseentity)
+    SaddlesBagss = false
 end)
 
 
@@ -2551,9 +2640,6 @@ AddEventHandler('gum_stables:send_horses_data_nw', function(table_horse, table_c
         end
     end
     for k,v in pairs(horse_table) do
-        if v["selected"] == 1 then
-            exp_horse = v["exp"]
-        end
         count_horse = k
     end
     WagonTable = table_wagon
@@ -2739,7 +2825,7 @@ end
 
 function show_my_horse(model,sex, ct, id, age, compos, isdead, state)
     if ct == 1 then
-        delete_obj(horse_preview)
+        delete_obj(horse_preview, true)
         Citizen.Wait(50)
         preview_type = model
         preview_id = id
@@ -2766,7 +2852,7 @@ function show_my_horse(model,sex, ct, id, age, compos, isdead, state)
             ClearPedEnvDirt(horse_preview)
             ClearPedDamageDecalByZone(horse_preview ,10 ,"ALL")
             ClearPedBloodDamage(horse_preview)
-            if tostring(age) ~= "Old" then
+            if age ~= Config.Language[417].text then
                 if 1 >= tonumber(age) then
                     SetPedScale(horse_preview, 0.600)
                 elseif 2 >= tonumber(age) then
@@ -2829,7 +2915,7 @@ function show_my_horse(model,sex, ct, id, age, compos, isdead, state)
             end
         end)
     else
-        delete_obj(horse_preview)
+        delete_obj(horse_preview, true)
         Citizen.Wait(50)
         preview_type = model
         Citizen.CreateThread(function()
@@ -2855,7 +2941,7 @@ function show_my_horse(model,sex, ct, id, age, compos, isdead, state)
             ClearPedEnvDirt(horse_preview)
             ClearPedDamageDecalByZone(horse_preview ,10 ,"ALL")
             ClearPedBloodDamage(horse_preview)
-            if tostring(age) ~= "Old" then
+            if age ~= Config.Language[417].text then
                 if 1 >= tonumber(age) then
                     SetPedScale(horse_preview, 0.600)
                 elseif 2 >= tonumber(age) then
@@ -3084,11 +3170,11 @@ end
 
 function despawnNpc(count) 
     if npcsMan[count] ~= nil then
-        delete_obj(npcsMan[count])
+        delete_obj(npcsMan[count], true)
         npcsMan[count] = nil
     end
     if npcsHorse[count] ~= nil then
-        delete_obj(npcsHorse[count])
+        delete_obj(npcsHorse[count], true)
         npcsHorse[count] = nil
     end
 end
@@ -3279,12 +3365,7 @@ Citizen.CreateThread(function()
                                                 else
                                                     if hcoords.x == 0.0 then
                                                         Citizen.Wait(200)
-                                                        NetworkRequestControlOfEntity(horseentity)
-                                                        TriggerServerEvent("gum_stables:fix_this", NetworkGetNetworkIdFromEntity(horseentity))
-                                                        delete_obj(horseentity)
-                                                        exp_writed = 0
-                                                        SaddlesBagss = false
-                                                        horseentity = nil
+                                                        destroy_horse()
                                                         if Config.Gum_Notify_Old then
                                                             exports['gum_notify']:DisplayLeftNotification(Config.Language[15].text, Config.Language[379].text, Config.FirstName, Config.SecondName, Config.Language[379].time)
                                                         end
@@ -3401,8 +3482,11 @@ Citizen.CreateThread(function()
                             if not cant_spam then
                                 cant_spam = true
                                 TriggerServerEvent("gum_stables:check_ability", v["id"])
-                                Initiatewagon(v["model"], v["name"], v["comp_extras"], v["comp_lantern"], v["comp_liveries"], v["comp_tints"], v["id"], nil, nil, nil, nil, tonumber(v.health_cart))
-
+                                if entity2 == nil then
+                                    Initiatewagon(v["model"], v["name"], v["comp_extras"], v["comp_lantern"], v["comp_liveries"], v["comp_tints"], v["id"], nil, nil, nil, nil, tonumber(v.health_cart))
+                                else
+                                    fleewagonDestroy()
+                                end
                                 Citizen.Wait(1000)
                                 cant_spam = false
                             end
@@ -3494,13 +3578,15 @@ RegisterNUICallback('callHorses', function(data,cb)
     end
 end)
 
-function fleeHorse()
+function destroy_horse()
+    NetworkRequestControlOfEntity(horseentity)
     TriggerServerEvent("gum_stables:fix_this", NetworkGetNetworkIdFromEntity(horseentity))
-    if Config.SaveStatus then
-        if DoesEntityExist(horseentity) then
-            if Config.CallFromStableHorse then
-                for a,b in pairs(horse_table) do
-                    if b.id == tonumber(idForStorageHorse) then
+    if DoesEntityExist(horseentity) then
+        if Config.CallFromStableHorse or Config.SpotForTake then
+            local table = horse_table
+            for a,b in pairs(table) do
+                if b.id == tonumber(idForStorageHorse) then
+                    if Config.SaveStatus then
                         if b.status ~= nil then
                             local statusTable = json.decode(b.status)
                             local stamina = Citizen.InvokeNative(0x36731AC041289BB1, horseentity, 1) 
@@ -3513,10 +3599,16 @@ function fleeHorse()
                             TriggerServerEvent("gum_stables:saveStatus", b.id, b.status)
                         end
                     end
+                    TriggerServerEvent("gum_stables:exp_update_id", idForStorageHorse, exp_horse+(exp_writed))
+                    b["exp"] = exp_horse+(exp_writed)
                 end
-            else
-                for k,v in pairs(horse_table) do
-                    if tonumber(v["selected"]) == 1 then
+            end
+            horse_table = table
+        else
+            local table = horse_table
+            for k,v in pairs(table) do
+                if tonumber(v["selected"]) == 1 then
+                    if Config.SaveStatus then
                         if v.status ~= nil then
                             local statusTable = json.decode(v.status)
                             local stamina = Citizen.InvokeNative(0x36731AC041289BB1, horseentity, 1) 
@@ -3529,43 +3621,91 @@ function fleeHorse()
                             TriggerServerEvent("gum_stables:saveStatus", v.id, v.status)
                         end
                     end
+                    TriggerServerEvent("gum_stables:exp_update_id", idForStorageHorse, exp_horse+(exp_writed))
+                    v["exp"] = exp_horse+(exp_writed)
                 end
             end
+            horse_table = table
         end
+        Citizen.Wait(100)
+        exp_writed = 0
     end
-    NetworkRequestControlOfEntity(horseentity)
-    if is_trainer then
-        exp_horse = exp_horse+(exp_writed)
-        if Config.CallFromStableHorse or Config.SpotForTake then
-            TriggerServerEvent("gum_stables:exp_update_id", idForStorageHorse, exp_horse)
-        else
-            TriggerServerEvent("gum_stables:exp_update", exp_horse)
-        end
-    else
-        exp_horse = exp_horse+(exp_writed)
-        if Config.CallFromStableHorse or Config.SpotForTake then
-            TriggerServerEvent("gum_stables:exp_update_id", idForStorageHorse, exp_horse)
-        else
-            TriggerServerEvent("gum_stables:exp_update", exp_horse)
-        end
-    end
-    exp_writed = 0
+    Wait(200)
     idForStorageHorse = 0
     horseIdForSave = 0
-    Citizen.Wait(100)
+    delete_obj(horseentity)
+    SaddlesBagss = false
+end
+
+function fleeHorse()
     TaskAnimalFlee(horseentity, PlayerPedId(), -1)
-    Wait(2000)
+    TriggerServerEvent("gum_stables:fix_this", NetworkGetNetworkIdFromEntity(horseentity))
+    if DoesEntityExist(horseentity) then
+        if Config.CallFromStableHorse or Config.SpotForTake then
+            local table = horse_table
+            for a,b in pairs(table) do
+                if b.id == tonumber(idForStorageHorse) then
+                    if Config.SaveStatus then
+                        if b.status ~= nil then
+                            local statusTable = json.decode(b.status)
+                            local stamina = Citizen.InvokeNative(0x36731AC041289BB1, horseentity, 1) 
+                            local health = Citizen.InvokeNative(0x36731AC041289BB1, horseentity, 0)
+                            if stamina == false then stamina = 0 end
+                            if health == false then health = 0 end
+                            statusTable["stamina"] = stamina
+                            statusTable["health"] = health
+                            b.status = json.encode(statusTable)
+                            TriggerServerEvent("gum_stables:saveStatus", b.id, b.status)
+                        end
+                    end
+                    TriggerServerEvent("gum_stables:exp_update_id", idForStorageHorse, exp_horse+(exp_writed))
+                    b["exp"] = exp_horse+(exp_writed)
+                end
+            end
+            horse_table = table
+        else
+            local table = horse_table
+            for k,v in pairs(table) do
+                if tonumber(v["selected"]) == 1 then
+                    if Config.SaveStatus then
+                        if v.status ~= nil then
+                            local statusTable = json.decode(v.status)
+                            local stamina = Citizen.InvokeNative(0x36731AC041289BB1, horseentity, 1) 
+                            local health = Citizen.InvokeNative(0x36731AC041289BB1, horseentity, 0)
+                            if stamina == false then stamina = 0 end
+                            if health == false then health = 0 end
+                            statusTable["stamina"] = stamina
+                            statusTable["health"] = health
+                            v.status = json.encode(statusTable)
+                            TriggerServerEvent("gum_stables:saveStatus", v.id, v.status)
+                        end
+                    end
+                    v["exp"] = exp_horse+(exp_writed)
+                    TriggerServerEvent("gum_stables:exp_update_id", idForStorageHorse, exp_horse+(exp_writed))
+                end
+            end
+            horse_table = table
+        end
+        Citizen.Wait(100)
+        exp_writed = 0
+    end
+    NetworkRequestControlOfEntity(horseentity)
+    Wait(1000)
+    idForStorageHorse = 0
+    horseIdForSave = 0
+    Wait(1000)
     delete_obj(horseentity)
     SaddlesBagss = false
 end
 
 function fleeHorse_health()
-    TriggerServerEvent("gum_stables:fix_this", NetworkGetNetworkIdFromEntity(horseentity))
-    if Config.SaveStatus then
-        if DoesEntityExist(horseentity) then
-            if Config.CallFromStableHorse then
-                for a,b in pairs(horse_table) do
-                    if b.id == tonumber(idForStorageHorse) then
+    if DoesEntityExist(horseentity) then
+        TriggerServerEvent("gum_stables:fix_this", NetworkGetNetworkIdFromEntity(horseentity))
+        if Config.CallFromStableHorse or Config.SpotForTake then
+            local table = horse_table
+            for a,b in pairs(table) do
+                if b.id == tonumber(idForStorageHorse) then
+                    if Config.SaveStatus then
                         if b.status ~= nil then
                             local statusTable = json.decode(b.status)
                             local stamina = Citizen.InvokeNative(0x36731AC041289BB1, horseentity, 1) 
@@ -3578,10 +3718,16 @@ function fleeHorse_health()
                             TriggerServerEvent("gum_stables:saveStatus", b.id, b.status)
                         end
                     end
+                    TriggerServerEvent("gum_stables:exp_update_id", idForStorageHorse, exp_horse+(exp_writed))
+                    b["exp"] = exp_horse+(exp_writed)
                 end
-            else
-                for k,v in pairs(horse_table) do
-                    if tonumber(v["selected"]) == 1 then
+            end
+            horse_table = table
+        else
+            local table = horse_table
+            for k,v in pairs(table) do
+                if tonumber(v["selected"]) == 1 then
+                    if Config.SaveStatus then
                         if v.status ~= nil then
                             local statusTable = json.decode(v.status)
                             local stamina = Citizen.InvokeNative(0x36731AC041289BB1, horseentity, 1) 
@@ -3594,40 +3740,22 @@ function fleeHorse_health()
                             TriggerServerEvent("gum_stables:saveStatus", v.id, v.status)
                         end
                     end
+                    v["exp"] = exp_horse+(exp_writed)
+                    TriggerServerEvent("gum_stables:exp_update_id", idForStorageHorse, exp_horse+(exp_writed))
                 end
             end
+            horse_table = table
         end
+        Citizen.Wait(100)
+        exp_writed = 0
+        Wait(1000)
+        idForStorageHorse = 0
+        horseIdForSave = 0
+        Citizen.Wait(100)
+        Wait(1000)
+        delete_obj(horseentity)
+        SaddlesBagss = false
     end
-    
-    NetworkRequestControlOfEntity(horseentity)
-    if is_trainer then
-        exp_horse = exp_horse+(exp_writed)
-        if Config.CallFromStableHorse or Config.SpotForTake then
-            TriggerServerEvent("gum_stables:exp_update_id", idForStorageHorse, exp_horse)
-        else
-            TriggerServerEvent("gum_stables:exp_update", exp_horse)
-        end
-    else
-        exp_horse = exp_horse+(exp_writed)
-        if Config.CallFromStableHorse or Config.SpotForTake then
-            TriggerServerEvent("gum_stables:exp_update_id", idForStorageHorse, exp_horse)
-        else
-            TriggerServerEvent("gum_stables:exp_update", exp_horse)
-        end
-    end
-    exp_writed = 0
-    idForStorageHorse = 0
-    horseIdForSave = 0
-    Citizen.Wait(100)
-    delete_obj(horseentity)
-    SaddlesBagss = false
-end
-
-function destroy_horse()
-    NetworkRequestControlOfEntity(horseentity)
-    TriggerServerEvent("gum_stables:fix_this", NetworkGetNetworkIdFromEntity(horseentity))
-    Citizen.Wait(200)
-    delete_obj(horseentity)
 end
 
 function fleewagon()
@@ -3727,6 +3855,7 @@ function ground_check(x, y)
 end
 
 function InitiateHorse(model, sex, horsename, exp, age, state, id, cdx,cdy,cdz,cdh)
+    exp_horse = exp
     SaddlesBagss = false
     local ped = PlayerPedId()
     local pCoords = GetEntityCoords(ped)
@@ -3767,7 +3896,7 @@ function InitiateHorse(model, sex, horsename, exp, age, state, id, cdx,cdy,cdz,c
     else
         horseentity = CreatePed(modelHash, cdx, cdy, cdz, cdh, true, true)
     end
-
+    TriggerServerEvent("gum_stables:saveHorseForExp", id, exp)
     local x,y,z =  table.unpack(pCoords + vector3(0.0,0.0,0.0))
     zone = Citizen.InvokeNative(0x43AD8FC02B429D33,x,y,z,-1)
 
@@ -3797,7 +3926,7 @@ function InitiateHorse(model, sex, horsename, exp, age, state, id, cdx,cdy,cdz,c
         SetPedConfigFlag(horseentity, 26, true)
     end
 
-    if tostring(age) ~= "Old" then
+    if age ~= Config.Language[417].text then
         if tonumber(age) <= 4.75 then
             SetPedConfigFlag(horseentity, 136, true)
         end
@@ -3818,7 +3947,7 @@ function InitiateHorse(model, sex, horsename, exp, age, state, id, cdx,cdy,cdz,c
 
     SetPedConfigFlag(horseentity, 297, true) -- Enable_Horse_Leadin
     Citizen.InvokeNative(0x23f74c2fda6e7c61, -1230993421, horseentity)
-    if tostring(age) ~= "Old" then
+    if age ~= Config.Language[417].text then
         if 1 >= tonumber(age) then
             SetPedScale(horseentity, 0.600)
         elseif 2 >= tonumber(age) then
@@ -3935,10 +4064,9 @@ function InitiateHorse(model, sex, horsename, exp, age, state, id, cdx,cdy,cdz,c
             end
         end
     end
+    horseIdForSave = id
+    idForStorageHorse = id
     if Config.CallFromStableHorse or Config.SpotForTake then
-        horseIdForSave = id
-        idForStorageHorse = id
-        exp_horse = exp
         active_3 = false
         active_camera = true
     end
@@ -4038,12 +4166,14 @@ end
                         end
                     end
                     if entity2 == nil then
-                        if horse_data_all[NetworkGetNetworkIdFromEntity(cartEntity)] ~= nil  and horse_data_all[NetworkGetNetworkIdFromEntity(cartEntity)] ~= 0 then
-                            if horse_data_all[NetworkGetNetworkIdFromEntity(cartEntity)].identifier == steamId then
-                                if GetEntityType(cartEntity) == 2 then
-                                    canSaveDmg = true
-                                    entity2 = cartEntity
-                                    NetworkRequestControlOfEntity(cartEntity)
+                        if NetworkDoesNetworkIdExist(NetworkGetNetworkIdFromEntity(cartEntity)) then
+                            if horse_data_all[NetworkGetNetworkIdFromEntity(cartEntity)] ~= nil  and horse_data_all[NetworkGetNetworkIdFromEntity(cartEntity)] ~= 0 then
+                                if horse_data_all[NetworkGetNetworkIdFromEntity(cartEntity)].identifier == steamId then
+                                    if GetEntityType(cartEntity) == 2 then
+                                        canSaveDmg = true
+                                        entity2 = cartEntity
+                                        NetworkRequestControlOfEntity(cartEntity)
+                                    end
                                 end
                             end
                         end
@@ -4066,14 +4196,16 @@ end
                     end
                     if horseentity == nil then
                         if Citizen.InvokeNative(0x772A1969F649E902, GetEntityModel(horsEntity)) then
-                            if horse_data_all[NetworkGetNetworkIdFromEntity(horsEntity)] ~= nil and horse_data_all[NetworkGetNetworkIdFromEntity(horsEntity)] ~= 0 then
-                                if horse_data_all[NetworkGetNetworkIdFromEntity(horsEntity)].identifier == steamId then
-                                    if GetEntityType(NetworkGetEntityFromNetworkId(horsEntity)) == 1 then
-                                        if horse_data_all[NetworkGetNetworkIdFromEntity(horsEntity)].saddle then
-                                            SaddlesBagss = true
+                            if NetworkDoesNetworkIdExist(NetworkGetNetworkIdFromEntity(horsEntity)) then
+                                if horse_data_all[NetworkGetNetworkIdFromEntity(horsEntity)] ~= nil and horse_data_all[NetworkGetNetworkIdFromEntity(horsEntity)] ~= 0 then
+                                    if horse_data_all[NetworkGetNetworkIdFromEntity(horsEntity)].identifier == steamId then
+                                        if GetEntityType(horsEntity) == 1 then
+                                            if horse_data_all[NetworkGetNetworkIdFromEntity(horsEntity)].saddle then
+                                                SaddlesBagss = true
+                                            end
+                                            horseentity = horsEntity
+                                            NetworkRequestControlOfEntity(horsEntity)
                                         end
-                                        horseentity = horsEntity
-                                        NetworkRequestControlOfEntity(horsEntity)
                                     end
                                 end
                             end
@@ -4081,6 +4213,17 @@ end
                     end
                 end
             end
+            if NetworkDoesNetworkIdExist(horsenetwork) then
+                if horseentity ~= nil and not DoesEntityExist(horseentity) then
+                    horseentity = NetworkGetEntityFromNetworkId(horsenetwork)
+                end
+            end
+            if NetworkDoesNetworkIdExist(wagonnetwork) then
+                if entity2 ~= nil and not DoesEntityExist(entity2) then
+                    entity2 = NetworkGetEntityFromNetworkId(wagonnetwork)
+                end
+            end
+
             Citizen.Wait(200)
         end
     end)
@@ -4136,17 +4279,17 @@ end
 
 AddEventHandler('onResourceStop', function(resourceName)
 	if (GetCurrentResourceName() == resourceName) then
-        delete_obj(horse_preview)
-        delete_obj(horse_preview_2)
-        delete_obj(horse_preview_3)
-        delete_obj(horse_preview_4)
+        delete_obj(horse_preview, true)
+        delete_obj(horse_preview_2, true)
+        delete_obj(horse_preview_3, true)
+        delete_obj(horse_preview_4, true)
         delete_obj(horseentity)
         delete_obj(entity2)
         for k,v in pairs(npcsMan) do
-            delete_obj(v)
+            delete_obj(v, true)
         end
         for k,v in pairs(npcsHorse) do
-            delete_obj(v)
+            delete_obj(v, true)
         end
 	end
 end)
@@ -4867,7 +5010,7 @@ Citizen.CreateThread(function()
                                                 end
                                             end
                                         end
-                                        delete_obj(holding)
+                                        delete_obj(holding, true)
                                         for z,x in pairs(animalTable) do
                                             count = count+1
                                         end
@@ -4890,7 +5033,7 @@ Citizen.CreateThread(function()
                                                 end
                                             end
                                         end
-                                        delete_obj(holding)
+                                        delete_obj(holding, true)
                                         for z,x in pairs(animalTable) do
                                             count = count+1
                                         end
@@ -4920,7 +5063,7 @@ Citizen.CreateThread(function()
                                     end
                                     local recalculation = count/2/100
                                     Citizen.InvokeNative(0x31F343383F19C987, entity2, tonumber(recalculation), 1) 
-                                    delete_obj(holding)
+                                    delete_obj(holding, true)
                                     Citizen.Wait(500)
                                 end      
                             end
@@ -5176,49 +5319,22 @@ Citizen.CreateThread(function()
                         if Citizen.InvokeNative(0xE0F65F0640EF0617, SellWagonPrompt) then
                             active = true
                             Citizen.Wait(100)
-                            if Config.CallFromStableCart then
-                                TriggerEvent("guminputs:getInput", ""..Config.Language[53].text.."", ""..Config.Language[95].text.."", function(cb)
-                                    local playerid = tonumber(cb)
-                                    if playerid ~= 'close' and playerid ~= nil then
-                                        TriggerServerEvent("gum_stables:transfer_wagon", playerid, idForStorageCart)
-                                        fleewagon(entity2)
-                                        active = false
-                                        return false
-                                    end
-                                end)
-                            else
-                                TriggerEvent("guminputs:getInput", ""..Config.Language[53].text.."", ""..Config.Language[95].text.."", function(cb)
-                                    local playerid = tonumber(cb)
-                                    if playerid ~= 'close' and playerid ~= nil then
-                                        for k,v in pairs(WagonTable) do
-                                            if v["selected"] == 1 then
-                                                fleewagon(entity2)
-                                                TriggerServerEvent("gum_stables:transfer_wagon", playerid, v["id"])
-                                                Citizen.Wait(2000)
-                                                TriggerServerEvent("gum_stables:select_wagons", v["id"], 2)
-                                            end
-                                        end
-                                        active = false
-                                        return false
-                                    end
-                                end)
-                            end
+                            TriggerEvent("guminputs:getInput", ""..Config.Language[53].text.."", ""..Config.Language[95].text.."", function(cb)
+                                local playerid = tonumber(cb)
+                                if playerid ~= 'close' and playerid ~= nil then
+                                    TriggerServerEvent("gum_stables:transfer_wagon", playerid, idForStorageCart)
+                                    fleewagon(entity2)
+                                    active = false
+                                    return false
+                                end
+                            end)
                         end
                     else
                         active = true
                     end
                 end
                 if PromptHasHoldModeCompleted(UnsummonPrompt) then
-                    if tonumber(NetworkGetEntityOwner(entity2)) == tonumber(PlayerId(PlayerPedId())) then
-                        fleewagon(entity2)
-                    else
-                        if Config.Gum_Notify_Old then
-                            exports['gum_notify']:DisplayLeftNotification(Config.Language[15].text, Config.Language[96].text, Config.FirstName, Config.SecondName, Config.Language[96].time)
-                        end
-                        if Config.Gum_Notify_NUI then
-                            exports['gum_notify']:DisplayLeftNotification(""..Config.Language[15].text.."", ""..Config.Language[96].text, Config.Image, Config.Language[96].time)
-                        end
-                    end
+                    fleewagon(entity2)
                 end
             else
                 if open_menu_wagon == true then
@@ -5265,6 +5381,7 @@ Citizen.CreateThread(function()
                                                     if Citizen.InvokeNative(0x305C8DCD79DA8B0F, 0, Config.Keysconfig[7].key) then
                                                         Open_Bags_Menu_Other(horse_data_all[NetworkGetNetworkIdFromEntity(checkHorse)].id, false, checkHorse)
                                                         Citizen.InvokeNative(0xCD181A959CFDD7F4, PlayerPedId(), k, GetHashKey("Interaction_LootSaddleBags"), 0, 1)
+                                                        Citizen.Wait(2000)
                                                     end
                                                 end
                                             end
@@ -5290,6 +5407,7 @@ Citizen.CreateThread(function()
                                                 end
                                                 if Citizen.InvokeNative(0x305C8DCD79DA8B0F, 0, Config.Keysconfig[7].key) then
                                                     Open_Bags_Menu_Other(horse_data_all[NetworkGetNetworkIdFromEntity(checkCart)].id, true, checkCart)
+                                                    Citizen.Wait(2000)
                                                 end
                                             end
                                         end
@@ -5307,7 +5425,8 @@ Citizen.CreateThread(function()
                         if GetEntityType(checkHorse) == 1 then
                             if horse_data_all[NetworkGetNetworkIdFromEntity(checkHorse)] ~= nil then
                                 if GetMount(PlayerPedId()) == 0 and GetVehiclePedIsUsing(PlayerPedId()) == 0 then
-                                    if Citizen.InvokeNative(0xFB4891BD7578CDC1, checkHorse, GetHashKey("HORSE_SADDLEBAGS")) then
+                                    local holding = Citizen.InvokeNative(0xD806CD2A4F2C2996, PlayerPedId())
+                                    if Citizen.InvokeNative(0xFB4891BD7578CDC1, checkHorse, GetHashKey("HORSE_SADDLEBAGS")) and not holding and GetEntityHealth(PlayerPedId()) ~= 0 then
                                         opti = 5
                                         if active_other == false then
                                             local item_name = CreateVarString(10, 'LITERAL_STRING', Config.Language[355].text)
@@ -5316,6 +5435,7 @@ Citizen.CreateThread(function()
                                         if Citizen.InvokeNative(0x305C8DCD79DA8B0F, 0, Config.Keysconfig[7].key) then
                                             Open_Bags_Menu_Other(horse_data_all[NetworkGetNetworkIdFromEntity(checkHorse)].id, false, checkHorse)
                                             Citizen.InvokeNative(0xCD181A959CFDD7F4, PlayerPedId(), k, GetHashKey("Interaction_LootSaddleBags"), 0, 1)
+                                            Citizen.Wait(2000)
                                         end
                                     end
                                 end
@@ -5325,7 +5445,8 @@ Citizen.CreateThread(function()
                     if GetDistanceBetweenCoords(coords.x, coords.y, coords.z, cartCoords.x, cartCoords.y, cartCoords.z, false) < 2.0 and not dh_on and not workerCarts[GetEntityModel(checkCart)] then
                         if GetEntityType(checkCart) == 2 then
                            if horse_data_all[NetworkGetNetworkIdFromEntity(checkCart)] ~= nil then
-                                if GetMount(PlayerPedId()) == 0 and GetVehiclePedIsUsing(PlayerPedId()) == 0 then
+                            local holding = Citizen.InvokeNative(0xD806CD2A4F2C2996, PlayerPedId())
+                                if GetMount(PlayerPedId()) == 0 and GetVehiclePedIsUsing(PlayerPedId()) == 0 and not holding and GetEntityHealth(PlayerPedId()) ~= 0 then
                                     opti = 5
                                     if active_other == false then
                                         local item_name = CreateVarString(10, 'LITERAL_STRING', Config.Language[355].text)
@@ -5333,6 +5454,7 @@ Citizen.CreateThread(function()
                                     end
                                     if Citizen.InvokeNative(0x305C8DCD79DA8B0F, 0, Config.Keysconfig[7].key) then
                                         Open_Bags_Menu_Other(horse_data_all[NetworkGetNetworkIdFromEntity(checkCart)].id, true, checkCart)
+                                        Citizen.Wait(2000)
                                     end
                                 end
                             end
@@ -5409,85 +5531,173 @@ Citizen.CreateThread(function()
                 end
             end
         end
-        if is_trainer == true and Citizen.InvokeNative(0xEFC4303DDC6E60D3, PlayerPedId()) == 1 then
-            opti = 5
-            local horseCoords2 = GetEntityCoords(horseentity)
-            if GetDistanceBetweenCoords(coords.x, coords.y, coords.z, horseCoords2.x, horseCoords2.y, horseCoords2.z, false) < 2.5 and not dh_on then
-                if Config.SpotForTake or Config.CallFromStableHorse then
-                    for k,v in pairs(horse_table) do
-                        if idForStorageHorse == v.id then
-                            horsemax = GetMaxAttributePoints(horseentity, 7)
-                            levels()
-                            local item_name = ""
-                            local courageData = 0
-                            if v.courage == nil then
-                                courageData = 0
-                            else
-                                courageData = v.courage
-                            end
-                            if exp_horse+exp_writed >= horsemax then
-                                if Config.CourageSystem and Config.FriendlySystem then
-                                    item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.." | "..Config.Language[426].text.." : "..courageData.."")
-                                elseif Config.CourageSystem and not Config.FriendlySystem then
-                                    item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.." | "..Config.Language[426].text.." : "..courageData.."")
-                                elseif Config.FriendlySystem and not Config.CourageSystem then
-                                    item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.."")
+        if Config.OnlyTrainerSeeStats then
+            if is_trainer == true and Citizen.InvokeNative(0xEFC4303DDC6E60D3, PlayerPedId()) == 1 then
+                opti = 5
+                local horseCoords2 = GetEntityCoords(horseentity)
+                if GetDistanceBetweenCoords(coords.x, coords.y, coords.z, horseCoords2.x, horseCoords2.y, horseCoords2.z, false) < 2.5 and not dh_on then
+                    if Config.SpotForTake or Config.CallFromStableHorse then
+                        for k,v in pairs(horse_table) do
+                            if idForStorageHorse == v.id then
+                                horsemax = GetMaxAttributePoints(horseentity, 7)
+                                levels()
+                                local item_name = ""
+                                local courageData = 0
+                                if v.courage == nil then
+                                    courageData = 0
                                 else
-                                    item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.."")
+                                    courageData = v.courage
                                 end
-                            else
-                                if Config.CourageSystem and Config.FriendlySystem then
-                                    item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.." | "..Config.Language[426].text.." : "..courageData.."")
-                                elseif Config.CourageSystem and not Config.FriendlySystem then
-                                    item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.." | "..Config.Language[426].text.." : "..courageData.."")
-                                elseif Config.FriendlySystem and not Config.CourageSystem then
-                                    item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.."")
+                                if exp_horse+exp_writed >= horsemax then
+                                    if Config.CourageSystem and Config.FriendlySystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.." | "..Config.Language[426].text.." : "..courageData.."")
+                                    elseif Config.CourageSystem and not Config.FriendlySystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.." | "..Config.Language[426].text.." : "..courageData.."")
+                                    elseif Config.FriendlySystem and not Config.CourageSystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.."")
+                                    else
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.."")
+                                    end
                                 else
-                                    item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.."")
+                                    if Config.CourageSystem and Config.FriendlySystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.." | "..Config.Language[426].text.." : "..courageData.."")
+                                    elseif Config.CourageSystem and not Config.FriendlySystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.." | "..Config.Language[426].text.." : "..courageData.."")
+                                    elseif Config.FriendlySystem and not Config.CourageSystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.."")
+                                    else
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.."")
+                                    end
+                                end
+                                PromptSetActiveGroupThisFrame(trainerprompt, item_name)
+                                if Citizen.InvokeNative(0x305C8DCD79DA8B0F, 0, 0x17D3BFF5) then
+                                    ClearPedTasks(PlayerPedId())
                                 end
                             end
-                            PromptSetActiveGroupThisFrame(trainerprompt, item_name)
-                            if Citizen.InvokeNative(0x305C8DCD79DA8B0F, 0, 0x17D3BFF5) then
-                                ClearPedTasks(PlayerPedId())
+                        end
+                    else
+                        for k,v in pairs(horse_table) do
+                            if v["selected"] == 1 then
+                                horsemax = GetMaxAttributePoints(horseentity, 7)
+                                levels()
+                                local item_name = ""
+                                local courageData = 0
+                                if v.courage == nil then
+                                    courageData = 0
+                                else
+                                    courageData = v.courage
+                                end
+                                if exp_horse+exp_writed >= horsemax then
+                                    if Config.CourageSystem and Config.FriendlySystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.." | "..Config.Language[426].text.." : "..courageData.."")
+                                    elseif Config.CourageSystem and not Config.FriendlySystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.." | "..Config.Language[426].text.." : "..courageData.."")
+                                    elseif Config.FriendlySystem and not Config.CourageSystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.."")
+                                    else
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.."")
+                                    end
+                                else
+                                    if Config.CourageSystem and Config.FriendlySystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.." | "..Config.Language[426].text.." : "..courageData.."")
+                                    elseif Config.CourageSystem and not Config.FriendlySystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.." | "..Config.Language[426].text.." : "..courageData.."")
+                                    elseif Config.FriendlySystem and not Config.CourageSystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.."")
+                                    else
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.."")
+                                    end
+                                end
+                                PromptSetActiveGroupThisFrame(trainerprompt, item_name)
+                                if Citizen.InvokeNative(0x305C8DCD79DA8B0F, 0, 0x17D3BFF5) then
+                                    ClearPedTasks(PlayerPedId())
+                                end
                             end
                         end
                     end
-                else
-                    for k,v in pairs(horse_table) do
-                        if v["selected"] == 1 then
-                            horsemax = GetMaxAttributePoints(horseentity, 7)
-                            levels()
-                            local item_name = ""
-                            local courageData = 0
-                            if v.courage == nil then
-                                courageData = 0
-                            else
-                                courageData = v.courage
-                            end
-                            if exp_horse+exp_writed >= horsemax then
-                                if Config.CourageSystem and Config.FriendlySystem then
-                                    item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.." | "..Config.Language[426].text.." : "..courageData.."")
-                                elseif Config.CourageSystem and not Config.FriendlySystem then
-                                    item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.." | "..Config.Language[426].text.." : "..courageData.."")
-                                elseif Config.FriendlySystem and not Config.CourageSystem then
-                                    item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.."")
+                end
+            end
+        else
+            if Citizen.InvokeNative(0xEFC4303DDC6E60D3, PlayerPedId()) == 1 then
+                opti = 5
+                local horseCoords2 = GetEntityCoords(horseentity)
+                if GetDistanceBetweenCoords(coords.x, coords.y, coords.z, horseCoords2.x, horseCoords2.y, horseCoords2.z, false) < 2.5 and not dh_on then
+                    if Config.SpotForTake or Config.CallFromStableHorse then
+                        for k,v in pairs(horse_table) do
+                            if idForStorageHorse == v.id then
+                                horsemax = GetMaxAttributePoints(horseentity, 7)
+                                levels()
+                                local item_name = ""
+                                local courageData = 0
+                                if v.courage == nil then
+                                    courageData = 0
                                 else
-                                    item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.."")
+                                    courageData = v.courage
                                 end
-                            else
-                                if Config.CourageSystem and Config.FriendlySystem then
-                                    item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.." | "..Config.Language[426].text.." : "..courageData.."")
-                                elseif Config.CourageSystem and not Config.FriendlySystem then
-                                    item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.." | "..Config.Language[426].text.." : "..courageData.."")
-                                elseif Config.FriendlySystem and not Config.CourageSystem then
-                                    item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.."")
+                                if exp_horse+exp_writed >= horsemax then
+                                    if Config.CourageSystem and Config.FriendlySystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.." | "..Config.Language[426].text.." : "..courageData.."")
+                                    elseif Config.CourageSystem and not Config.FriendlySystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.." | "..Config.Language[426].text.." : "..courageData.."")
+                                    elseif Config.FriendlySystem and not Config.CourageSystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.."")
+                                    else
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.."")
+                                    end
                                 else
-                                    item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.."")
+                                    if Config.CourageSystem and Config.FriendlySystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.." | "..Config.Language[426].text.." : "..courageData.."")
+                                    elseif Config.CourageSystem and not Config.FriendlySystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.." | "..Config.Language[426].text.." : "..courageData.."")
+                                    elseif Config.FriendlySystem and not Config.CourageSystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.."")
+                                    else
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.."")
+                                    end
+                                end
+                                PromptSetActiveGroupThisFrame(trainerprompt, item_name)
+                                if Citizen.InvokeNative(0x305C8DCD79DA8B0F, 0, 0x17D3BFF5) then
+                                    ClearPedTasks(PlayerPedId())
                                 end
                             end
-                            PromptSetActiveGroupThisFrame(trainerprompt, item_name)
-                            if Citizen.InvokeNative(0x305C8DCD79DA8B0F, 0, 0x17D3BFF5) then
-                                ClearPedTasks(PlayerPedId())
+                        end
+                    else
+                        for k,v in pairs(horse_table) do
+                            if v["selected"] == 1 then
+                                horsemax = GetMaxAttributePoints(horseentity, 7)
+                                levels()
+                                local item_name = ""
+                                local courageData = 0
+                                if v.courage == nil then
+                                    courageData = 0
+                                else
+                                    courageData = v.courage
+                                end
+                                if exp_horse+exp_writed >= horsemax then
+                                    if Config.CourageSystem and Config.FriendlySystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.." | "..Config.Language[426].text.." : "..courageData.."")
+                                    elseif Config.CourageSystem and not Config.FriendlySystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.." | "..Config.Language[426].text.." : "..courageData.."")
+                                    elseif Config.FriendlySystem and not Config.CourageSystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.."")
+                                    else
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..horsemax.." / "..horsemax.."")
+                                    end
+                                else
+                                    if Config.CourageSystem and Config.FriendlySystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.." | "..Config.Language[426].text.." : "..courageData.."")
+                                    elseif Config.CourageSystem and not Config.FriendlySystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.." | "..Config.Language[426].text.." : "..courageData.."")
+                                    elseif Config.FriendlySystem and not Config.CourageSystem then
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.." | "..Config.Language[425].text.." : "..v.friendly.."")
+                                    else
+                                        item_name = CreateVarString(10, 'LITERAL_STRING', ""..Config.Language[385].text.." : "..exp_horse+exp_writed.." / "..horsemax.."")
+                                    end
+                                end
+                                PromptSetActiveGroupThisFrame(trainerprompt, item_name)
+                                if Citizen.InvokeNative(0x305C8DCD79DA8B0F, 0, 0x17D3BFF5) then
+                                    ClearPedTasks(PlayerPedId())
+                                end
                             end
                         end
                     end
@@ -5511,7 +5721,7 @@ Citizen.CreateThread(function()
                 for k,v in pairs(horse_table) do
                     if tonumber(idForStorageHorse) == v.id then
                         if is_trainer then
-                            if v["age"] == "Old" then 
+                            if v["age"] == Config.Language[417].text then 
                                 if tonumber(horsemax) >= tonumber(exp_horse) then
                                     SetPedNameDebug(targetEntity, ""..Config.Language[47].text.." : "..Config.Language[417].text.."   "..Config.Language[99].text.." : "..level.."   "..Config.Language[100].text.." : "..exp_horse+exp_writed.." / "..horsemax)
                                     SetPedPromptName(targetEntity, ""..Config.Language[47].text.." : "..Config.Language[417].text.."   "..Config.Language[99].text.." : "..level.."   "..Config.Language[100].text.." : "..exp_horse+exp_writed.." / "..horsemax)
@@ -5529,7 +5739,7 @@ Citizen.CreateThread(function()
                                 end
                             end
                         else
-                            if v["age"] == "Old" then
+                            if v["age"] == Config.Language[417].text then
                                 if tonumber(horsemax) >= tonumber(exp_horse) then
                                     SetPedNameDebug(targetEntity, ""..Config.Language[47].text.." : "..Config.Language[417].text.."   "..Config.Language[99].text.." : "..level.."   "..Config.Language[100].text.." : "..exp_horse+exp_writed.." / "..horsemax)
                                     SetPedPromptName(targetEntity, ""..Config.Language[47].text.." : "..Config.Language[417].text.."   "..Config.Language[99].text.." : "..level.."   "..Config.Language[100].text.." : "..exp_horse+exp_writed.." / "..horsemax)
@@ -5553,7 +5763,7 @@ Citizen.CreateThread(function()
                 for k,v in pairs(horse_table) do
                     if v["selected"] == 1 then
                         if is_trainer then
-                            if v["age"] == "Old" then 
+                            if v["age"] == Config.Language[417].text then 
                                 if tonumber(horsemax) >= tonumber(exp_horse) then
                                     SetPedNameDebug(targetEntity, ""..Config.Language[47].text.." : "..Config.Language[417].text.."   "..Config.Language[99].text.." : "..level.."   "..Config.Language[100].text.." : "..exp_horse+exp_writed.." / "..horsemax)
                                     SetPedPromptName(targetEntity, ""..Config.Language[47].text.." : "..Config.Language[417].text.."   "..Config.Language[99].text.." : "..level.."   "..Config.Language[100].text.." : "..exp_horse+exp_writed.." / "..horsemax)
@@ -5571,7 +5781,7 @@ Citizen.CreateThread(function()
                                 end
                             end
                         else
-                            if v["age"] == "Old" then
+                            if v["age"] == Config.Language[417].text then
                                 if tonumber(horsemax) >= tonumber(exp_horse) then
                                     SetPedNameDebug(targetEntity, ""..Config.Language[47].text.." : "..Config.Language[417].text.."   "..Config.Language[99].text.." : "..level.."   "..Config.Language[100].text.." : "..exp_horse+exp_writed.." / "..horsemax)
                                     SetPedPromptName(targetEntity, ""..Config.Language[47].text.." : "..Config.Language[417].text.."   "..Config.Language[99].text.." : "..level.."   "..Config.Language[100].text.." : "..exp_horse+exp_writed.." / "..horsemax)
@@ -5634,17 +5844,8 @@ Citizen.CreateThread(function()
                 TriggerEvent("guminputs:getInput", ""..Config.Language[53].text.."", ""..Config.Language[95].text.."", function(cb)
                     local playerid = tonumber(cb)
                     if playerid ~= nil and playerid ~= "close" then
-                        if Config.CallFromStableHorse == true then
-                            TriggerServerEvent("gum_stables:transfer_horse", playerid, idForStorageHorse)
-                            destroy_horse(horseentity)
-                        else
-                            for k,v in pairs(horse_table) do
-                                if v["selected"] == 1 then
-                                    destroy_horse(horseentity)
-                                    TriggerServerEvent("gum_stables:transfer_horse", playerid, v["id"])
-                                end
-                            end
-                        end
+                        TriggerServerEvent("gum_stables:transfer_horse", playerid, idForStorageHorse)
+                        destroy_horse(horseentity)
                     end
                     active = false
                     return false
@@ -5751,7 +5952,7 @@ Citizen.CreateThread(function()
         if Config.Dead_On_Old then
             local random_age_dead = math.random(1,100)
             for k,v in pairs(horse_table) do
-                if v["age"] == "Old" then
+                if v["age"] == Config.Language[417].text then
                     state_for_dead = k
                 end
             end
@@ -5759,7 +5960,7 @@ Citizen.CreateThread(function()
             if state_for_dead ~= nil then
                 random_dead_id = math.random(1, state_for_dead)
                 for k,v in pairs(horse_table) do
-                    if v["age"] == "Old" then
+                    if v["age"] == Config.Language[417].text then
                         if Config.Chance_For_Dead >= tonumber(random_age_dead) then
                             if k == tonumber(random_dead_id) then
                                 SetEntityHealth(horseentity, random_dead_id, 0)
@@ -5797,47 +5998,30 @@ Citizen.CreateThread(function()
         end
     end
 end)
-local toNotify = 0
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(Config.Exp_Notify*60*1000)
+        Citizen.Wait(5000)
         if horseentity ~= nil then
             horsemax = GetMaxAttributePoints(horseentity, 7)
             if Config.Only_Job_Exp == true then
                 if exp_horse <= horsemax then
                     if is_trainer == true and exp_writed ~= 0 then
                         exp_horse = exp_horse+(Config.ExpTable.IfTrener*exp_writed)
-                        toNotify = exp_writed
+                        TriggerServerEvent("gum_stables:saveHorseForExp", idForStorageHorse, exp_horse)
                         exp_writed = 0
-                        if Config.Gum_Notify_Old then
-                            exports['gum_notify']:DisplayLeftNotification(""..Config.Language[15].text.."",""..Config.Language[102].text.." "..(toNotify).." "..Config.Language[100].text..". ", Config.FirstName, Config.SecondName, Config.Language[102].time)
-                        end
-                        if Config.Gum_Notify_NUI then
-                            exports['gum_notify']:DisplayLeftNotification(""..Config.Language[15].text.."", ""..Config.Language[102].text.." "..(toNotify).." "..Config.Language[100].text..". ", Config.Image, Config.Language[102].time)
-                        end
                     end
                 end
             else
                 if exp_horse <= horsemax then
                     if is_trainer == true and exp_writed ~= 0 then
                         exp_horse = exp_horse+(Config.ExpTable.IfTrener*exp_writed)
-                        toNotify = exp_writed
+                        TriggerServerEvent("gum_stables:saveHorseForExp", idForStorageHorse, exp_horse)
                         exp_writed = 0
-                        if Config.Gum_Notify_Old then
-                            exports['gum_notify']:DisplayLeftNotification(""..Config.Language[15].text.."",""..Config.Language[102].text.." "..(toNotify).." "..Config.Language[100].text..". ", Config.FirstName, Config.SecondName, Config.Language[102].time)
-                        end
-                        if Config.Gum_Notify_NUI then
-                            exports['gum_notify']:DisplayLeftNotification(""..Config.Language[15].text.."", ""..Config.Language[102].text.." "..(toNotify).." "..Config.Language[100].text..". ", Config.Image, Config.Language[102].time)
-                        end
                     else
-                        exp_horse = exp_horse+(Config.ExpTable.IfNoTrener*exp_writed)
-                        toNotify = exp_writed
-                        exp_writed = 0
-                        if Config.Gum_Notify_Old then
-                            exports['gum_notify']:DisplayLeftNotification(""..Config.Language[15].text.."",""..Config.Language[102].text.." "..(toNotify).." "..Config.Language[100].text..". ", Config.FirstName, Config.SecondName, Config.Language[102].time)
-                        end
-                        if Config.Gum_Notify_NUI then
-                            exports['gum_notify']:DisplayLeftNotification(""..Config.Language[15].text.."", ""..Config.Language[102].text.." "..(toNotify).." "..Config.Language[100].text..". ", Config.Image, Config.Language[102].time)
+                        if exp_writed ~= 0 then
+                            exp_horse = exp_horse+(Config.ExpTable.IfNoTrener*exp_writed)
+                            TriggerServerEvent("gum_stables:saveHorseForExp", idForStorageHorse, exp_horse)
+                            exp_writed = 0
                         end
                     end
                 end
@@ -5877,6 +6061,7 @@ if Config.FriendlySystem then
                     end
                 end
             end
+            Citizen.Wait(500)
         end
     end)
 end
@@ -6129,13 +6314,23 @@ Citizen.CreateThread(function()
                     if tonumber(exp_horse) <= tonumber(horsemax) then
                         for k,v in pairs(horse_table) do
                             if v["selected"] == 1 then
-                                if tonumber(v["age"]) <= 5.0 then
-                                    if Config.Only_Job_Exp then
-                                        if is_trainer then
+                                if v.age ~= Config.Language[417].text then
+                                    if tonumber(v["age"]) <= 5.0 then
+                                        if Config.Only_Job_Exp then
+                                            if is_trainer then
+                                                exp_writed = exp_writed+Config.ExpTable.IfCub
+                                            end
+                                        else
                                             exp_writed = exp_writed+Config.ExpTable.IfCub
                                         end
                                     else
-                                        exp_writed = exp_writed+Config.ExpTable.IfCub
+                                        if Config.Only_Job_Exp then
+                                            if is_trainer then
+                                                exp_writed = exp_writed+Config.ExpTable.IfAdult
+                                            end
+                                        else
+                                            exp_writed = exp_writed+Config.ExpTable.IfAdult
+                                        end
                                     end
                                 else
                                     if Config.Only_Job_Exp then
@@ -6264,7 +6459,7 @@ Citizen.CreateThread(function()
                     local pCoords = GetEntityCoords(PlayerPedId())
                     local cCoords = GetEntityCoords(entity2)
                     local distanc = GetDistanceBetweenCoords(pCoords, cCoords)
-                    if distanc > Config.RangeForDespawnWagon then
+                    if distanc > Config.RangeForDespawnWagon and Config.OutOfRangeDespawn then
                         fleewagon(entity2)
                     end
                 end
@@ -6503,7 +6698,7 @@ function Open_List_Menu(cx,cy,cz,ch,fromSpot)
                             if tonumber(v["isdead"]) == 0 and Config.Language[216].text ~= v["breeding"] then
                                 isdeadhorse = Config.Language[38].text
                                 if v.spotPosition == tonumber(fromSpot) then
-                                    if v.age == "Old" then
+                                    if v.age == Config.Language[417].text then
                                         table.insert(elements,{label = "<b>"..v["name"].."</b>", value = ""..v["id"]..""..v["name"].."", desc = ""..Config.Language[43].text.." : "..v2.name.."</br> "..Config.Language[279].text.." : "..y[1].."</br>"..Config.Language[44].text.." : "..v["name"].."</br>"..Config.Language[45].text.." : "..v["sex"].."</br>"..Config.Language[46].text.." : "..v["breeding"].."</br>"..Config.Language[50].text.." : "..v["exp"].." </br>"..Config.Language[47].text.." : "..v.age.."</br>"..Config.Language[48].text.." : "..isdeadhorse..""})
                                     else
                                         table.insert(elements,{label = "<b>"..v["name"].."</b>", value = ""..v["id"]..""..v["name"].."", desc = ""..Config.Language[43].text.." : "..v2.name.."</br> "..Config.Language[279].text.." : "..y[1].."</br>"..Config.Language[44].text.." : "..v["name"].."</br>"..Config.Language[45].text.." : "..v["sex"].."</br>"..Config.Language[46].text.." : "..v["breeding"].."</br>"..Config.Language[50].text.." : "..v["exp"].." </br>"..Config.Language[47].text.." : "..(math.floor(v.age*10)/10).."</br>"..Config.Language[48].text.." : "..isdeadhorse..""})
@@ -6523,7 +6718,7 @@ function Open_List_Menu(cx,cy,cz,ch,fromSpot)
                         if x == v["model"] then
                             if tonumber(v["isdead"]) == 0 and Config.Language[216].text ~= v["breeding"] then
                                 isdeadhorse = Config.Language[38].text
-                                if v.age == "Old" then
+                                if v.age == Config.Language[417].text then
                                     table.insert(elements,{label = "<b>"..v["name"].."</b>", value = ""..v["id"]..""..v["name"].."", desc = ""..Config.Language[43].text.." : "..v2.name.."</br> "..Config.Language[279].text.." : "..y[1].."</br>"..Config.Language[44].text.." : "..v["name"].."</br>"..Config.Language[45].text.." : "..v["sex"].."</br>"..Config.Language[46].text.." : "..v["breeding"].."</br>"..Config.Language[50].text.." : "..v["exp"].." </br>"..Config.Language[47].text.." : "..v.age.."</br>"..Config.Language[48].text.." : "..isdeadhorse..""})
                                 else
                                     table.insert(elements,{label = "<b>"..v["name"].."</b>", value = ""..v["id"]..""..v["name"].."", desc = ""..Config.Language[43].text.." : "..v2.name.."</br> "..Config.Language[279].text.." : "..y[1].."</br>"..Config.Language[44].text.." : "..v["name"].."</br>"..Config.Language[45].text.." : "..v["sex"].."</br>"..Config.Language[46].text.." : "..v["breeding"].."</br>"..Config.Language[50].text.." : "..v["exp"].." </br>"..Config.Language[47].text.." : "..(math.floor(v.age*10)/10).."</br>"..Config.Language[48].text.." : "..isdeadhorse..""})
@@ -6958,8 +7153,8 @@ end)
 ---------------------- BREEDING
 
 function show_horse_breed_first(model, name)
-    delete_obj(horse_preview_3)
-    delete_obj(horse_preview)
+    delete_obj(horse_preview_3, true)
+    delete_obj(horse_preview, true)
     Citizen.CreateThread(function()
         local npc_spawn_id = model
         while not HasModelLoaded(GetHashKey(npc_spawn_id)) do
@@ -6999,8 +7194,8 @@ function show_horse_breed_first(model, name)
 end
 
 function show_horse_breed_second(model, name)
-    delete_obj(horse_preview_3)
-    delete_obj(horse_preview_2)
+    delete_obj(horse_preview_3, true)
+    delete_obj(horse_preview_2, true)
     Citizen.CreateThread(function()
         local npc_spawn_id2 = model
         while not HasModelLoaded(GetHashKey(npc_spawn_id2)) do
@@ -7041,7 +7236,7 @@ end
 
 
 function show_horse_breed_third(model)
-    delete_obj(npc_spawn_id3)
+    delete_obj(npc_spawn_id3, true)
     Citizen.CreateThread(function()
         local npc_spawn_id3 = model
         while not HasModelLoaded(GetHashKey(npc_spawn_id3)) do
@@ -7068,7 +7263,7 @@ function show_horse_breed_third(model)
 end
 
 function show_horse_breed_fourth(model)
-    delete_obj(npc_spawn_id3)
+    delete_obj(npc_spawn_id3, true)
     Citizen.CreateThread(function()
         local npc_spawn_id3 = model
         while not HasModelLoaded(GetHashKey(npc_spawn_id3)) do
@@ -7123,7 +7318,7 @@ AddEventHandler('gum_stables:send_wagon_data', function(table)
 end)
 
 function spawn_wagon(model)
-    delete_obj(wagon_preview)
+    delete_obj(wagon_preview, true)
     Citizen.Wait(0)
     local modelHash = GetHashKey(model)
     if not HasModelLoaded(modelHash) then
@@ -7141,7 +7336,7 @@ function spawn_wagon(model)
 end
 
 function spawn_wagon_my(model, id)
-    delete_obj(wagon_preview)
+    delete_obj(wagon_preview, true)
     Citizen.Wait(50)
     local modelHash = GetHashKey(model)
     if not HasModelLoaded(modelHash) then
@@ -7216,13 +7411,68 @@ function Initiatewagon(wagonModel, wagonName, extras, lantern, liveries, tints, 
             local math_y = math.random(2,6)
             local player_coord = GetEntityCoords(PlayerPedId())
             local town_hash = Citizen.InvokeNative(0x43AD8FC02B429D33, player_coord, 10)
-            if cdx == nil then
-                if town_hash == -108848014 or town_hash == -2066240242 or town_hash == 1453836102 or town_hash == -2145992129 or town_hash == -512529193 then
-                    if vec[1] == 0.0 then
-                        if Config.OneSync then
-                            entity2 = Citizen.InvokeNative(0x214651FB1DFEBA89, modelHash, player_coord.x+math_x, player_coord.y+math_y, player_coord.z, head, false, false, 0, 1)
+            if Config.SimulateNodesEnabled then
+                local nodeExist = false
+                local simulateX, simulateY, simulateZ, simulateH = 0, 0, 0, 0
+                for a,b in pairs(Config.SimulateNodes) do
+                    local distanc = GetDistanceBetweenCoords(pcoords, b[1], b[2], b[3], true)
+                    if distanc < b[5] then
+                        nodeExist = true
+                        simulateX, simulateY, simulateZ, simulateH = b[1], b[2], b[3], b[4]
+                    end
+                end
+                if nodeExist then
+                    if Config.OneSync then
+                        entity2 = Citizen.InvokeNative(0x214651FB1DFEBA89, modelHash, simulateX, simulateY, simulateZ, simulateH, false, false, 0, 1)
+                    else
+                        entity2 = Citizen.InvokeNative(0xAF35D0D2583051B0, modelHash, simulateX, simulateY, simulateZ, simulateH, true, false, 0, 1)
+                    end
+                else
+                    if cdx == nil then
+                        if town_hash == -108848014 or town_hash == -2066240242 or town_hash == 1453836102 or town_hash == -2145992129 or town_hash == -512529193 then
+                            if vec[1] == 0.0 then
+                                if Config.OneSync then
+                                    entity2 = Citizen.InvokeNative(0x214651FB1DFEBA89, modelHash, player_coord.x+math_x, player_coord.y+math_y, player_coord.z, head, false, false, 0, 1)
+                                else
+                                    entity2 = Citizen.InvokeNative(0xAF35D0D2583051B0, modelHash, player_coord.x+math_x, player_coord.y+math_y, player_coord.z, head, true, false, 0, 1)
+                                end
+                            else
+                                if Config.OneSync then
+                                    entity2 = Citizen.InvokeNative(0x214651FB1DFEBA89, modelHash, vec.x, vec.y, vec.z, head, false, false, 0, 1)
+                                else
+                                    entity2 = Citizen.InvokeNative(0xAF35D0D2583051B0, modelHash, vec.x, vec.y, vec.z, head, true, false, 0, 1)
+                                end
+                            end
                         else
-                            entity2 = Citizen.InvokeNative(0xAF35D0D2583051B0, modelHash, player_coord.x+math_x, player_coord.y+math_y, player_coord.z, head, true, false, 0, 1)
+                            if Config.OneSync then
+                                entity2 = Citizen.InvokeNative(0x214651FB1DFEBA89, modelHash, vec.x, vec.y, vec.z, head, false, false, 0, 1)
+                            else
+                                entity2 = Citizen.InvokeNative(0xAF35D0D2583051B0, modelHash, vec.x, vec.y, vec.z, head, true, false, 0, 1)
+                            end
+                        end
+                    else
+                        if Config.OneSync then
+                            entity2 = Citizen.InvokeNative(0x214651FB1DFEBA89, modelHash, cdx, cdy, cdz, cdh, false, false, 0, 1)
+                        else
+                            entity2 = Citizen.InvokeNative(0xAF35D0D2583051B0, modelHash, cdx, cdy, cdz, cdh, true, false, 0, 1)
+                        end
+                    end
+                end
+            else
+                if cdx == nil then
+                    if town_hash == -108848014 or town_hash == -2066240242 or town_hash == 1453836102 or town_hash == -2145992129 or town_hash == -512529193 then
+                        if vec[1] == 0.0 then
+                            if Config.OneSync then
+                                entity2 = Citizen.InvokeNative(0x214651FB1DFEBA89, modelHash, player_coord.x+math_x, player_coord.y+math_y, player_coord.z, head, false, false, 0, 1)
+                            else
+                                entity2 = Citizen.InvokeNative(0xAF35D0D2583051B0, modelHash, player_coord.x+math_x, player_coord.y+math_y, player_coord.z, head, true, false, 0, 1)
+                            end
+                        else
+                            if Config.OneSync then
+                                entity2 = Citizen.InvokeNative(0x214651FB1DFEBA89, modelHash, vec.x, vec.y, vec.z, head, false, false, 0, 1)
+                            else
+                                entity2 = Citizen.InvokeNative(0xAF35D0D2583051B0, modelHash, vec.x, vec.y, vec.z, head, true, false, 0, 1)
+                            end
                         end
                     else
                         if Config.OneSync then
@@ -7233,22 +7483,16 @@ function Initiatewagon(wagonModel, wagonName, extras, lantern, liveries, tints, 
                     end
                 else
                     if Config.OneSync then
-                        entity2 = Citizen.InvokeNative(0x214651FB1DFEBA89, modelHash, vec.x, vec.y, vec.z, head, false, false, 0, 1)
+                        entity2 = Citizen.InvokeNative(0x214651FB1DFEBA89, modelHash, cdx, cdy, cdz, cdh, false, false, 0, 1)
                     else
-                        entity2 = Citizen.InvokeNative(0xAF35D0D2583051B0, modelHash, vec.x, vec.y, vec.z, head, true, false, 0, 1)
+                        entity2 = Citizen.InvokeNative(0xAF35D0D2583051B0, modelHash, cdx, cdy, cdz, cdh, true, false, 0, 1)
                     end
-                end
-            else
-                if Config.OneSync then
-                    entity2 = Citizen.InvokeNative(0x214651FB1DFEBA89, modelHash, cdx, cdy, cdz, cdh, false, false, 0, 1)
-                else
-                    entity2 = Citizen.InvokeNative(0xAF35D0D2583051B0, modelHash, cdx, cdy, cdz, cdh, true, false, 0, 1)
                 end
             end
             local pCoords = GetEntityCoords(PlayerPedId())
             local cCoords = GetEntityCoords(entity2)
             local distanc = GetDistanceBetweenCoords(pCoords, cCoords)
-            if distanc > Config.RangeForDespawnWagon then
+            if distanc > Config.RangeForDespawnWagon and Config.OutOfRangeDespawn then
                 fleewagonDestroy(entity2)
                 if Config.Gum_Notify_Old then
                     exports['gum_notify']:DisplayLeftNotification(Config.Language[15].text,""..Config.Language[387].text.."", Config.FirstName, Config.SecondName, Config.Language[387].time)
@@ -7265,7 +7509,6 @@ function Initiatewagon(wagonModel, wagonName, extras, lantern, liveries, tints, 
             SetModelAsNoLongerNeeded(modelHash)
             local x,y,z =  table.unpack(pCoords + vector3(0.0,0.0,0.0))
             zone = Citizen.InvokeNative(0x43AD8FC02B429D33,x,y,z,-1)
-        
             Citizen.InvokeNative(0x23f74c2fda6e7c61, -1230993421, entity2)
             SetVehicleHasBeenOwnedByPlayer(entity2, true)
             if Config.CallFromStableCart then
@@ -7328,6 +7571,7 @@ function Initiatewagon(wagonModel, wagonName, extras, lantern, liveries, tints, 
             else
                 for k,v in pairs(WagonTable) do
                     if v["selected"] == 1 then
+                        idForStorageCart = v.id
                         Citizen.InvokeNative(0x758C3460EE915D0A, entity2, 0.0)
                         Citizen.InvokeNative(0xBAE0EEDF93F05EAA, entity2, 0.0)
                         Citizen.InvokeNative(0x8268B098F6FCA4E2, entity2, tonumber(v["comp_tints"]))
@@ -7457,6 +7701,7 @@ function Initiatewagon(wagonModel, wagonName, extras, lantern, liveries, tints, 
                 active_3 = false
                 active_camera = true
             end
+            wagonnetwork = NetworkGetNetworkIdFromEntity(entity2)
             TriggerServerEvent("gum_stables:send_data_all_horse", NetworkGetNetworkIdFromEntity(entity2), id, GetPlayerServerId(PlayerId()))
             Citizen.Wait(5000)
             TriggerEvent("gum_farming:checkCartEntity", entity2)
@@ -7752,58 +7997,63 @@ if Config.Tamming_Horses then
     Citizen.CreateThread(function()
         Button_Prompt_10()
         while true do
+            local optimalize = 1000
             local coords = GetEntityCoords(PlayerPedId())
-            optimalize = 1000
             if Config.JobForTamming == true then
                 for k,v in pairs(Config.SellGetWildHorse) do
                     if GetMount(PlayerPedId()) ~= 0 and GetMount(PlayerPedId()) ~= horseentity and is_trainer then
-                        if (GetDistanceBetweenCoords(coords.x, coords.y, coords.z, v["WildCoords"][1], v["WildCoords"][2], v["WildCoords"][3], true) < 5.0) then
-                            for a,b in pairs(SellWildHorse) do
-                                if a == GetMount(PlayerPedId()) and b ~= nil then
-                                    optimalize = 5
-                                    PromptSetActiveGroupThisFrame(buttons_prompt_10,  CreateVarString(10, 'LITERAL_STRING', Config.Language[50].text))
-                                    if Citizen.InvokeNative(0x305C8DCD79DA8B0F, 0, Config.Keysconfig[12].key) then
-                                        Citizen.Wait(100)
-                                        if is_trainer then
-                                            if count_horse < Config.Max_Horse_With_Job then
-                                                saveWildHorse(a, b.price, b.gender, b.model)
+                        if (GetDistanceBetweenCoords(coords.x, coords.y, coords.z, v["WildCoords"][1], v["WildCoords"][2], v["WildCoords"][3], true) < 20.0) then
+                            optimalize = 5
+                            if Config.MarkerForSaveHorse then
+                                Citizen.InvokeNative(0x2A32FAA57B937173, -1795314153, v["WildCoords"][1], v["WildCoords"][2], v["WildCoords"][3]-1.0, 0, 0, 0, 0, 0, 0, 10.0, 10.0, 4.0, 255, 255, 100, 10, 0, 0, 2, 0, 0, 0, 0)
+                            end
+                            if (GetDistanceBetweenCoords(coords.x, coords.y, coords.z, v["WildCoords"][1], v["WildCoords"][2], v["WildCoords"][3], true) < 5.0) then
+                                for a,b in pairs(SellWildHorse) do
+                                    if a == GetMount(PlayerPedId()) and b ~= nil then
+                                        PromptSetActiveGroupThisFrame(buttons_prompt_10,  CreateVarString(10, 'LITERAL_STRING', Config.Language[50].text))
+                                        if Citizen.InvokeNative(0x305C8DCD79DA8B0F, 0, Config.Keysconfig[12].key) then
+                                            Citizen.Wait(100)
+                                            if is_trainer then
+                                                if count_horse < Config.Max_Horse_With_Job then
+                                                    saveWildHorse(a, b.price, b.gender, b.model)
+                                                else
+                                                    TriggerEvent("guminputs:getAnswer", ""..Config.Language[374].text.."", ""..Config.Language[335].text.."", ""..Config.Language[336].text.."", function(cb)
+                                                        local answer = cb
+                                                        if answer == true then
+                                                            sellWildHorses(a, b.price, b.gender, b.model)
+                                                            if Config.Gum_Notify_Old then
+                                                                exports['gum_notify']:DisplayLeftNotification(Config.Language[15].text,""..Config.Language[228].text.."", Config.FirstName, Config.SecondName, Config.Language[228].time)
+                                                            end
+                                                            if Config.Gum_Notify_NUI then
+                                                                exports['gum_notify']:DisplayLeftNotification(""..Config.Language[15].text.."", ""..Config.Language[228].text.."", Config.Image, Config.Language[228].time)
+                                                            end
+                                                        end
+                                                    end)
+                                                end
                                             else
-                                                TriggerEvent("guminputs:getAnswer", ""..Config.Language[374].text.."", ""..Config.Language[335].text.."", ""..Config.Language[336].text.."", function(cb)
-                                                    local answer = cb
-                                                    if answer == true then
-                                                        sellWildHorses(a, b.price, b.gender, b.model)
-                                                        if Config.Gum_Notify_Old then
-                                                            exports['gum_notify']:DisplayLeftNotification(Config.Language[15].text,""..Config.Language[228].text.."", Config.FirstName, Config.SecondName, Config.Language[228].time)
+                                                if count_horse < Config.Max_Horse_Without_Job then
+                                                    saveWildHorse(a, b.price, b.gender, b.model)
+                                                else
+                                                    TriggerEvent("guminputs:getAnswer", ""..Config.Language[374].text.."", ""..Config.Language[335].text.."", ""..Config.Language[336].text.."", function(cb)
+                                                        local answer = cb
+                                                        if answer == true then
+                                                            sellWildHorses(a, b.price, b.gender, b.model)
+                                                            if Config.Gum_Notify_Old then
+                                                                exports['gum_notify']:DisplayLeftNotification(Config.Language[15].text,""..Config.Language[228].text.."", Config.FirstName, Config.SecondName, Config.Language[228].time)
+                                                            end
+                                                            if Config.Gum_Notify_NUI then
+                                                                exports['gum_notify']:DisplayLeftNotification(""..Config.Language[15].text.."", ""..Config.Language[228].text.."", Config.Image, Config.Language[228].time)
+                                                            end
                                                         end
-                                                        if Config.Gum_Notify_NUI then
-                                                            exports['gum_notify']:DisplayLeftNotification(""..Config.Language[15].text.."", ""..Config.Language[228].text.."", Config.Image, Config.Language[228].time)
-                                                        end
-                                                    end
-                                                end)
+                                                    end)
+                                                end
                                             end
-                                        else
-                                            if count_horse < Config.Max_Horse_Without_Job then
-                                                saveWildHorse(a, b.price, b.gender, b.model)
-                                            else
-                                                TriggerEvent("guminputs:getAnswer", ""..Config.Language[374].text.."", ""..Config.Language[335].text.."", ""..Config.Language[336].text.."", function(cb)
-                                                    local answer = cb
-                                                    if answer == true then
-                                                        sellWildHorses(a, b.price, b.gender, b.model)
-                                                        if Config.Gum_Notify_Old then
-                                                            exports['gum_notify']:DisplayLeftNotification(Config.Language[15].text,""..Config.Language[228].text.."", Config.FirstName, Config.SecondName, Config.Language[228].time)
-                                                        end
-                                                        if Config.Gum_Notify_NUI then
-                                                            exports['gum_notify']:DisplayLeftNotification(""..Config.Language[15].text.."", ""..Config.Language[228].text.."", Config.Image, Config.Language[228].time)
-                                                        end
-                                                    end
-                                                end)
-                                            end
+                                            Citizen.Wait(5000)
                                         end
-                                        Citizen.Wait(5000)
-                                    end
-                                    if Citizen.InvokeNative(0x305C8DCD79DA8B0F, 0, Config.Keysconfig[11].key) then
-                                        sellWildHorses(a, b.price, b.gender, b.model)
-                                        Citizen.Wait(5000)
+                                        if Citizen.InvokeNative(0x305C8DCD79DA8B0F, 0, Config.Keysconfig[11].key) then
+                                            sellWildHorses(a, b.price, b.gender, b.model)
+                                            Citizen.Wait(5000)
+                                        end
                                     end
                                 end
                             end
@@ -7813,53 +8063,58 @@ if Config.Tamming_Horses then
             else
                 for k,v in pairs(Config.SellGetWildHorse) do
                     if GetMount(PlayerPedId()) ~= 0 and GetMount(PlayerPedId()) ~= horseentity then
-                        if (GetDistanceBetweenCoords(coords.x, coords.y, coords.z, v["WildCoords"][1], v["WildCoords"][2], v["WildCoords"][3], true) < 5.0) then
-                            for a,b in pairs(SellWildHorse) do
-                                if a == GetMount(PlayerPedId()) and b ~= nil then
-                                    optimalize = 5
-                                    PromptSetActiveGroupThisFrame(buttons_prompt_10,  CreateVarString(10, 'LITERAL_STRING', Config.Language[50].text))
-                                    if Citizen.InvokeNative(0x305C8DCD79DA8B0F, 0, Config.Keysconfig[12].key) then
-                                        Citizen.Wait(100)
-                                        if is_trainer then
-                                            if count_horse < Config.Max_Horse_With_Job then
-                                                saveWildHorse(a, b.price, b.gender, b.model)
+                        if (GetDistanceBetweenCoords(coords.x, coords.y, coords.z, v["WildCoords"][1], v["WildCoords"][2], v["WildCoords"][3], true) < 20.0) then
+                            optimalize = 5
+                            if Config.MarkerForSaveHorse then
+                                Citizen.InvokeNative(0x2A32FAA57B937173, -1795314153, v["WildCoords"][1], v["WildCoords"][2], v["WildCoords"][3]-1.0, 0, 0, 0, 0, 0, 0, 10.0, 10.0, 4.0, 255, 255, 100, 10, 0, 0, 2, 0, 0, 0, 0)
+                            end
+                            if (GetDistanceBetweenCoords(coords.x, coords.y, coords.z, v["WildCoords"][1], v["WildCoords"][2], v["WildCoords"][3], true) < 5.0) then
+                                for a,b in pairs(SellWildHorse) do
+                                    if a == GetMount(PlayerPedId()) and b ~= nil then
+                                        PromptSetActiveGroupThisFrame(buttons_prompt_10,  CreateVarString(10, 'LITERAL_STRING', Config.Language[50].text))
+                                        if Citizen.InvokeNative(0x305C8DCD79DA8B0F, 0, Config.Keysconfig[12].key) then
+                                            Citizen.Wait(100)
+                                            if is_trainer then
+                                                if count_horse < Config.Max_Horse_With_Job then
+                                                    saveWildHorse(a, b.price, b.gender, b.model)
+                                                else
+                                                    TriggerEvent("guminputs:getAnswer", ""..Config.Language[374].text.."", ""..Config.Language[335].text.."", ""..Config.Language[336].text.."", function(cb)
+                                                        local answer = cb
+                                                        if answer == true then
+                                                            sellWildHorses(a, b.price, b.gender, b.model)
+                                                            if Config.Gum_Notify_Old then
+                                                                exports['gum_notify']:DisplayLeftNotification(Config.Language[15].text,""..Config.Language[228].text.."", Config.FirstName, Config.SecondName, Config.Language[228].time)
+                                                            end
+                                                            if Config.Gum_Notify_NUI then
+                                                                exports['gum_notify']:DisplayLeftNotification(""..Config.Language[15].text.."", ""..Config.Language[228].text.."", Config.Image, Config.Language[228].time)
+                                                            end
+                                                        end
+                                                    end)
+                                                end
                                             else
-                                                TriggerEvent("guminputs:getAnswer", ""..Config.Language[374].text.."", ""..Config.Language[335].text.."", ""..Config.Language[336].text.."", function(cb)
-                                                    local answer = cb
-                                                    if answer == true then
-                                                        sellWildHorses(a, b.price, b.gender, b.model)
-                                                        if Config.Gum_Notify_Old then
-                                                            exports['gum_notify']:DisplayLeftNotification(Config.Language[15].text,""..Config.Language[228].text.."", Config.FirstName, Config.SecondName, Config.Language[228].time)
+                                                if count_horse < Config.Max_Horse_Without_Job then
+                                                    saveWildHorse(a, b.price, b.gender, b.model)
+                                                else
+                                                    TriggerEvent("guminputs:getAnswer", ""..Config.Language[374].text.."", ""..Config.Language[335].text.."", ""..Config.Language[336].text.."", function(cb)
+                                                        local answer = cb
+                                                        if answer == true then
+                                                            sellWildHorses(a, b.price, b.gender, b.model)
+                                                            if Config.Gum_Notify_Old then
+                                                                exports['gum_notify']:DisplayLeftNotification(Config.Language[15].text,""..Config.Language[228].text.."", Config.FirstName, Config.SecondName, Config.Language[228].time)
+                                                            end
+                                                            if Config.Gum_Notify_NUI then
+                                                                exports['gum_notify']:DisplayLeftNotification(""..Config.Language[15].text.."", ""..Config.Language[228].text.."", Config.Image, Config.Language[228].time)
+                                                            end
                                                         end
-                                                        if Config.Gum_Notify_NUI then
-                                                            exports['gum_notify']:DisplayLeftNotification(""..Config.Language[15].text.."", ""..Config.Language[228].text.."", Config.Image, Config.Language[228].time)
-                                                        end
-                                                    end
-                                                end)
+                                                    end)
+                                                end
                                             end
-                                        else
-                                            if count_horse < Config.Max_Horse_Without_Job then
-                                                saveWildHorse(a, b.price, b.gender, b.model)
-                                            else
-                                                TriggerEvent("guminputs:getAnswer", ""..Config.Language[374].text.."", ""..Config.Language[335].text.."", ""..Config.Language[336].text.."", function(cb)
-                                                    local answer = cb
-                                                    if answer == true then
-                                                        sellWildHorses(a, b.price, b.gender, b.model)
-                                                        if Config.Gum_Notify_Old then
-                                                            exports['gum_notify']:DisplayLeftNotification(Config.Language[15].text,""..Config.Language[228].text.."", Config.FirstName, Config.SecondName, Config.Language[228].time)
-                                                        end
-                                                        if Config.Gum_Notify_NUI then
-                                                            exports['gum_notify']:DisplayLeftNotification(""..Config.Language[15].text.."", ""..Config.Language[228].text.."", Config.Image, Config.Language[228].time)
-                                                        end
-                                                    end
-                                                end)
-                                            end
+                                            Citizen.Wait(5000)
                                         end
-                                        Citizen.Wait(5000)
-                                    end
-                                    if Citizen.InvokeNative(0x305C8DCD79DA8B0F, 0, Config.Keysconfig[11].key) then
-                                        sellWildHorses(a, b.price, b.gender, b.model)
-                                        Citizen.Wait(5000)
+                                        if Citizen.InvokeNative(0x305C8DCD79DA8B0F, 0, Config.Keysconfig[11].key) then
+                                            sellWildHorses(a, b.price, b.gender, b.model)
+                                            Citizen.Wait(5000)
+                                        end
                                     end
                                 end
                             end
@@ -7885,11 +8140,11 @@ if Config.Tamming_Horses then
                 if Config.Pay_For_Save_Horse then
                     TriggerServerEvent("gum_horses:save_horse", model, nameHorse, (price/100*Config.Pay_For_Save_Percent), gender, positionForBuy)
                     SellWildHorse[entity] = nil
-                    delete_obj(entity)
+                    delete_obj(entity, true)
                 else
                     TriggerServerEvent("gum_horses:save_horse", model, nameHorse, 0, gender, positionForBuy)
                     SellWildHorse[entity] = nil
-                    delete_obj(entity)
+                    delete_obj(entity, true)
                 end
             end
         end)
@@ -7907,9 +8162,9 @@ if Config.Tamming_Horses then
             TriggerServerEvent("gum_horses:sell_horse", tonumber(price/wildCalculation), model)
         end
         SellWildHorse[entity] = nil
-        delete_obj(entity)
+        delete_obj(entity, true)
     end
-        
+ 
     RegisterNetEvent('gum_stables:save_horse_nw')
     AddEventHandler('gum_stables:save_horse_nw', function()
         for k,v in pairs(SellWildHorse) do
@@ -7917,7 +8172,7 @@ if Config.Tamming_Horses then
                 for x,y in pairs(v2) do 
                     if x ~= "name" then  
                         if GetEntityModel(v.id) == GetHashKey(x) then
-                            delete_obj(v.id)
+                            delete_obj(v.id, true)
                         end
                     end
                 end
@@ -7939,8 +8194,7 @@ if Config.Tamming_Horses then
             local size = GetNumberOfEvents(0) 
             if size > 0 then 
                 for i = 0, size - 1 do
-                    local eventAtIndex = GetEventAtIndex(0, i)
-                    if eventAtIndex == GetHashKey("EVENT_HORSE_BROKEN") then 
+                    if GetEventAtIndex(0, i) == GetHashKey("EVENT_HORSE_BROKEN") then 
                         local eventDataSize = 3 
                         local eventDataStruct = DataView.ArrayBuffer(24) 
                         eventDataStruct:SetInt32(0 ,0)
@@ -7948,9 +8202,9 @@ if Config.Tamming_Horses then
                         eventDataStruct:SetInt32(16 ,0)	
                         local is_data_exists = Citizen.InvokeNative(0x57EC5FA4D4D6AFCA,0,i,eventDataStruct:Buffer(),eventDataSize)
                         if is_data_exists then
-                            if eventDataStruct:GetInt32(16) == Broken then
+                            if eventDataStruct:GetInt32(16) == 2 then
                                 if PlayerPedId() == eventDataStruct:GetInt32(0) then
-                                    for a,b in pairs(filtered_horses) do
+                                    for a,b in pairs(filtered_wild_horses) do
                                         if GetHashKey(b.data[1]) == GetEntityModel(eventDataStruct:GetInt32(8)) then
                                             local gender = math.random(1,2)
                                             if tonumber(gender) == 1 then
@@ -7959,6 +8213,7 @@ if Config.Tamming_Horses then
                                                 gender = ""..Config.Language[67].text..""
                                             end
                                             SellWildHorse[eventDataStruct:GetInt32(8)] = {price=b.data[4], gender=gender, model=b.data[1]}
+                                            tamming = false
                                         end
                                     end
                                 end
@@ -8149,7 +8404,7 @@ end
             end
         end       
 
-        function delete_obj(obj)
+        function delete_obj(obj, npc)
             local timeout = 0
             if obj ~= nil then
                 SetEntityAsMissionEntity(obj, false, true)
@@ -8166,6 +8421,9 @@ end
                 end
                 if NetworkHasControlOfEntity(obj) then
                 end
+                if npc == nil then
+                    TriggerServerEvent("gum_stables:delete", NetworkGetNetworkIdFromEntity(obj))
+                end
                 DeleteEntity(obj)
                 if horseentity == obj then
                     horsenetwork = nil
@@ -8173,6 +8431,7 @@ end
                 end
                 if entity2 == obj then
                     entity2 = nil
+                    wagonnetwork = nil
                 end
             end
         end

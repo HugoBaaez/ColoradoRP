@@ -91,11 +91,11 @@ Config.relocatecommand = "movecamp"
 -- Taxes
 Config.adminunrepocommand = "unrepoclan"
 Config.adminrepocommand = "repoclan"
-Config.taxcost = 500 -- amount the player will be charged come tax time
+Config.taxcost = 0 -- amount the player will be charged come tax time
 Config.allocationlimit = 500 -- amount player is allowed to deposit in their tax ledger. limit this to the same amount as the tax cost if you want to ensure players are active monthly and are returning to put money in the ledger so that no big amounts are placed and the camp stays innactive
 Config.minmembers = true --set to true if you want to repo camps that dont meet the member count requirement 
 Config.minmembercount = 3 -- this is the member count requirement that is checked when repo time comes. if players dont meet this count their camp is repoed
-Config.monthlyrepo = true
+Config.monthlyrepo = false
 Config.repotime ={ -- day, hour, and minute of monthly repo of clans. when the server time matches these values. camps that dont have money in their ledger = or more than the tax rate of the camp will 
 -- be put in a disabled state, and marked as repo 1 in the database. u can switch them back to active state via clan admin menu or by changing databse from 1 to 0 when the script is disabled
     day = 15,

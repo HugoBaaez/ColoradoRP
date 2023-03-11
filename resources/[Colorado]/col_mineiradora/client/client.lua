@@ -34,7 +34,7 @@ Citizen.CreateThread(function()
             DrawText3D(Config.Zonas['Miniera1'].x, Config.Zonas['Miniera1'].y, Config.Zonas['Miniera1'].z, Language.translate[Config.lang]['premi'])
             -- DrawTxt(Language.translate[Config.lang]['premi'], 0.4, 0.90, 0.7, 0.7, true, 255, 255, 255, 255, false)
             if IsControlJustPressed(0, 0xC7B5340A) then
-                TriggerServerEvent("minatore:checkjob")
+                TriggerServerEvent("mining:checkpicareta")
             end
         end
        
@@ -51,7 +51,7 @@ Citizen.CreateThread(function()
                 DrawText3D(Config.Zonas['Miniera2'].x, Config.Zonas['Miniera2'].y, Config.Zonas['Miniera2'].z, Language.translate[Config.lang]['premi'])
                -- DrawTxt(Language.translate[Config.lang]['premi'], 0.5, 0.95, 0.7, 0.7, true, 255, 255, 255, 255, false)
                 if IsControlJustPressed(0, 0xC7B5340A) then
-                    TriggerServerEvent("minatore:checkjob")
+                    TriggerServerEvent("mining:checkpicareta")
                 end
             end
        
@@ -68,7 +68,7 @@ Citizen.CreateThread(function()
             DrawText3D(Config.Zonas['Miniera3'].x, Config.Zonas['Miniera3'].y, Config.Zonas['Miniera3'].z, Language.translate[Config.lang]['premi'])
             -- DrawTxt(Language.translate[Config.lang]['premi'], 0.5, 0.95, 0.7, 0.7, true, 255, 255, 255, 255, false)
             if IsControlJustPressed(0, 0xC7B5340A) then
-                TriggerServerEvent("minatore:checkjob")
+                TriggerServerEvent("mining:checkpicareta")
             end
         end
        
@@ -85,7 +85,7 @@ Citizen.CreateThread(function()
             DrawText3D(Config.Zonas['Miniera4'].x, Config.Zonas['Miniera4'].y, Config.Zonas['Miniera4'].z, Language.translate[Config.lang]['premi'])
             -- DrawTxt(Language.translate[Config.lang]['premi'], 0.5, 0.95, 0.7, 0.7, true, 255, 255, 255, 255, false)
             if IsControlJustPressed(0, 0xC7B5340A) then
-                TriggerServerEvent("minatore:checkjob")
+                TriggerServerEvent("mining:checkpicareta")
             end
         end
        
@@ -102,7 +102,7 @@ Citizen.CreateThread(function()
             DrawText3D(Config.Zonas['Miniera5'].x, Config.Zonas['Miniera5'].y, Config.Zonas['Miniera5'].z, Language.translate[Config.lang]['premi'])
             -- DrawTxt(Language.translate[Config.lang]['premi'], 0.5, 0.95, 0.7, 0.7, true, 255, 255, 255, 255, false)
             if IsControlJustPressed(0, 0xC7B5340A) then
-                TriggerServerEvent("minatore:checkjob")
+                TriggerServerEvent("mining:checkpicareta")
             end
         end
        
@@ -119,7 +119,7 @@ Citizen.CreateThread(function()
             DrawText3D(Config.Zonas['Miniera6'].x, Config.Zonas['Miniera6'].y, Config.Zonas['Miniera6'].z, Language.translate[Config.lang]['premi'])
             -- DrawTxt(Language.translate[Config.lang]['premi'], 0.5, 0.95, 0.7, 0.7, true, 255, 255, 255, 255, false)
             if IsControlJustPressed(0, 0xC7B5340A) then
-                TriggerServerEvent("minatore:checkjob")
+                TriggerServerEvent("mining:checkpicareta")
             end
         end
        
@@ -136,7 +136,7 @@ Citizen.CreateThread(function()
             DrawText3D(Config.Zonas['Miniera7'].x, Config.Zonas['Miniera7'].y, Config.Zonas['Miniera7'].z, Language.translate[Config.lang]['premi'])
             -- DrawTxt(Language.translate[Config.lang]['premi'], 0.5, 0.95, 0.7, 0.7, true, 255, 255, 255, 255, false)
             if IsControlJustPressed(0, 0xC7B5340A) then
-                TriggerServerEvent("minatore:checkjob")
+                TriggerServerEvent("mining:checkpicareta")
             end
         end
        
@@ -153,7 +153,7 @@ Citizen.CreateThread(function()
             DrawText3D(Config.Zonas['Miniera8'].x, Config.Zonas['Miniera8'].y, Config.Zonas['Miniera8'].z, Language.translate[Config.lang]['premi'])
             -- DrawTxt(Language.translate[Config.lang]['premi'], 0.5, 0.95, 0.7, 0.7, true, 255, 255, 255, 255, false)
             if IsControlJustPressed(0, 0xC7B5340A) then
-                TriggerServerEvent("minatore:checkjob")
+                TriggerServerEvent("mining:checkpicareta")
             end
         end
        
@@ -463,6 +463,7 @@ Citizen.CreateThread(function()
     WarMenu.CreateMenu('ferreiro:Martelos', 'Martelo')
     WarMenu.CreateMenu('ferreiro:Cavalos', 'Cavalos')
     WarMenu.CreateMenu('ferreiro:wknife', 'Facas')
+    WarMenu.CreateMenu('ferreiro:ferramentas', 'Ferramentas')
     while true do
         Wait(0)
         if WarMenu.IsMenuOpened('ferreiro') then
@@ -477,6 +478,8 @@ Citizen.CreateThread(function()
                 WarMenu.OpenMenu('ferreiro:Cavalos')
             elseif WarMenu.Button('Criar Facas') then
                 WarMenu.OpenMenu('ferreiro:wknife') 
+            elseif WarMenu.Button('Criar Ferramentas') then
+                WarMenu.OpenMenu('ferreiro:ferramentas')
             elseif WarMenu.Button("Fechar") then
                 WarMenu.CloseMenu()
             end
@@ -527,6 +530,17 @@ Citizen.CreateThread(function()
                 TriggerServerEvent('ferreiro:faca')
             elseif WarMenu.Button('Criar Facão') then
                 TriggerServerEvent('ferreiro:facao')
+            elseif WarMenu.Button("Fechar") then
+                WarMenu.CloseMenu()
+            end 
+            WarMenu.Display()
+        elseif WarMenu.IsMenuOpened('ferreiro:ferramentas') then
+            if WarMenu.Button('Criar Machado') then
+                TriggerServerEvent('ferreiro:machado')
+            elseif WarMenu.Button('Criar Picareta') then
+                TriggerServerEvent('ferreiro:picareta')
+            elseif WarMenu.Button('Criar Cabo de Madeira') then
+                TriggerServerEvent('ferreiro:cabomadeira')
             elseif WarMenu.Button("Fechar") then
                 WarMenu.CloseMenu()
             end 

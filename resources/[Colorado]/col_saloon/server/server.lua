@@ -364,14 +364,14 @@ AddEventHandler('wc_bistecaCMilho', function()
         VORP.subItem(_source, "carne_javali", 1)
         VORP.subItem(_source, "milho", 2)    
         VORP.subItem(_source, "agua", 1) 
-        VORP.subItem(_source, "milk", 2)     
+        VORP.subItem(_source, "milk", 1)     
         TriggerClientEvent("progressbar:startSaloon", _source)
         Wait(20000)
         VORP.addItem(_source, "bistecaMilho", 1)
         TriggerClientEvent("vorp:TipBottom", _source, 'Você preparou Bisteca ao Creme de Milho', 2000)
         TriggerClientEvent('stress:modify', 1)
     else
-        TriggerClientEvent("vorp:TipBottom", _source, 'Você precisa de 1 Carne de Javali, 2 Milhos, 1 Agua purificada, 2 Leite!', 4500)
+        TriggerClientEvent("vorp:TipBottom", _source, 'Você precisa de 1 Carne de Javali, 2 Milhos, 1 Agua purificada, 1 Leite!', 4500)
     end      
 end)
 
@@ -392,6 +392,12 @@ AddEventHandler('saloon:checkgroup', function()
         TriggerClientEvent("saloon:bw", _source)
     elseif Character.job == "hotel" then
         TriggerClientEvent("saloon:sd", _source)
+    elseif Character.job == "tabernaVL" then
+        TriggerClientEvent("saloon:sd", _source)
+    elseif Character.job == "tabernaSD" then
+        TriggerClientEvent("saloon:sd", _source)
+    elseif Character.job == "tabernaVH" then
+        TriggerClientEvent("saloon:sd", _source)
     end
   
 end)
@@ -406,11 +412,17 @@ AddEventHandler('saloon:checkcomidas', function()
         TriggerClientEvent("comidas:check", _source)
     elseif Character.job == "bastille" then 
         TriggerClientEvent("vorp:TipRight", _source, "Você não pode fabricar nada deste tipo!", 5000)
+    elseif Character.job == "tabernaVL" then 
+        TriggerClientEvent("vorp:TipRight", _source, "Você não pode fabricar nada deste tipo!", 5000)
     elseif Character.job == "rhodessaloon" then
         TriggerClientEvent("comidas:check", _source)
     elseif Character.job == "bwsaloon" then
         TriggerClientEvent("comidas:check", _source)
     elseif Character.job == "hotel" then 
+        TriggerClientEvent("vorp:TipRight", _source, "Você não pode fabricar nada deste tipo!", 5000)
+    elseif Character.job == "tabernaSD" then 
+        TriggerClientEvent("vorp:TipRight", _source, "Você não pode fabricar nada deste tipo!", 5000)
+    elseif Character.job == "tabernaVH" then 
         TriggerClientEvent("vorp:TipRight", _source, "Você não pode fabricar nada deste tipo!", 5000)
     end
   
@@ -432,9 +444,16 @@ AddEventHandler('saloon:checkbebidas', function()
         TriggerClientEvent("bebidas:check", _source)
     elseif Character.job == "hotel" then 
         TriggerClientEvent("vorp:TipRight", _source, "Você não pode fabricar nada deste tipo!", 5000)
+    elseif Character.job == "tabernaSD" then
+        TriggerClientEvent("bebidas:check", _source)
+    elseif Character.job == "tabernaVH" then
+        TriggerClientEvent("bebidas:check", _source)
+    elseif Character.job == "tabernaVL" then
+        TriggerClientEvent("bebidas:check", _source)
     end
   
 end)
+
 
 ------------
 RegisterServerEvent("saloon:getJob")
@@ -446,4 +465,366 @@ AddEventHandler("saloon:getJob", function()
 
     TriggerClientEvent("saloon:findjob", _source, job)
 
+end)
+
+---------------------------------------------------------------------------
+----------------------------------    DOCERIA E PADARIA      --------------
+---------------------------------------------------------------------------
+RegisterServerEvent('doceria:checkbebidas')
+AddEventHandler('doceria:checkbebidas', function()
+    local _source = source
+    local User = VorpCore.getUser(_source)
+    local Character = User.getUsedCharacter
+    local job = Character.job
+    if job == "Padeiro" then 
+        TriggerClientEvent('padaria:menuBebidas', _source)
+    else
+        TriggerClientEvent('RedM:Notify', _source, 'notify', 'Você não sabe fazer bebidas!')
+    end
+end)
+
+RegisterServerEvent('doceria:checkcomidas')
+AddEventHandler('doceria:checkcomidas', function()
+    local _source = source
+    local User = VorpCore.getUser(_source)
+    local Character = User.getUsedCharacter
+    
+    if Character.job == 'Confeiteiro' then
+        TriggerClientEvent('doceria:menuComidas', _source)
+    elseif Character.job == "Padeiro" then 
+        TriggerClientEvent('padaria:menuComidas', _source)
+    else
+        TriggerClientEvent('RedM:Notify', _source, 'notify', 'Você não sabe fazer comidas!')
+    end
+end)
+------------------------ PADARIA
+RegisterServerEvent('padaria:checkbebidas')
+AddEventHandler('padaria:checkbebidas', function()
+    local _source = source
+    local User = VorpCore.getUser(source)
+    local Character = User.getUsedCharacter
+    local job = Character.job
+
+    if job == 'Padeiro' then
+        TriggerClientEvent('padaria:menuBebidas', _source)
+    else
+        TriggerClientEvent('RedM:Notify', _source, 'notify', 'Você não sabe fazer bebidas!')
+    end
+end)
+
+RegisterServerEvent('padaria:checkcomidas')
+AddEventHandler('padaria:checkcomidas', function()
+    local _source = source
+    local User = VorpCore.getUser(source)
+    local Character = User.getUsedCharacter
+    local job = Character.job
+
+    if job == 'Padeiro' then
+        TriggerClientEvent('padaria:menuComidas', _source)
+    else
+        TriggerClientEvent('RedM:Notify', _source, 'notify', 'Você não sabe fazer comidas!')
+    end
+end)
+--------------------------------------- DOCERIA
+RegisterServerEvent('doceria:chocolate')
+AddEventHandler('doceria:chocolate', function()
+    local _source = source
+    local User = VorpCore.getUser(source)
+    local Character = User.getUsedCharacter
+    local item1 = VORP.getItemCount(_source, 'acucar')
+    local item2 = VORP.getItemCount(_source, 'farinha')
+    local item3 = VORP.getItemCount(_source, 'eggs')
+    local item4 = VORP.getItemCount(_source, 'milk')
+    local item5 = VORP.getItemCount(_source, 'cacau')
+
+    if item1 >= 1 and item2 >= 1 and item3 >= 2 and item4 >= 2 and item5 >= 2 then 
+        TriggerClientEvent('doceria:animação', _source)
+        VORP.subItem(_source, 'acucar', 1)
+        VORP.subItem(_source, 'farinha', 1)
+        VORP.subItem(_source, 'eggs', 2)
+        VORP.subItem(_source, 'milk', 2)
+        VORP.subItem(_source, 'cacau', 2)
+        Wait(20000)
+        VORP.addItem(_source,'bolochocolate', 1)
+    else
+        TriggerClientEvent('vorp:Tip', _source, 'Receita: 1 Açucar, 1 Farinha de Trigo, 2 ovos, 2 Leites, 2 Cacau!', 4000)
+    end
+end)
+
+RegisterServerEvent('doceria:cenoura')
+AddEventHandler('doceria:cenoura', function()
+    local _source = source
+    local User = VorpCore.getUser(source)
+    local Character = User.getUsedCharacter
+    local item1 = VORP.getItemCount(_source, 'acucar')
+    local item2 = VORP.getItemCount(_source, 'farinha')
+    local item3 = VORP.getItemCount(_source, 'eggs')
+    local item4 = VORP.getItemCount(_source, 'milk')
+    local item5 = VORP.getItemCount(_source, 'cacau')
+    local item6 = VORP.getItemCount(_source, 'cenoura')
+
+    if item1 >= 1 and item2 >= 1 and item3 >= 2 and item4 >= 2 and item5 >= 2 and item6 >= 2 then 
+        TriggerClientEvent('doceria:animação', _source)
+        VORP.subItem(_source, 'acucar', 1)
+        VORP.subItem(_source, 'farinha', 1)
+        VORP.subItem(_source, 'eggs', 2)
+        VORP.subItem(_source, 'milk', 2)
+        VORP.subItem(_source, 'cacau', 2)
+        VORP.subItem(_source, 'cenoura', 2)
+        Wait(20000)
+        VORP.addItem(_source,'bolocenoura', 1)
+    else
+        TriggerClientEvent('vorp:Tip', _source, 'Receita: 1 Açucar, 1 Farinha de Trigo, 2 ovos, 2 Leites, 2 Cacau e 2 Cenouras!', 4000)
+    end
+end)
+
+RegisterServerEvent('doceria:amora')
+AddEventHandler('doceria:amora', function()
+    local _source = source
+    local User = VorpCore.getUser(source)
+    local Character = User.getUsedCharacter
+    local item1 = VORP.getItemCount(_source, 'acucar')
+    local item2 = VORP.getItemCount(_source, 'agua')
+    local item3 = VORP.getItemCount(_source, 'Black_Berry')
+
+
+    if item1 >= 1 and item2 >= 1 and item3 >= 2  then 
+        TriggerClientEvent('doceria:animação', _source)
+        VORP.subItem(_source, 'acucar', 1)
+        VORP.subItem(_source, 'agua', 1)
+        VORP.subItem(_source, 'Black_Berry', 2)
+        Wait(20000)
+        VORP.addItem(_source,'doceamora', 1)
+    else
+        TriggerClientEvent('vorp:Tip', _source, 'Receita: 1 Açucar, 1 Água purificada, 2 Amoras Pretas!', 4000)
+    end
+end)
+
+RegisterServerEvent('doceria:pirulito')
+AddEventHandler('doceria:pirulito', function()
+    local _source = source
+    local User = VorpCore.getUser(source)
+    local Character = User.getUsedCharacter
+    local item1 = VORP.getItemCount(_source, 'acucar')
+    local item2 = VORP.getItemCount(_source, 'agua')
+    local item3 = VORP.getItemCount(_source, 'maca')
+
+
+    if item1 >= 1 and item2 >= 1 and item3 >= 2  then 
+        TriggerClientEvent('doceria:animação', _source)
+        VORP.subItem(_source, 'acucar', 1)
+        VORP.subItem(_source, 'agua', 1)
+        VORP.subItem(_source, 'maca', 2)
+        Wait(20000)
+        VORP.addItem(_source,'pirulito', 1)
+    else
+        TriggerClientEvent('vorp:Tip', _source, 'Receita: 1 Açucar, 1 Água purificada, 2 Maçã!', 4000)
+    end
+end)
+----------------------------------------------------------------------
+RegisterServerEvent('padaria:CroassantP')
+AddEventHandler('padaria:CroassantP', function()
+    local _source = source
+    local User = VorpCore.getUser(source)
+    local Character = User.getUsedCharacter
+    local item1 = VORP.getItemCount(_source, 'farinha')
+    local item2 = VORP.getItemCount(_source, 'milk')
+    local item3 = VORP.getItemCount(_source, 'eggs')
+    local item4 = VORP.getItemCount(_source, 'fermento')
+    local item5 = VORP.getItemCount(_source, 'carne_javali')
+
+
+    if item1 >= 1 and item2 >= 1 and item3 >= 3 and item4 >= 1 and item5 >= 2 then 
+        TriggerClientEvent('doceria:animação', _source)
+        VORP.subItem(_source, 'farinha', 1)
+        VORP.subItem(_source, 'milk', 1)
+        VORP.subItem(_source, 'eggs', 3)
+        VORP.subItem(_source, 'fermento', 1)
+        VORP.subItem(_source, 'carne_javali', 2)
+        Wait(20000)
+        VORP.addItem(_source,'croa-pork', 1)
+    else
+        TriggerClientEvent('vorp:Tip', _source, 'Receita: 1 Farinha, 1 Leite, 3 ovos, 1 Fermento e 2 Carne de porco!', 4000)
+    end
+end)
+
+RegisterServerEvent('doceria:barrachocolate')
+AddEventHandler('doceria:barrachocolate', function()
+    local _source = source
+    local User = VorpCore.getUser(source)
+    local Character = User.getUsedCharacter
+    local item1 = VORP.getItemCount(_source, 'acucar')
+    local item2 = VORP.getItemCount(_source, 'milk')
+    local item3 = VORP.getItemCount(_source, 'cacau')
+
+    if item1 >= 1 and item2 >= 1 and item3 >= 3 then 
+        TriggerClientEvent('doceria:animação', _source)
+        VORP.subItem(_source, 'acucar', 1)
+        VORP.subItem(_source, 'milk', 1)
+        VORP.subItem(_source, 'cacau', 3)
+        Wait(20000)
+        VORP.addItem(_source,'bchocolate', 1)
+    else
+        TriggerClientEvent('vorp:Tip', _source, 'Receita: 1 Acucar, 1 Leite, 3 Cacau!', 4000)
+    end
+end)
+RegisterServerEvent('doceria:sorvHortela')
+AddEventHandler('doceria:sorvHortela', function()
+    local _source = source
+    local User = VorpCore.getUser(source)
+    local Character = User.getUsedCharacter
+    local item1 = VORP.getItemCount(_source, 'acucar')
+    local item2 = VORP.getItemCount(_source, 'milk')
+    local item3 = VORP.getItemCount(_source, 'agua')
+    local item4 = VORP.getItemCount(_source, "Wild_Mint")
+
+    if item1 >= 1 and item2 >= 1 and item3 >= 2 and item4 >= 2 then 
+        TriggerClientEvent('doceria:animação', _source)
+        VORP.subItem(_source, 'acucar', 1)
+        VORP.subItem(_source, 'milk', 1)
+        VORP.subItem(_source, 'agua', 2)
+        VORP.subItem(_source, 'Wild_Mint', 2)
+        Wait(20000)
+        VORP.addItem(_source,'sorvHotela', 1)
+    else
+        TriggerClientEvent('vorp:Tip', _source, 'Receita: 1 Acucar, 1 Leite, 2 Agua Purificada e 2 Hortelãs!', 4000)
+    end
+end)
+
+RegisterServerEvent('padaria:CroassantA')
+AddEventHandler('padaria:CroassantA', function()
+    local _source = source
+    local User = VorpCore.getUser(source)
+    local Character = User.getUsedCharacter
+    local item1 = VORP.getItemCount(_source, 'farinha')
+    local item2 = VORP.getItemCount(_source, 'milk')
+    local item3 = VORP.getItemCount(_source, 'eggs')
+    local item4 = VORP.getItemCount(_source, 'fermento')
+    local item5 = VORP.getItemCount(_source, 'meat')
+
+
+    if item1 >= 1 and item2 >= 1 and item3 >= 3 and item4 >= 1 and item5 >= 2 then 
+        TriggerClientEvent('doceria:animação', _source)
+        VORP.subItem(_source, 'farinha', 1)
+        VORP.subItem(_source, 'milk', 1)
+        VORP.subItem(_source, 'eggs', 3)
+        VORP.subItem(_source, 'fermento', 1)
+        VORP.subItem(_source, 'meat', 2)
+        Wait(20000)
+        VORP.addItem(_source,'croa-meat', 1)
+    else
+        TriggerClientEvent('vorp:Tip', _source, 'Receita: 1 Farinha, 1 Leite, 3 ovos, 1 Fermento e 2 Carne animal!', 4000)
+    end
+end)
+
+RegisterServerEvent('padaria:hotdog')
+AddEventHandler('padaria:hotdog', function()
+    local _source = source
+    local User = VorpCore.getUser(source)
+    local Character = User.getUsedCharacter
+    local item1 = VORP.getItemCount(_source, 'pao')
+    local item2 = VORP.getItemCount(_source, 'salsicha')
+    local item3 = VORP.getItemCount(_source, 'tomate')
+    local item4 = VORP.getItemCount(_source, 'batata')
+
+
+    if item1 >= 1 and item2 >= 1 and item3 >= 3 and item4 >= 2  then 
+        TriggerClientEvent('doceria:animação', _source)
+        VORP.subItem(_source, 'pao', 1)
+        VORP.subItem(_source, 'salsicha', 1)
+        VORP.subItem(_source, 'tomate', 3)
+        VORP.subItem(_source, 'batata', 2)
+        Wait(20000)
+        VORP.addItem(_source,'hotdog', 1)
+    else
+        TriggerClientEvent('vorp:Tip', _source, 'Receita: 1 Pão, 1 Salsicha, 3 Tomates, 2 Batatas!', 4000)
+    end
+end)
+--BEBIDAS
+RegisterServerEvent('padaria:MSgroselha')
+AddEventHandler('padaria:MSgroselha', function()
+    local _source = source
+    local User = VorpCore.getUser(source)
+    local Character = User.getUsedCharacter
+    local item1 = VORP.getItemCount(_source, 'milk')
+    local item2 = VORP.getItemCount(_source, 'baunilha')
+    local item3 = VORP.getItemCount(_source, 'groselha')
+    local item4 = VORP.getItemCount(_source, 'acucar')
+
+    if item1 >= 1 and item2 >= 2 and item3 >= 2 and item4 >= 2  then 
+        TriggerClientEvent('doceria:animação', _source)
+        VORP.subItem(_source, 'milk', 1)
+        VORP.subItem(_source, 'baunilha', 2)
+        VORP.subItem(_source, 'groselha', 2)
+        VORP.subItem(_source, 'acucar', 2)
+        Wait(20000)
+        VORP.addItem(_source,'shakeGroselha', 1)
+    else
+        TriggerClientEvent('vorp:Tip', _source, 'Receita: 1 Leite, 2 Baunilhas, 2 Groselhas, 2 Açucares!', 4000)
+    end
+end)
+
+RegisterServerEvent('padaria:MSbeterraba')
+AddEventHandler('padaria:MSbeterraba', function()
+    local _source = source
+    local User = VorpCore.getUser(source)
+    local Character = User.getUsedCharacter
+    local item1 = VORP.getItemCount(_source, 'milk')
+    local item2 = VORP.getItemCount(_source, 'baunilha')
+    local item3 = VORP.getItemCount(_source, 'barbabietole')
+    local item4 = VORP.getItemCount(_source, 'acucar')
+
+    if item1 >= 1 and item2 >= 2 and item3 >= 2 and item4 >= 2  then 
+        TriggerClientEvent('doceria:animação', _source)
+        VORP.subItem(_source, 'milk', 1)
+        VORP.subItem(_source, 'baunilha', 2)
+        VORP.subItem(_source, 'barbabietole', 2)
+        VORP.subItem(_source, 'acucar', 2)
+        Wait(20000)
+        VORP.addItem(_source,'shakeBeterraba', 1)
+    else
+        TriggerClientEvent('vorp:Tip', _source, 'Receita: 1 Leite, 2 Baunilhas, 2 beterrabas, 2 Açucares!', 4000)
+    end
+end)
+
+RegisterServerEvent('padaria:sucoHortela')
+AddEventHandler('padaria:sucoHortela', function()
+    local _source = source
+    local User = VorpCore.getUser(source)
+    local Character = User.getUsedCharacter
+    local item1 = VORP.getItemCount(_source, 'agua')
+    local item2 = VORP.getItemCount(_source, 'Wild_Mint')
+    local item3 = VORP.getItemCount(_source, 'garrafavazia')
+
+    if item1 >= 2 and item2 >= 2 and item3 >= 1   then 
+        TriggerClientEvent('doceria:animação', _source)
+        VORP.subItem(_source, 'agua', 2)
+        VORP.subItem(_source, 'Wild_Mint', 2)
+        VORP.subItem(_source, 'garrafavazia', 1)
+        Wait(20000)
+        VORP.addItem(_source,'sucoHortela', 1)
+    else
+        TriggerClientEvent('vorp:Tip', _source, 'Receita: 1 Garrafa Vazia, 2 Hortelã, 2 Água purificada!', 4000)
+    end
+end)
+
+RegisterServerEvent('padaria:sucoAmora')
+AddEventHandler('padaria:sucoAmora', function()
+    local _source = source
+    local User = VorpCore.getUser(source)
+    local Character = User.getUsedCharacter
+    local item1 = VORP.getItemCount(_source, 'agua')
+    local item2 = VORP.getItemCount(_source, 'groselha')
+    local item3 = VORP.getItemCount(_source, 'garrafavazia')
+
+    if item1 >= 2 and item2 >= 2 and item3 >= 1   then 
+        TriggerClientEvent('doceria:animação', _source)
+        VORP.subItem(_source, 'agua', 2)
+        VORP.subItem(_source, 'groselha', 2)
+        VORP.subItem(_source, 'garrafavazia', 1)
+        Wait(20000)
+        VORP.addItem(_source,'sucoAmora', 1)
+    else
+        TriggerClientEvent('vorp:Tip', _source, 'Receita: 1 Garrafa Vazia, 2 Groselha, 2 Água purificada!', 4000)
+    end
 end)

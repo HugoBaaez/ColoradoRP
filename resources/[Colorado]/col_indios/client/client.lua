@@ -234,4 +234,55 @@ function DrawTxt(str, x, y, w, h, enableShadow, col1, col2, col3, a, centre)
    DisplayText(str, x, y)
 end
 
+function PerformRequest(hash)
+    RequestModel(hash, 0)
+    local bacon = 1
+    while not Citizen.InvokeNative(0x1283B8B89DD5D1B6, hash) do
+        Citizen.InvokeNative(0xFA28FE3A6246FC30, hash, 0)
+        bacon = bacon + 1
+        Citizen.Wait(0)
+        if bacon >= 100 then break end
+    end
+end
 
+function SetMonModel(name)
+	local model = GetHashKey(name)
+	local player = PlayerId()
+	
+	if not IsModelValid(model) then return end
+	PerformRequest(model)
+	
+	if HasModelLoaded(model) then
+		Citizen.InvokeNative(0xED40380076A31506, player, model, false)
+		Citizen.InvokeNative(0x283978A15512B2FE, PlayerPedId(), true)
+		SetModelAsNoLongerNeeded(model)
+	end
+end
+
+RegisterCommand('lobo1', function (source, args, rawCommand)
+    TriggerServerEvent('indios:getjob')
+    if jobcheck(Config.job, playerjob) and tonumber(playerrank) >= Config.transformacao then
+        local ped = PlayerPedId()
+        TaskStartScenarioInPlace(ped, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), 5000, true, false, false, false)
+        exports['progressBars']:startUI(5000, "Aguarde...") Wait(5000)
+        ClearPedTasksImmediately(ped)
+        Citizen.InvokeNative(0xD3A7B003ED343FD9 , PlayerPedId(),  0x1FC12C9C, true, true, true)
+        SetMonModel("MP_A_C_Wolf_01")
+    else
+        TriggerEvent("RedM:Notify",'notify', 'Você não tem permissão!')
+    end
+end)
+
+RegisterCommand('coruja', function (source, args, rawCommand)
+    TriggerServerEvent('indios:getjob')
+    if jobcheck(Config.job, playerjob) and tonumber(playerrank) >= Config.transformacao then
+        local ped = PlayerPedId()
+        TaskStartScenarioInPlace(ped, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), 5000, true, false, false, false)
+        exports['progressBars']:startUI(5000, "Aguarde...") Wait(5000)
+        ClearPedTasksImmediately(ped)
+        Citizen.InvokeNative(0xD3A7B003ED343FD9 , PlayerPedId(),  0x1FC12C9C, true, true, true)
+        SetMonModel("A_C_Owl_01")
+    else
+        TriggerEvent("RedM:Notify",'notify', 'Você não tem permissão!')
+    end
+end)

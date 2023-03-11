@@ -6,7 +6,7 @@ Config.EditDistance = 2.0
 -- Delete Scenes on server restart if not using DB
 -- Keep this to true for best performance.
 Config.RestartDelete = true
-Config.UseDataBase = false
+Config.UseDataBase = true
 
 Config.HotKeysEnabled = false
 Config.HotKeys = {

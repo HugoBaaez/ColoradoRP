@@ -81,6 +81,24 @@ Citizen.CreateThread(function()
 		end)
 	end)
 
+	VorpInv.RegisterUsableItem("sementecacau", function(data) 
+		local _source = data.source
+		TriggerEvent('stress:getStress', _source, function(stress)
+			if stress < 100 then
+				TriggerClientEvent('poke_planting:planto1', data.source, "p_tree_whitepine_06", "p_tree_maple_s_04", "p_tree_maple_s_04", "sementecacau")
+			end
+		end)
+	end)
+
+	VorpInv.RegisterUsableItem("sementepessego", function(data) 
+		local _source = data.source
+		TriggerEvent('stress:getStress', _source, function(stress)
+			if stress < 100 then
+				TriggerClientEvent('poke_planting:planto1', data.source, "p_tree_whitepine_06", "p_tree_maple_s_04", "rdr2_tree_rata01", "sementepessego")
+			end
+		end)
+	end)
+
 	VorpInv.RegisterUsableItem("wateringcan", function(data) 
 		local _source = data.source
 		TriggerClientEvent('poke_planting:regar1',data.source)
@@ -111,29 +129,25 @@ AddEventHandler('poke_planting:giveitem', function(tipo)
 	local count = math.random(3, 8) --3,8
 	
 	if tipo == "crp_tomatoes_aa_sim" then
-		--TriggerClientEvent("redemrp_notification:start", _source, 'Hai raccolto '..count..' tomate', 3)
 		VorpInv.addItem(_source, "tomate", count)
 	elseif tipo == "crp_broccoli_aa_sim" then
-	--	TriggerClientEvent("redemrp_notification:start", _source, 'Hai raccolto '..count..' broccoli', 3)
 		VorpInv.addItem(_source, "brocolis", count)
 	elseif tipo == "crp_carrots_aa_sim" then
-	--	TriggerClientEvent("redemrp_notification:start", _source, 'Hai raccolto '..count..' carote', 3)
 		VorpInv.addItem(_source, "cenoura", count)
 	elseif tipo == "crp_carrots_sap_ba_sim" then
-	--	TriggerClientEvent("redemrp_notification:start", _source, 'Hai raccolto '..count..' barbabietole', 3)
 		VorpInv.addItem(_source, "barbabietole", count)	
 	elseif tipo == "crp_potato_aa_sim" then
-	--	TriggerClientEvent("redemrp_notification:start", _source, 'Hai raccolto '..count..' patate', 3)
 		VorpInv.addItem(_source, "batata", count)
 	elseif tipo == "crp_wheat_dry_aa_sim" then
-	--	TriggerClientEvent("redemrp_notification:start", _source, 'Hai raccolto '..count..' cereali', 3)
 		VorpInv.addItem(_source, "trigo", count)	
 	elseif tipo == "CRP_CORNSTALKS_AB_SIM" then
-	--	TriggerClientEvent("redemrp_notification:start", _source, 'Hai raccolto '..count..' di mais', 3)
 		VorpInv.addItem(_source, "milho", count)
 	elseif tipo == "prariepoppy_p" then
---	TriggerClientEvent("redemrp_notification:start", _source, 'Hai raccolto '..count..' di oppio', 3)
 		VorpInv.addItem(_source, "oppio", count)
+	elseif tipo == "p_tree_maple_s_04" then
+		VorpInv.addItem(_source, "cacau", count)
+	elseif tipo == "rdr2_tree_rata01" then
+		VorpInv.addItem(_source, "pessego", count)
 	end
 
 end)

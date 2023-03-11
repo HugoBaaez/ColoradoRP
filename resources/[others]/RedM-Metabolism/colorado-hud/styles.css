@@ -117,3 +117,65 @@ footer {
   width: 35px;
   height: 0px;
 }
+
+.background {
+  display: flex;
+  flex-direction: row;
+  width: 24rem;
+  min-height: min-content;
+  align-items: stretch;
+  border-radius: 0.25rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+}
+.medic {
+  background-color: rgba(153, 27, 27, 0.6);
+}
+.medic-player {
+  background-color: rgba(159, 18, 57, 0.6);
+}
+.complaint {
+  background-color: rgba(30, 64, 175, 0.6);
+}
+
+.image {
+  align-self: center;
+  width: 16.666667%;
+}
+.container {
+  display: grid;
+  grid-auto-flow: row;
+  grid-auto-rows: max-content;
+  align-content: center;
+  border-left-width: 2px;
+  border-left-color: rgb(255 255 255);
+  color: rgb(255 255 255);
+  font-size: 1rem;
+  line-height: 1.5rem;
+  text-align: center;
+  margin-left: 0.25rem;
+  width: 83.333333%;
+  border-left: 2px dashed;
+
+}
+
+.typeOfAlert {
+  color: rgb(255 255 255);
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  align-items: stretch;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  height: 1.75rem;
+}
+
+.message {
+  margin: 0.25rem;
+  max-height: 72px;
+}
+
+.name {
+  margin-left: 0.5rem;
+  margin-top: 0.25rem;
+  border-top: 1px solid;
+}

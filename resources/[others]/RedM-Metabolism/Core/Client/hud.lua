@@ -14,7 +14,7 @@ Citizen.CreateThread(function()
   Invoke(0x50C803A4CD5932C5, true)
   local User = PlayerPedId()
   local coords = GetEntityCoords(User)
-  local temp =  math.floor(GetTemperatureAtCoords(coords))..'°C'
+  --local temp =  math.floor(GetTemperatureAtCoords(coords))..'°C'
   local myhealth = GetAttributeCoreValue(PlayerPedId(), 0)
   local mystamina = Citizen.InvokeNative(0x36731AC041289BB1, PlayerPedId(), 1)
   local talking = MumbleIsPlayerTalking(PlayerId()) == 1
@@ -32,7 +32,7 @@ Citizen.CreateThread(function()
     })
     SendNUIMessage({ 
     action = 'changeTemperature', 
-    newState = temp
+    newState = roundtemp..'°C'
     })
     if talking then 
     SendNUIMessage({ 

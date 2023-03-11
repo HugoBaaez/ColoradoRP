@@ -132,4 +132,34 @@ Config.Shacks = {
         ['interior'] = 0,
         ['interior_sets'] = {},
     },
+    ['IgrejaSD'] = {
+        ['outside'] = vector3(2740.87, -1263.95, 50.61),
+        ['inside'] = vector3(2748.59, -1264.62, 31.26),
+        ['interior'] = 0,
+        ['interior_sets'] = {},
+    },
+    ['CriptaSD'] = {
+        ['outside'] = vector3(2772.24, -1047.75, 47.11),
+        ['inside'] = vector3(2777.63, -1272.18, 24.98),
+        ['interior'] = 0,
+        ['interior_sets'] = {},
+    },
+    ['DoceriaBW'] = {
+        ['outside'] = vector3(-808.91, -1304.53, 43.67),
+        ['inside'] = vector3(-787.94, -1296.84, 43.74),
+        ['interior'] = 0,
+        ['interior_sets'] = {},
+    },
+    ['PadariaSD'] = {
+        ['outside'] = vector3(2669.96, -1155.19, 51.21),
+        ['inside'] = vector3(2672.73, -1155.0, 50.8),
+        ['interior'] = 0,
+        ['interior_sets'] = {},
+    },
+    ['Alojamento'] = {
+        ['outside'] = vector3(319.78, 1490.39, 181.35),
+        ['inside'] = vector3(-4208.64, -3419.97, 21.67),
+        ['interior'] = 0,
+        ['interior_sets'] = {},
+    },
 }

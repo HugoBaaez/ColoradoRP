@@ -1987,49 +1987,26 @@ Citizen.CreateThread(function()
 end)]]
 
 local pointing = false 
-local currAnim = nil
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
-
         if IsControlPressed(0, 0x4CC0E2FE) then -- B
             if pointing then 
                 pointing = false 
                 ClearPedSecondaryTask(PlayerPedId())
-                ClearPedTasks(PlayerPedId())
-                ExecuteCommand('annullere')
             elseif not pointing then 
-                pointing = true
-                GetPointRot()
-                local dict = "ai_combat@aim_intro@veh_wagon@seat_fr@cowboy@targeted@unholstered@base@1h"
-                loadAnimDict(dict)
-                local camRot = GetPointRot()
-                if camRot == 1 then
-                    if currAnim ~= "left_-45" then currAnim = "left_-45"
-                    TaskPlayAnim(PlayerPedId(), dict, "left_-45", -1, -1, -1, 30, 0, false, false, false)
-                    end
-                elseif camRot == 2 then
-                    if currAnim ~= "left_-135" then currAnim = "left_-135"
-                    TaskPlayAnim(PlayerPedId(), dict, "left_-135", -1, -1, -1, 30, 0, false, false, false)
-                    end
-                elseif camRot == 3 then
-                    if currAnim ~= "right_45" then currAnim = "right_45"
-                    TaskPlayAnim(PlayerPedId(), dict, "right_45", -1, -1, -1, 30, 0, false, false, false)
-                    end
-                elseif camRot == 4 then
-                    if currAnim ~= "right_135" then currAnim = "right_135"
-                    TaskPlayAnim(PlayerPedId(), dict, "right_135", -1, -1, -1, 30, 0, false, false, false)
-                    end
-                elseif camRot == 5 then
-                    if currAnim ~= "back_left_-225" then currAnim = "back_left_-225"
-                    TaskPlayAnim(PlayerPedId(), dict, "back_left_-225", -1, -1, -1, 30, 0, false, false, false)
-                    end
+                pointing = true 
+                RequestAnimDict('script_common@other@unapproved')
+                while not HasAnimDictLoaded('script_common@other@unapproved') do
+                    Citizen.Wait(100)
                 end
+                TaskPlayAnim(PlayerPedId(), 'script_common@other@unapproved', 'loop_0', 1.0, -1.0, 9999999999, 30, 0, true, 0, false, 0, false)
             end
             Wait(500)
         end
 
     end
+
 end)
 
 --------------------------------------------------------------------------------

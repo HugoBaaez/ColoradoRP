@@ -7,31 +7,77 @@ end)
 
 RegisterServerEvent('woodcutter:checkjob2')
 AddEventHandler('woodcutter:checkjob2', function() 
-    local _source = source
-    local User = VorpCore.getUser(_source)
-    local Character = User.getUsedCharacter
-
-    TriggerEvent('stress:getStress', _source, function(stress)
-        if stress < 80 then 
-            TriggerClientEvent('art_woodcutter:comienzo2',_source)
-        else
-            TriggerClientEvent("vorp:TipRight", _source, "Você está cansado!volte quando você estiver descansado", 4000)
-        end
-    end)
+	local _source = source
+	local machado = VorpInv.getItem(_source, "machado")
+	if machado ~= nil then
+		TriggerEvent('stress:getStress', _source, function(stress)
+			if stress < 99 then
+				local meta =  machado["metadata"]
+				if next(meta) == nil then 
+					VorpInv.subItem(_source, "machado", 1,{})
+					VorpInv.addItem(_source, "machado", 1,{description = "Durabilidade = 100", durability = 100})
+					TriggerClientEvent('art_woodcutter:comienzo2',_source)
+				else
+					local durability = meta.durability - 1
+					local description = "Durabilidade = "
+					VorpInv.subItem(_source, "machado", 1,meta)
+					if 0 >= durability then 
+						local random = math.random(1,2)
+						if random == 1 then 
+							TriggerClientEvent("vorp:TipRight", _source, "Você quebrou a machado!", 2000)
+						else
+							VorpInv.addItem(_source, "machado", 1,{description = description.."1",durability = 1})
+							TriggerClientEvent('art_woodcutter:comienzo2',_source)
+						end
+					else
+						VorpInv.addItem(_source, "machado", 1,{description = description..durability,durability = durability})
+						TriggerClientEvent('art_woodcutter:comienzo2',_source)
+					end
+				end
+			else
+				TriggerClientEvent("vorp:TipRight", _source, "Você está cansado! Volte quando estiver descansado", 4000)
+			end
+		end)
+	else
+		TriggerClientEvent("vorp:TipRight", _source, "Você não tem uma machado!", 4000)
+	end
 end)
 RegisterServerEvent('woodcutter:checkjob')
 AddEventHandler('woodcutter:checkjob', function() 
     local _source = source
-    local User = VorpCore.getUser(_source)
-    local Character = User.getUsedCharacter
-
-    TriggerEvent('stress:getStress', _source, function(stress)
-        if stress < 80 then 
-            TriggerClientEvent('art_woodcutter:comienzo',_source)
-        else
-            TriggerClientEvent("vorp:TipRight", _source, "Você está cansado!volte quando você estiver descansado", 4000)
-        end
-    end)
+	local machado = VorpInv.getItem(_source, "machado")
+	if machado ~= nil then
+		TriggerEvent('stress:getStress', _source, function(stress)
+			if stress < 99 then
+				local meta =  machado["metadata"]
+				if next(meta) == nil then 
+					VorpInv.subItem(_source, "machado", 1,{})
+					VorpInv.addItem(_source, "machado", 1,{description = "Durabilidade = 100", durability = 100})
+					TriggerClientEvent('art_woodcutter:comienzo',_source)
+				else
+					local durability = meta.durability - 1
+					local description = "Durabilidade = "
+					VorpInv.subItem(_source, "machado", 1,meta)
+					if 0 >= durability then 
+						local random = math.random(1,2)
+						if random == 1 then 
+							TriggerClientEvent("vorp:TipRight", _source, "Você quebrou a machado!", 2000)
+						else
+							VorpInv.addItem(_source, "machado", 1,{description = description.."1",durability = 1})
+							TriggerClientEvent('art_woodcutter:comienzo',_source)
+						end
+					else
+						VorpInv.addItem(_source, "machado", 1,{description = description..durability,durability = durability})
+						TriggerClientEvent('art_woodcutter:comienzo',_source)
+					end
+				end
+			else
+				TriggerClientEvent("vorp:TipRight", _source, "Você está cansado! Volte quando estiver descansado", 4000)
+			end
+		end)
+	else
+		TriggerClientEvent("vorp:TipRight", _source, "Você não tem uma machado!", 4000)
+	end
 end)
 
 RegisterServerEvent('art_woodcutter:cobrar')

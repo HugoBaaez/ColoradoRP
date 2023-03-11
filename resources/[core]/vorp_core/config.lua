@@ -25,10 +25,10 @@ Config = {
     maxStamina            = 4, -- 10 is FULL 0 IS EMPTY define max outer core for players
     PVP                   = true, -- Can players attack/hurt one another
     PVPToggle             = false, -- If true, players can set their own pvp state
-    savePlayersTimer      = 10000, -- this will tell the core in how many miliseconds should all players be saved to the database, decreasing may reduce performance
+    savePlayersTimer      = 10, -- this will tell the core in how many minutes should all players be saved to the database
     showplayerIDwhenfocus = true, -- set false will show steam name when focus on another player RMB
     disableAutoAIM        = true, -- if false players with controllers will have autoaim just like in rdr2
-    SavePlayersHours      = false, -- if you want to save players played hours in DB, tx admin already have this
+    SavePlayersHours      = true, -- if you want to save players played hours in DB, tx admin already have this
 
     --=========================== MULTICHAR ==============================--
     SaveSteamNameDB   = true, -- TRUE if you want save steamname on character DB when player drop (need to update SQL)
@@ -71,9 +71,23 @@ Config = {
     },
 
     ------------------------------------------------------------------------------
-    ------------------------- SHOW OR HIDE UI's ----------------------------------
+    ------------------------- UI Configurations ----------------------------------
+    HideUi         = true, -- Show or Hide the Overall UI
+    HideGold       = true, --disables Gold UI for all
+    HideMoney      = true, --disables Money UI for all
+    HideLevel      = true, --disables Level UI for all
+    HideID         = true, --disables ID UI for all
+    HideTokens     = true, --disables Token UI for all
+    HidePVP        = true, --disables PVP UI for all
+    UIPosition     = 'TopRight', -- Changes position of UI. Options: BottomRight, MiddleRight, TopRight, TopMiddle, BottomMiddle
+    UILayout       = 'Column', -- Changes the layour of the UI. Options: Row, Column
+    HideWithRader  = true, -- UI will hide whenever the radar(minimap) is hidden
+    OpenAfterRader = true, -- UI will show whenever the radar(minimap) is showing again
+    CloseOnDelay   = false, -- UI will automatically close after an amount of time
+    CloseOnDelayMS = 10000, -- CloseOnDelays time in miliseconds, 10000 = 10seconds
 
-    HideUi            = true, --show or hide the UI includes  gold cash ID and level bar  the cash gold ID are now being displayed in the inventory. you can disable this one if you like it more
+    ------------------------------------------------------------------------------
+    ------------------------- MAP Configurations ----------------------------------
     mapTypeOnFoot     = 0, -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on foot
     mapTypeOnMount    = 1, -- 0 = Off(no radar), 1 = Regular 2 = Expanded  3 = Simple(compass), for on horse
     enableTypeRadar   = true, --- if true the above will work, if false players can choose their radar type in the game settings.
@@ -88,6 +102,7 @@ Config = {
     RagdollOnResurrection = true, -- Enable or disable Ragdoll and revive effects when revived
     --CanBeDamagedToSpawn = false, -- The player can take damage while spawning
     HealthRecharge = { enable = true, multiplier = 0.37 }, -- enable or disable auto recharge of health outer core (real ped health), multiplier 1.0 is default
+    StaminaRecharge = { enable = true, multiplier = 0.4 }, -- enable or disable auto recharge of stamina outer core, multiplier 1.0 is default
     RespawnTime = 300, --seconds
     RespawnKey = 0xDFF812F9, --[E] KEY
     RespawnKeyTime = 5000, -- Milliseconds it will take to press the button
@@ -127,16 +142,17 @@ Config = {
 
     ActiveEagleEye = false,
     ActiveDeadEye = false,
-    TimeZoneDifference = 1, -- Your time zone difference with UTC in winter time
+    TimeZoneDifference = -3, -- Your time zone difference with UTC in winter time
 
     ----------------------------------------------------------------------------
     --------------------------- COMMAND PERMISSION -----------------------------
-    SetUserDBadmin = true, -- should the command addGroup set admins on Users table? for characters table do set false
+    SetUserDBadmin = false, -- should the command addGroup set admins on Users table? for characters table do set false
+    SetBothDBadmin = true, -- if set true should the command addGroup set admins on both table!
     GroupAllowed = { "admin" }, -- add here groups
     -- dont change this unless you change them in sv_commands too
     Commands = { "addGroup", "addJob", "addItems", "addWeapons", "addMoney", "delMoney", "healplayer",
-        "reviveplayer", "tpm", "delhorse", "delwagons", "banplayer", "wlplayer", "unwlplayer", "warn",
-        "unban", "unwarn", "changeCharName", "tpp", "tpcds", "kill"}, -- commands available
+        "reviveplayer", "tpm", "delhorse", "delwagons", "addchar", "banplayer", "wlplayer", "unwlplayer", "warn",
+        "unban", "unwarn", "changeCharName", "tpp", "tpcds", }, -- commands available
 
     --------------------------------------------------------------------------------------
     -----------------------------BUILT IN RICH PRESENCE DISCORD --------------------------

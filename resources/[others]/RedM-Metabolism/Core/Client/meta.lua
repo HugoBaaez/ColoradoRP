@@ -28,6 +28,7 @@ hud = false
 _Hunger = 100
 _Thirst = 100
 _Stamina = 100
+roundtemp = 0
 local DyingCount = 0
 local WarningCount = 0
 local DeathWarning = false
@@ -43,57 +44,46 @@ local DeathWarning = false
 --   end
 -- end)
 --------------------------------------------------------------------------------
-local ClothesHash = {
-	{ category = "hats", hash = 2569388135 },
-	{ category = "masks", hash = 1963323202 },
-	{ category = "neckwear", hash = 1606587013 },
-	{ category = "shirts_full", hash = 539411565 },
-	{ category = "coats", hash = 0xE06D30CE },
-	{ category = "coats_closed", hash = 0x662AC34 },
-	{ category = "ponchos", hash = 2937336075 },
-	{ category = "vests", hash = 1214179380 },
-	{ category = "gloves", hash = 3938320434 },
-	{ category = "chaps", hash = 822561179 },
-	{ category = "pants", hash = 491541130 },
-	{ category = "boots", hash = 2004797167 },
-  { category = "neckties", hash = 2056714954 },
-  { category = "neckwear", hash = 1606587013 },                                                                               
-  { category = "satchels", hash = 2488290598 },
-  { category = "spats", hash = 1363860714 },
-  { category = "belts", hash = 2798728390 },
-  { category = "armor", hash = 1927737204 },
+local ClothesCats = {
+  0x9925C067, --hat
+  0x2026C46D, --shirt
+  0x1D4C528A, -- pants
+  0x777EC6EF, -- boots 
+  0xE06D30CE, -- coat
+  0x662AC34, --open coat
+  0xEABE0032, --gloves 
+  0x485EE834, --vest
+  0xAF14310B, -- poncho
 }
 
 Citizen.CreateThread(function()
-while true do Wait(1000)
-if VORPCore ~= nil then
-  local DrainFood = 0
-  local DrainWater = 0
-  local User = PlayerPedId()
-  local coords = GetEntityCoords(User)
-  local temp = math.floor(GetTemperatureAtCoords(coords))
+  while true do Wait(1000)
+    if VORPCore ~= nil then
+    local DrainFood = 0
+    local DrainWater = 0
+    local User = PlayerPedId()
+    local coords = GetEntityCoords(User)
+    local temp = math.floor(GetTemperatureAtCoords(coords))
 
-  for k,v in pairs(ClothesHash) do
-    local IsWearingClothes = Citizen.InvokeNative(0xFB4891BD7578CDC1, User, v.hash)
-    if IsWearingClothes then
-      temp = temp + 1
-    else
-      temp = temp
-    end
-  end
+      for k,v in pairs(ClothesCats) do
+        local IsWearingClothes = Citizen.InvokeNative(0xFB4891BD7578CDC1 ,PlayerPedId(), v)
+        if IsWearingClothes then 
+            roundtemp = temp + 1
+        end
+      end
 
-  if (temp >= Temperature.Max) then
-    DrainFood = Temperature.HotDamage.Hunger
-    DrainWater = Temperature.HotDamage.Water
-    if (temp == Temperature.Max) then
-      TriggerEvent('vorp:NotifyLeft', 'Temperatura', 'Essa Região está muito quente! Você irá se desidratar mais rápido!', 'rpg_textures', 'rpg_hot', 5000, "COLOR_WHITE")
-    end
-  elseif (temp <= Temperature.Min) then
-    DrainFood = Temperature.ColdDamage.Hunger
-    DrainWater = Temperature.ColdDamage.Water
-    if (temp == Temperature.Min) then
-      TriggerEvent('vorp:NotifyLeft', 'Temperatura', 'Essa Região está muito fria! Você sentirá mais fome!', 'rpg_textures', 'rpg_cold', 5000, "COLOR_WHITE")
-    end
+    if (roundtemp >= Temperature.Max) then
+      DrainFood = Temperature.HotDamage.Hunger
+      DrainWater = Temperature.HotDamage.Water
+      if (roundtemp == Temperature.Max) then
+        TriggerEvent('vorp:NotifyLeft', 'Temperatura', 'Essa Região está muito quente! Você irá se desidratar mais rápido!', 'rpg_textures', 'rpg_hot', 5000, "COLOR_WHITE")
+      end
+    elseif (roundtemp <= Temperature.Min) then
+      DrainFood = Temperature.ColdDamage.Hunger
+      DrainWater = Temperature.ColdDamage.Water
+      if (roundtemp == Temperature.Min) then
+        TriggerEvent('vorp:NotifyLeft', 'Temperatura', 'Essa Região está muito fria! Você sentirá mais fome!', 'rpg_textures', 'rpg_cold', 5000, "COLOR_WHITE")
+      end
   end
 
   local running = IsPedRunning(User)
@@ -215,7 +205,7 @@ end)
 
 AddEventHandler('DevDokus:Metabolism:C:Stamina', function(value)
 local User = PlayerPedId()
-local _Stamina = Citizen.InvokeNative(0x36731AC041289BB1, User, 1)
+local _Stamina = GetAttributeCoreValue(User, 1)
 local new = _Stamina + tonumber(value)
 if (new > 100) then new = 100 end
 Citizen.InvokeNative(0xC6258F41D86676E0, User, 1, new)
@@ -223,7 +213,7 @@ end)
 
 AddEventHandler('DevDokus:Metabolism:C:Health', function(value)
 local User = PlayerPedId()
-local health = Citizen.InvokeNative(0x36731AC041289BB1, User, 1)
+local health = GetAttributeCoreValue(User, 0)
 local new = health + tonumber(value)
 if (new > 100) then new = 100 end
 Citizen.InvokeNative(0xC6258F41D86676E0, User, 0, new)
@@ -404,6 +394,16 @@ AddEventHandler('RedM:hud', function(voiceModeData)
   })
 end)
 
+RegisterNetEvent('RedM:Notification')
+AddEventHandler('RedM:Notification', function(tipo, text, username)
+  SendNUIMessage({
+    action = 'showNotification',
+    alertType = tipo,
+    alertMessage = text,
+    alertUsername = username
+  })
+end)
+
 RegisterNetEvent('RedM:Notify')
 AddEventHandler('RedM:Notify', function(tipo, text)
   local ped = PlayerPedId()
@@ -464,10 +464,10 @@ local ped = PlayerPedId()
 local hashUnarmed = GetHashKey("WEAPON_UNARMED")
 local weaponHash = GetCurrentPedWeapon(ped, 1)
 if weaponHash ~= hashUnarmed then
-  print('STRESS', stress)
+  --print('STRESS', stress)
   if IsPedShooting(ped) then  -- ganho de stress atirando
     TriggerEvent('stress:modify', 0.3) -- quantidade de stress ganho, alterar apenas o valor
-    print(stress)
+    --print(stress)
   end
 end
 if stress >= 100 then

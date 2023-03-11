@@ -23,6 +23,9 @@ window.addEventListener('message', function(event) {
   if(event.data.action === 'showAlert'){
     return showAlert(event.data.alertType,event.data.alertMessage)
   }
+  if(event.data.action === 'showNotification'){
+    return showNotification(event.data.alertType,event.data.alertMessage,event.data.alertUsername)
+  }
   if(event.data.action === 'openMic'){
     return openMic()
   }
@@ -40,6 +43,42 @@ window.addEventListener('message', function(event) {
   }
 });
 
+
+function showNotification(alertType, alertMessage, name) {
+  var css = '';
+  var typeOfAlert = '';
+  var image = '';
+  var divName = ``;
+  if (name) {
+    divName = `<div class="name" id="name">${name}</div>`;
+  }
+  if (alertType == 'medic') {
+    css = `medic`;
+    typeOfAlert = 'Pombo dos Médicos';
+    image = 'images/medic.png';
+  } else if (alertType == 'medic-player') {
+    css = `medic-player`;
+    typeOfAlert = 'Pombo de Ajuda';
+    image = 'images/medic.png';
+  } else if (alertType == 'complaint') {
+    css = `complaint`;
+    typeOfAlert = 'Pombo da Cavalaria';
+    image = 'images/sheriff-badge.png';
+  }
+  var html = `
+    <div class="background ${css}">
+    <div class="image">
+        <img id="image" width="65px" height="65px" src="${image}">
+    </div>
+    <div class="container">
+        <div class="typeOfAlert">${typeOfAlert}</div>
+        <div class="message">${alertMessage}</div>
+        ${divName}
+    </div>
+  </div>
+  `;
+  $(html).prependTo("#notifications").hide().fadeIn(1000).css("display","flex").delay(12000).fadeOut(1000);
+}
 
 /*
   SendNUIMessage({ 

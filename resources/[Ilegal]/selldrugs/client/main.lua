@@ -192,7 +192,7 @@ local coords = GetEntityCoords(playerPed)
     TaskTurnPedToFaceEntity(E,PlayerPedId(),-1)
     --Wait(4000)
 	if luck <= 45 then
-	TriggerEvent("RedM:sendalert", "police", "complaint", "Venda de Drogas denunciada!", coords, true)
+	TriggerServerEvent("RedM:sendalert", "police", "complaint", "Venda de Drogas denunciada!", coords, true)
     --ExecuteCommand('alertpolice')
 	end
     ClearPedTasks(E)
@@ -210,3 +210,150 @@ local coords = GetEntityCoords(playerPed)
     end
     TaskPlayAnim(PlayerPedId(), dict, "give_ring_player", 1.0, 8.0, -1, 1, 0, false, false, false)
 end
+
+--------------------------------------------------------------- CRIAR MOONSHINE
+--------------------------------------------------------------- CRIAR MOONSHINE
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(2)
+		local x, y, z = table.unpack(GetEntityCoords(PlayerPedId()))		
+        if GetDistanceBetweenCoords(x,y,z, -1092.0, 713.76, 81.04,false) < 2.0 then
+            DrawText3D(-1092.0, 713.76, 81.04, "Pressione G para fazer moonshine")
+            if IsControlJustReleased(0, 0x760A9C6F) and active == false then -- g
+                TriggerEvent("moonshiner:client:OpenMenu")
+                active = true
+            end
+        end
+	end
+end)
+active = false
+RegisterNetEvent('moonshiner:client:OpenMenu')
+AddEventHandler('moonshiner:client:OpenMenu', function()
+    showmoonshiner = true
+    local moonshiner = {
+        {
+            header = "Destilaria",
+            txt = "",
+            isMenuHeader = true, -- Set to true to make a nonclickable title
+        },
+        {
+            header = "Criar Bebidas",
+            txt = "",
+            params = {
+                event = "moonshiner:client:Bebidas",
+            }
+        },
+        {
+            header = "Criar Misturas",
+            txt = "",
+            params = {
+                event = "moonshiner:client:Misturas",
+            }
+        },
+        {
+            header = "Fechar",
+            params = {
+                event = "col-menu:closeMenu",
+                active = false,
+            }
+            
+        },
+    }
+    exports['col-menu']:openMenu(moonshiner)
+end)
+
+RegisterNetEvent('moonshiner:client:Misturas')
+AddEventHandler('moonshiner:client:Misturas', function()
+    showmoonshiner2 = true
+    local moonshiner2 = {
+        {
+            header = "Destilaria",
+            txt = "",
+            isMenuHeader = true, -- Set to true to make a nonclickable title
+        },
+        
+        {
+            header = "Criar Alcool",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "moonshiner:alcool",
+            }
+        },
+        {
+            header = "Criar Mosto de Ginseng",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "moonshiner:mosto",
+            }
+        },
+        {
+            header = "Fechar",
+            params = {
+                event = "col-menu:closeMenu",
+                active = false,
+            }
+            
+        },
+    }
+    exports['col-menu']:openMenu(moonshiner2)
+end)
+
+RegisterNetEvent('moonshiner:client:Bebidas')
+AddEventHandler('moonshiner:client:Bebidas', function()
+    showmoonshiner3 = true
+    local moonshiner3 = {
+        {
+            header = "Destilaria",
+            txt = "",
+            isMenuHeader = true, -- Set to true to make a nonclickable title
+        },
+        {
+            header = "Criar Moonshine Original",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "moonshiner:original",
+            }
+        },
+        {
+            header = "Criar Moonshine Tropical",
+            txt = "",
+            params = {
+                isServer = true,
+                event = "moonshiner:tropical",
+            }
+        },
+        {
+            header = "Fechar",
+            params = {
+                event = "col-menu:closeMenu",
+                active = false,
+            }
+        },
+    }
+    exports['col-menu']:openMenu(moonshiner3)
+end)
+
+
+RegisterNetEvent('shiner:moonshine')
+AddEventHandler('shiner:moonshine', function()
+    local playerPed = PlayerPedId()
+    
+    TaskStartScenarioInPlace(playerPed, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), 30000, true, false, false, false)
+    
+    exports['progressBars']:startUI(30000, "Cozinhando moonshine...")
+    Wait(30000)
+    active = false
+end)
+RegisterNetEvent('shiner:mistura')
+AddEventHandler('shiner:mistura', function()
+    local playerPed = PlayerPedId()
+    
+    TaskStartScenarioInPlace(playerPed, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), 30000, true, false, false, false)
+    
+    exports['progressBars']:startUI(30000, "Cozinhando misturas...")
+    Wait(30000)
+    active = false
+end)

@@ -1,9 +1,15 @@
 {
+
+  "AllowDelete": "false",
+
+
   "defaultlang": "En", // set your language in Languages.json file
 
-  "StartingCoords": [ 2670.47, -1545.49, 45.96], //X, Y, Z
-  "Heading": [ 220.86 ],
+  "StartingCoords": [ 2670.47, -1545.49, 45.96 ], //X, Y, Z
+  "CharacterHeight": [ 0.90, 0.95, 1.0, 1.05 ], //ONLY 4 values
+  "Webhook": "https://discord.com/api/webhooks/1072923485430624410/kNsBgxIiWYYuHMwoLaabnaS3Ii5vpe1cGlIiDkdMJa01cxjHFDGo2mNr5ViTzzmTjnbH",
 
+  "Heading": [ 220.86 ],
   // DO NOT TOUCH THIS
   "Male": [
     { // Blanco claro

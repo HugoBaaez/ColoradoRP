@@ -49,7 +49,6 @@ local CheckUser = function(target, _source, command)
         VorpCore.NotifyObjective(_source, "ID is wrong user doesnt exist", 4000)
         return false
     end
-
 end
 
 ---comment
@@ -67,16 +66,15 @@ end
 
 Config.AcePerms = { 'vorpcore.setGroup.Command', 'vorpcore.setJob.Command', 'vorpcore.delCurrency.Command',
     'vorpcore.addweapons.Command', 'vorpcore.additems.Command', 'vorpcore.reviveplayer.Command', 'vorpcore.tpm.Command',
-    'vorpcore.delwagons.Command', 'vorpcore.delhorse.Command', 'vorpcore.healplayer.Command', 'vorpcore.wlplayer.Command',
+    'vorpcore.delwagons.Command', 'vorpcore.delhorse.Command', 'vorpcore.healplayer.Command',
+    'vorpcore.wlplayer.Command',
     'vorpcore.unwlplayer.Command', 'vorpcore.ban.Command', 'vorpcore.unban.Command', 'vorpcore.warn.Command',
     'vorpcore.unwarn.Command', 'vorpcore.addchar.Command', 'vorpcore.removechar.Command', 'vorpcore.showAllCommands',
-    'vorpcore.changeCharName','vorpcore.kill.Command', }
+    'vorpcore.changeCharName' }
 
 CreateThread(function()
-
     for _, CurrentCommand in pairs(Config.Commands) do
         RegisterCommand(CurrentCommand, function(source, args, rawCommand)
-
             local _source = source
             local User = VorpCore.getUser(_source)
             local Character = User.getUsedCharacter
@@ -90,7 +88,7 @@ CreateThread(function()
                 "` \n**Discord:** <@" .. discordId .. ">**\nIP: **`" .. ip
 
             if _source ~= 0 then -- its a player
-                if CurrentCommand ~= "reviveplayer" and CurrentCommand ~= "healplayer" then
+                if CurrentCommand ~= "reviveplayer" and CurrentCommand ~= "healplayer" and CurrentCommand ~= "addchar" then
                     if not CheckUser(args[1], _source, CurrentCommand) then -- if user dont exist
                         return
                     end
@@ -105,12 +103,12 @@ CreateThread(function()
                             return
                         end
                         if Config.SetUserDBadmin then
-                            UserT.setGroup(newgroup)
+                            CharacterT.setGroup(newgroup)
                         else
                             CharacterT.setGroup(newgroup)
                         end
                         VorpCore.NotifyRightTip(_source, "Você adicionou o grupo para o ID: " .. target, 4000)
-                        VorpCore.NotifyRightTip(_source, "STAFF adicionou você no grupo " .. newgroup, 4000)
+                        VorpCore.NotifyRightTip(target, "STAFF adicionou você no grupo " .. newgroup, 4000)
 
                         if Config.Logs.SetgroupWebhook then
                             local Message = "`\n**PlayerID** `" .. _source .. "` \n**Group given** `" .. newgroup .. "`"
@@ -515,23 +513,6 @@ CreateThread(function()
                         else
                             TriggerClientEvent("vorp:ShowBottomRight", _source, "ID não existe", 5000)
                         end
-                    elseif CurrentCommand == "kill" then
-                        local target = tonumber(args[1])
-
-                        if #args == 0 or target == _source then
-                            TriggerClientEvent('vorp:killPlayer', _source) -- kill staff
-                        else
-                            if VorpCore.getUser(target) then
-                                TriggerClientEvent('vorp:killPlayer', target) -- kill target
-                            else
-                                VorpCore.NotifyObjective(_source, "ID is wrong user doesnt exist", 4000)
-                            end
-                        end
-                        if Config.Logs.killplayerWebhook then
-                            local Message = "`\n**PlayerID** `" .. _source .. "`\n **Action:** `Was killed `"
-                            local title = "📋` /kill command` "
-                            VorpCore.AddWebhook(title, Config.Logs.killplayerWebhook, message .. Message)
-                        end
                     end
                 else
                     VorpCore.NotifyObjective(_source, Config.Langs.NoPermissions, 4000)
@@ -570,7 +551,6 @@ RegisterCommand("myhours", function(source, args, rawCommand)
         local newhour = math.floor(hours - 0.5)
         VorpCore.NotifyRightTip(_source, Config.Langs.playhours .. newhour .. ":30", 4000)
     end
-
 end)
 ---------------------------------------------------------------------------------------------------------
 ----------------------------------- CHAT ADD SUGGESTION --------------------------------------------------
@@ -582,24 +562,23 @@ AddEventHandler("vorp:chatSuggestion", function()
     local group   = user.group
 
     if CheckAceAllowed(Config.AcePerms, _source) or CheckGroupAllowed(Config.GroupAllowed, group) then
-
         TriggerClientEvent("chat:addSuggestion", _source, "/addGroup", "VORPcore command set group to user.", {
             { name = "Id", help = 'player ID' }, { name = "Group", help = 'Group Name' },
         })
 
         TriggerClientEvent("chat:addSuggestion", _source, "/addJob", "VORPcore command set job to user.", {
-            { name = "Id", help = 'player ID' }, { name = "Job", help = 'Job Name' },
+            { name = "Id",   help = 'player ID' }, { name = "Job", help = 'Job Name' },
             { name = "Rank", help = ' player Rank' },
         })
 
         TriggerClientEvent("chat:addSuggestion", _source, "/addMoney", "VORPcore command add money/gold to user", {
-            { name = "Id", help = 'player ID' }, { name = "Type", help = 'Money 0 Gold 1' },
+            { name = "Id",       help = 'player ID' }, { name = "Type", help = 'Money 0 Gold 1' },
             { name = "Quantity", help = 'Quantity to give' },
         })
 
         TriggerClientEvent("chat:addSuggestion", _source, "/delMoney",
             "VORPcore command remove money/gold from user", {
-            { name = "Id", help = 'player ID' }, { name = "Type", help = 'Money 0 Gold 1' },
+            { name = "Id",       help = 'player ID' }, { name = "Type", help = 'Money 0 Gold 1' },
             { name = "Quantity", help = 'Quantity to remove from User' },
         })
 
@@ -609,7 +588,7 @@ AddEventHandler("vorp:chatSuggestion", function()
         })
 
         TriggerClientEvent("chat:addSuggestion", _source, "/addItems", " VORPcore command to give items.", {
-            { name = "Id", help = 'player ID' }, { name = "Item", help = 'item name' },
+            { name = "Id",       help = 'player ID' }, { name = "Item", help = 'item name' },
             { name = "Quantity", help = 'amount of items to give' },
         })
 
@@ -649,7 +628,7 @@ AddEventHandler("vorp:chatSuggestion", function()
         })
 
         TriggerClientEvent("chat:addSuggestion", _source, "/ban", " VORPcore command to ban players.", {
-            { name = "Id", help = 'player ID from Discord user-id' },
+            { name = "Id",   help = 'player ID from Discord user-id' },
             { name = "Time", help = 'Time of ban: <length>[h/d/w/m/y]' },
         })
 
@@ -666,9 +645,9 @@ AddEventHandler("vorp:chatSuggestion", function()
         })
         TriggerClientEvent("chat:addSuggestion", _source, "/changeCharName",
             " VORPcore command to change characters name.", {
-            { name = "Id", help = 'player ID ' },
+            { name = "Id",         help = 'player ID ' },
             { name = "first name", help = 'new player first name' },
-            { name = "last name", help = 'new player last  name' },
+            { name = "last name",  help = 'new player last  name' },
         })
 
         if Config.UseCharPermission then
@@ -686,9 +665,7 @@ AddEventHandler("vorp:chatSuggestion", function()
         for _, value in pairs(Config.Commands) do
             TriggerClientEvent("chat:removeSuggestion", _source, "/" .. value)
         end
-
     end
     TriggerClientEvent("chat:addSuggestion", _source, "/myhours", " VORPcore command to see ur hours.", {})
     TriggerClientEvent("chat:addSuggestion", _source, "/myjob", " VORPcore command to see ur job.", {})
-
 end)

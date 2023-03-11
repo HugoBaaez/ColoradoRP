@@ -58,28 +58,28 @@ Citizen.CreateThread(function()
         VorpInv.subItem(data.source, "batatacomL", 1)
         VorpInv.CloseInv(data.source)
         local valor = 100
-        local valor2 = 20
+        local valor2 = 0
         TriggerClientEvent('metabolism:Ensopado', data.source, valor, valor2)
     end)
     VorpInv.RegisterUsableItem("tortadecarne", function(data)
         VorpInv.subItem(data.source, "tortadecarne", 1)
         VorpInv.CloseInv(data.source)
         local valor = 100
-        local valor2 = 20
+        local valor2 = 0
         TriggerClientEvent('metabolism:Ensopado', data.source, valor, valor2)
     end)
     VorpInv.RegisterUsableItem("bistecaMilho", function(data)
         VorpInv.subItem(data.source, "bistecaMilho", 1)
         VorpInv.CloseInv(data.source)
         local valor = 80
-        local valor2 = 100
+        local valor2 = 10
         TriggerClientEvent('metabolism:Ensopado', data.source, valor, valor2)
     end)
     VorpInv.RegisterUsableItem("peixebtt", function(data)
         VorpInv.subItem(data.source, "peixebtt", 1)
         VorpInv.CloseInv(data.source)
         local valor = 100
-        local valor2 = 20
+        local valor2 = 0
         TriggerClientEvent('metabolism:Ensopado', data.source, valor, valor2)
     end)
     VorpInv.RegisterUsableItem("biscoito", function(data)
@@ -182,7 +182,7 @@ Citizen.CreateThread(function()
         VorpInv.subItem(data.source, "milk", 1)
         VorpInv.CloseInv(data.source)
         local prop = 'p_water01x'
-        local valor = 50
+        local valor = 80
         TriggerClientEvent('metabolism:beber', data.source, prop, valor)
     end)
     VorpInv.RegisterUsableItem("cha", function(data)
@@ -214,6 +214,123 @@ Citizen.CreateThread(function()
         VorpInv.CloseInv(data.source)
         local valor = 100
         TriggerClientEvent('metabolism:Seringa2', data.source, valor)
+    end)
+    VorpInv.RegisterUsableItem("bolochocolate", function(data)
+        VorpInv.subItem(data.source, "bolochocolate", 1)
+        VorpInv.CloseInv(data.source)
+        local prop = "p_crab_cakes01x"
+        local valor = 30
+        TriggerClientEvent('metabolism:ativar', data.source, prop, valor)
+        Wait(7000)
+        TriggerClientEvent('stress:modify', data.source, -50)
+    end)
+    VorpInv.RegisterUsableItem("bolocenoura", function(data)
+        VorpInv.subItem(data.source, "bolocenoura", 1)
+        VorpInv.CloseInv(data.source)
+        local prop = "p_crab_cakes01x"
+        local valor = 30
+        TriggerClientEvent('metabolism:ativar', data.source, prop, valor)
+        Wait(7000)
+        TriggerClientEvent('stress:modify', data.source, -50)
+    end)
+    VorpInv.RegisterUsableItem("doceamora", function(data)
+        VorpInv.subItem(data.source, "doceamora", 1)
+        VorpInv.CloseInv(data.source)
+        local prop = "p_cs_candy01x"
+        local valor = 30
+        TriggerClientEvent('metabolism:ativar', data.source, prop, valor)
+        Wait(7000)
+        TriggerClientEvent('stress:modify', data.source, -50)
+    end)
+    VorpInv.RegisterUsableItem("pirulito", function(data)
+        VorpInv.subItem(data.source, "pirulito", 1)
+        VorpInv.CloseInv(data.source)
+        local prop = "p_cs_candy01x"
+        local valor = 30
+        TriggerClientEvent('metabolism:ativar', data.source, prop, valor)
+        Wait(7000)
+        TriggerClientEvent('stress:modify', data.source, -50)
+    end)
+    VorpInv.RegisterUsableItem("croa-pork", function(data)
+        VorpInv.subItem(data.source, "croa-pork", 1)
+        VorpInv.CloseInv(data.source)
+        local prop = "p_crab_cakes01x"
+        local valor = 30
+        TriggerClientEvent('metabolism:ativar', data.source, prop, valor)
+        Wait(7000)
+        TriggerClientEvent('stress:modify', data.source, -50)
+    end)
+    VorpInv.RegisterUsableItem("croa-meat", function(data)
+        VorpInv.subItem(data.source, "croa-meat", 1)
+        VorpInv.CloseInv(data.source)
+        local prop = "p_crab_cakes01x"
+        local valor = 30
+        TriggerClientEvent('metabolism:ativar', data.source, prop, valor)
+        Wait(7000)
+        TriggerClientEvent('stress:modify', data.source, -50)
+    end)
+    VorpInv.RegisterUsableItem("hotdog", function(data)
+        VorpInv.subItem(data.source, "hotdog", 1)
+        VorpInv.CloseInv(data.source)
+        local prop = "p_crab_cakes01x"
+        local valor = 30
+        TriggerClientEvent('metabolism:ativar', data.source, prop, valor)
+        Wait(7000)
+        TriggerClientEvent('stress:modify', data.source, -50)
+    end)
+    VorpInv.RegisterUsableItem("shakeGroselha", function(data)
+        VorpInv.subItem(data.source, "shakeGroselha", 1)
+        VorpInv.CloseInv(data.source)
+        local prop = 'p_water01x'
+        local valor = 50
+        TriggerClientEvent('metabolism:beber', data.source, prop, valor)
+        Wait(7000)
+        TriggerClientEvent('stress:modify', data.source, -50)
+    end)
+    VorpInv.RegisterUsableItem("shakeBeterraba", function(data)
+        VorpInv.subItem(data.source, "shakeBeterraba", 1)
+        VorpInv.CloseInv(data.source)
+        local prop = 'p_water01x'
+        local valor = 50
+        TriggerClientEvent('metabolism:beber', data.source, prop, valor)
+        Wait(7000)
+        TriggerClientEvent('stress:modify', data.source, -50)
+    end)
+    VorpInv.RegisterUsableItem("sucoHortela", function(data)
+        VorpInv.subItem(data.source, "sucoHortela", 1)
+        VorpInv.CloseInv(data.source)
+        local prop = 'p_water01x'
+        local valor = 50
+        TriggerClientEvent('metabolism:beber', data.source, prop, valor)
+        Wait(7000)
+        TriggerClientEvent('stress:modify', data.source, -50)
+    end)
+    VorpInv.RegisterUsableItem("sucoAmora", function(data)
+        VorpInv.subItem(data.source, "sucoAmora", 1)
+        VorpInv.CloseInv(data.source)
+        local prop = 'p_water01x'
+        local valor = 50
+        TriggerClientEvent('metabolism:beber', data.source, prop, valor)
+        Wait(7000)
+        TriggerClientEvent('stress:modify', data.source, -50)
+    end)
+    VorpInv.RegisterUsableItem("sorvHotela", function(data)
+        VorpInv.subItem(data.source, "sorvHotela", 1)
+        VorpInv.CloseInv(data.source)
+        local prop = "p_crab_cakes01x"
+        local valor = 30
+        TriggerClientEvent('metabolism:ativar', data.source, prop, valor)
+        Wait(7000)
+        TriggerClientEvent('stress:modify', data.source, -50)
+    end)
+    VorpInv.RegisterUsableItem("bchocolate", function(data)
+        VorpInv.subItem(data.source, "bchocolate", 1)
+        VorpInv.CloseInv(data.source)
+        local prop = "p_crab_cakes01x"
+        local valor = 30
+        TriggerClientEvent('metabolism:ativar', data.source, prop, valor)
+        Wait(7000)
+        TriggerClientEvent('stress:modify', data.source, -50)
     end)
 end)
 
