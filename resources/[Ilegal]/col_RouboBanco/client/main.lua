@@ -1,9 +1,6 @@
 local robtime = 140 -- Time to rob (in seconds) now its 3.3mins
-local timerCount = robtime
 local isRobbing = false
-local speaked = false
 local started = false
-local maksettu = false
 local Blowedynamite = false
 local missionCompleted = false
 local cooldown = 30*60
@@ -182,9 +179,7 @@ AddEventHandler('robbery:startAnimation3', function(coords, BankName)
 		active = false 
 		Blowedynamite = false 
 		isRobbing = true
-		speaked = false
-		started = false
-		maksettu = false     
+		started = false    
 		Citizen.Wait(6000)
 		ClearPedTasksImmediately(PlayerPedId())
 		ClearPedSecondaryTask(PlayerPedId())            
@@ -206,9 +201,7 @@ AddEventHandler('robbery:loot2', function(coords, BankName)
 	          exports['progressBars']:startUI(360000, "Pegando tudo...")     
               Blowedynamite = false 
               isRobbing = false
-              speaked = false
-              started = false
-              maksettu = false     
+              started = false    
 			  Citizen.Wait(360000)
 	          ClearPedTasksImmediately(PlayerPedId())
 	          ClearPedSecondaryTask(PlayerPedId())
