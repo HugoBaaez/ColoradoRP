@@ -41,6 +41,16 @@ AddEventHandler("lawmen:onduty", function(duty)
     end
 end)
 
+
+RegisterNetEvent("guerrilha:onduty")
+AddEventHandler("guerrilha:onduty", function(duty)
+    if not duty then
+        guerrilhaOnDuty = false
+    else
+        guerrilhaOnDuty = true
+    end
+end)
+
 WarMenu.CreateMenu('marshal_main', 'Police Menu')
 WarMenu.CreateSubMenu('marshal_inventory', 'marshal_main')
 
@@ -844,8 +854,12 @@ RegisterCommand("clockoff", function(rawCommand)
 end)
 
 RegisterCommand("algemas", function()
-    if policeOnDuty and not isDead then
-        TriggerEvent("lawmen:cuffs")
+    if policeOnDuty or guerrilhaOnDuty then
+        if not isDead then
+            TriggerEvent("lawmen:cuffs")
+        else
+            return
+        end
     else
         return
     end

@@ -78,6 +78,23 @@ AddEventHandler('cogumelo', function()
     end      
 end)
 
+RegisterServerEvent('groselha')
+AddEventHandler('groselha', function()
+    local _source = source
+    local User = VorpCore.getUser(_source) 
+    local Character = User.getUsedCharacter
+    local money = Character.money
+  
+    if money >= 0.05 then
+        TriggerEvent("vorp:removeMoney", _source, 0, 0.05) 
+        VORP.addItem(_source, "groselha", 2)
+
+        TriggerClientEvent("vorp:TipRight",_source, 'Você comprou 2X groselha!', 2000)
+    else
+        TriggerClientEvent("vorp:TipRight",_source, 'Você precisa de $0.05.', 4500)
+    end      
+end)
+
 RegisterServerEvent('ginsengUSA')
 AddEventHandler('ginsengUSA', function()
     local _source = source

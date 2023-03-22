@@ -132,14 +132,24 @@ footer {
   background-color: rgba(153, 27, 27, 0.6);
 }
 .medic-player {
-  background-color: rgba(159, 18, 57, 0.6);
+  background-color: rgba(226, 29, 85, 0.6);
 }
 .complaint {
   background-color: rgba(30, 64, 175, 0.6);
 }
+.salary {
+  background-color: rgba(116, 81, 18, 0.6);
+}
+.notify {
+  background-color: rgba(53, 53, 53, 0.6);
+}
+.guerrilha {
+  background-color: rgba(146, 65, 14, 0.6);
+}
 
 .image {
   align-self: center;
+  margin-right: 5px;
   width: 16.666667%;
 }
 .container {

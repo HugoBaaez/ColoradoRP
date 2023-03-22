@@ -140,6 +140,7 @@ GenericChairs = {
 	"p_stool10x",
 	"p_stool12x",
 	"p_stool13x",
+	"p_stool013x",
 	"p_stool14x",
 	"p_stoolcomfy01x",
 	"p_stoolcomfy02x",

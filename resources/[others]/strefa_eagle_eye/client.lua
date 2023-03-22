@@ -11,7 +11,7 @@ AddEventHandler("awaria-deadeye:use", function()
         TriggerServerEvent('awaria-deadeye:takeitem')
 		TriggerEvent("vorp:TipRight", "Press [ CAPS ] Para começar a rastrear", 5000)
         time = 600
-        Citizen.Wait(math.random(Config.Time.a *1000, Config.Time.b *1000))
+        Citizen.Wait(math.random(10000, 20000))
 		Citizen.InvokeNative(0xA63FCAD3A6FEC6D2, PlayerId(), false)
         wait()
     end

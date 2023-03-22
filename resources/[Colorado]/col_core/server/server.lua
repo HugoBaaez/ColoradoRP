@@ -36,7 +36,7 @@ AddEventHandler('salario:pagamento', function()
     for k,v in pairs(salarios) do
         if Character.group == v.group then
             TriggerEvent("vorp:addMoney", _source, 0, tonumber(v.payment)) 
-            TriggerClientEvent('RedM:Notify', _source, 'salary',"Você recebeu o salário de " .. v.group .. ": "  .. tostring(v.payment).."$")
+            TriggerClientEvent('RedM:Notification', _source, 'salary',"Você recebeu o salário de " .. v.group .. ": "  .. tostring(v.payment).."$")
         end
     end
 end)

@@ -70,7 +70,7 @@ AddEventHandler('gold:vender', function ()
 	local inv_count = VorpInv.getItemCount(_src, _model)
 	
     if inv_count < 15 then
-        TriggerClientEvent('RedM:Notify', _src, 'notify', 'Você não possui a quantidade necessária!' )
+        TriggerClientEvent('RedM:Notification', _src, 'notify', 'Você não possui a quantidade necessária!' )
         return
     end
 
@@ -78,6 +78,6 @@ AddEventHandler('gold:vender', function ()
 	Character.removeCurrency(0, 5)
 	Character.addCurrency(1, _price)
 	
-	TriggerClientEvent('RedM:Notify', _src, 'notify', _mens )
+	TriggerClientEvent('RedM:Notification', _src, 'notify', _mens )
 	
 end)

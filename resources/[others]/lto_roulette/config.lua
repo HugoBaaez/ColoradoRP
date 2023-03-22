@@ -3,9 +3,9 @@ Config = {}
 
 
 --Location/Positionto Play and Marker on ground
---Config.RouletteCasino = {
---    ['roulette1'] = { x = 3288.53, y = -1312.77, z = 42.75 },
---}
+-- Config.RouletteCasino = {
+--    ['roulette1'] = {x = -3655.81, y = -2546.77, z = -13.17},
+-- }
 
 
 

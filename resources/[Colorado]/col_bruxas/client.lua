@@ -49,7 +49,7 @@ Citizen.CreateThread(function()
 					if jobcheck(Config.job, playerjob) and tonumber(playerrank) >= Config.jobrankcraft then
 						TriggerEvent("bruxas:client:OpenMenu")
 					else
-						TriggerEvent("RedM:Notify",'notify', 'Você não tem permissão!')
+						TriggerEvent("RedM:Notification",'notify', 'Você não tem permissão!')
 					end
 				end
 			end
@@ -112,6 +112,14 @@ AddEventHandler('bruxas:client:OpenMenu', function()
             params = {
                 isServer = true,
                 event = "cogumelo",
+            }
+        },
+		{
+            header = "Groselha",
+            txt = "$0.05",
+            params = {
+                isServer = true,
+                event = "groselha",
             }
         },
 		{

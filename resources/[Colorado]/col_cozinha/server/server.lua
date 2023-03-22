@@ -114,7 +114,7 @@ AddEventHandler("def_cookfood:getwater", function()
         
         TriggerClientEvent('def_cookfood:clean', _source)
         
-        Citizen.Wait(28000)
+        Citizen.Wait(18000)
         
         VorpInv.addItem(_source,"agua", count)
         TriggerClientEvent("vorp:NotifyLeft", _source, "~t6~Purificado!", "Você purificou a água!", "generic_textures", "tick", 3000)

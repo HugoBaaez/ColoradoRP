@@ -162,10 +162,9 @@ end
 function payBet(playerId, money, condition)
    local _source = source
     --SCRIVERE EVENTO CHE DA SOLDI AL CLIENT LA QUANTITA' E' QUESTA
-    print(tostring(money) .. " " .. tostring(condition))
     local User = VorpCore.getUser(playerId)
     local Character = User.getUsedCharacter
-    local playername = player.firstname.. ' ' ..player.lastname
+    local playername = Character.firstname.. ' ' ..Character.lastname
     local money2 = money*2
 		if condition == "lose" then
 			-- user.removeMoney(money)
@@ -245,7 +244,6 @@ end
 
 function peekCard(type, playerId , index)
     card = randomCard()
-	print(card)
     if (type == "player") then
         for i, v in ipairs(playersData[index]) do
             if (playerId == v.playerId) then

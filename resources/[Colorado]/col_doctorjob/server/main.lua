@@ -129,21 +129,24 @@ AddEventHandler('doctor:tonicovita', function()
 	local count1 = VorpInv.getItemCount(_source, "cogumelo")
 	local count2 = VorpInv.getItemCount(_source, "ginseng_americano")
 
-	--print(count,count1,count2)
+	print(VorpInv.getItemCount(_source, "tonico_c1") < 6)
 
-	if count >= 1 and count1 >= 2 and count2 >= 3 and VorpInv.getItemCount(_source, "tonico_c1") + 1 <= 5 then 
+	if count >= 1 and count1 >= 2 and count2 >= 2  then 
+		if VorpInv.getItemCount(_source, "tonico_c1") ~= 5 then
+			VorpInv.subItem(_source, "agua", 1)
+			VorpInv.subItem(_source, "cogumelo", 2)
+			VorpInv.subItem(_source, "ginseng_americano", 2)
 
-		VorpInv.subItem(_source, "agua", 1)
-		VorpInv.subItem(_source, "cogumelo", 2)
-		VorpInv.subItem(_source, "ginseng_americano", 2)
+			TriggerClientEvent("progressbar:startMedico", _source)
 
-		TriggerClientEvent("progressbar:startMedico", _source)
-
-        Wait(20000)
-		
-		VorpInv.addItem(_source, "tonico_c1",1)
-		TriggerClientEvent("vorp:TipRight", _source, 'Você criou um Tonico de Vida', 2000)
-		TriggerClientEvent('stress:modify', 1.5)
+			Wait(20000)
+			
+			VorpInv.addItem(_source, "tonico_c1",1)
+			TriggerClientEvent("vorp:TipRight", _source, 'Você criou um Tonico de Vida', 2000)
+			TriggerClientEvent('stress:modify', 1.5)
+		else
+			TriggerClientEvent("vorp:TipRight", _source, 'Você não consegue carregar mais tonicos', 4500)
+		end
 	else
 		TriggerClientEvent("vorp:TipRight", _source, 'Você precisa de: 1 Água, 2 Cogumelos, 2 Ginseng americano', 4500)
 	end
@@ -158,19 +161,22 @@ AddEventHandler('doctor:tonicovita1', function()
 	local count1 = VorpInv.getItemCount(_source, "baunilha")
 	local count2 = VorpInv.getItemCount(_source, "ginseng_alaska")
 
-	if count >= 2 and count1 >= 3 and count2 >= 4 and VorpInv.getItemCount(_source, "tonico_c1") + 1 <= 5 then 
+	if count >= 2 and count1 >= 2 and count2 >= 2 then 
+		if VorpInv.getItemCount(_source, "tonico_c2") ~= 5 then
+			VorpInv.subItem(_source, "agua", 2)
+			VorpInv.subItem(_source, "baunilha", 2)
+			VorpInv.subItem(_source, "ginseng_alaska", 2)
 
-		VorpInv.subItem(_source, "agua", 2)
-		VorpInv.subItem(_source, "baunilha", 2)
-		VorpInv.subItem(_source, "ginseng_alaska", 2)
+			TriggerClientEvent("progressbar:startMedico", _source)
 
-		TriggerClientEvent("progressbar:startMedico", _source)
-
-        Wait(20000)
-		
-		VorpInv.addItem(_source, "tonico_c2",1)
-		TriggerClientEvent("vorp:TipRight", _source, 'Você criou um Tonico de Vida+', 2000)
-		TriggerClientEvent('stress:modify', 1.5)
+			Wait(20000)
+			
+			VorpInv.addItem(_source, "tonico_c2",1)
+			TriggerClientEvent("vorp:TipRight", _source, 'Você criou um Tonico de Vida+', 2000)
+			TriggerClientEvent('stress:modify', 1.5)
+		else
+			TriggerClientEvent("vorp:TipRight", _source, 'Você não consegue carregar mais tonicos', 4500)
+		end
 	else
 		TriggerClientEvent("vorp:TipRight", _source, 'Você precisa de: 2 Água, 2 Flor de baunilha, 2 Ginseng do Alaska', 4500)
 	end
@@ -185,19 +191,22 @@ AddEventHandler('doctor:elysirenergia', function()
 	local count1 = VorpInv.getItemCount(_source, "cogumelo")
 	local count2 = VorpInv.getItemCount(_source, "groselha")
 
-	if count >= 1 and count1 >= 3 and count2 >= 5 and VorpInv.getItemCount(_source, "tonico_c1") + 1 <= 5 then 
+	if count >= 1 and count1 >= 2 and count2 >= 2 then 
+		if VorpInv.getItemCount(_source, "tonico_s1") ~= 5 then
+			VorpInv.subItem(_source, "agua", 1)
+			VorpInv.subItem(_source, "cogumelo", 2)
+			VorpInv.subItem(_source, "groselha", 2)
 
-		VorpInv.subItem(_source, "agua", 1)
-		VorpInv.subItem(_source, "cogumelo", 2)
-		VorpInv.subItem(_source, "groselha", 2)
+			TriggerClientEvent("progressbar:startMedico", _source)
 
-		TriggerClientEvent("progressbar:startMedico", _source)
-
-        Wait(20000)
-		
-		VorpInv.addItem(_source, "tonico_s1",1)
-		TriggerClientEvent("vorp:TipRight", _source, 'Você criou um Elixir de Energia', 2000)
-		TriggerClientEvent('stress:modify', 1.5)
+			Wait(20000)
+			
+			VorpInv.addItem(_source, "tonico_s1",1)
+			TriggerClientEvent("vorp:TipRight", _source, 'Você criou um Elixir de Energia', 2000)
+			TriggerClientEvent('stress:modify', 1.5)
+		else
+			TriggerClientEvent("vorp:TipRight", _source, 'Você não consegue carregar mais elixir', 4500)
+		end
 	else
 		TriggerClientEvent("vorp:TipRight", _source, 'Você precisa de: 1 Água, 2 Cogumelos, 2 Groselhas', 4500)
 	end
@@ -212,19 +221,23 @@ AddEventHandler('doctor:elysirenergia1', function()
 	local count1 = VorpInv.getItemCount(_source, "cogumelo")
 	local count2 = VorpInv.getItemCount(_source, "groselha")
 
-	if count >= 2 and count1 >= 4 and count2 >= 4 and VorpInv.getItemCount(_source, "tonico_c1") + 1 <= 5 then 
+	if count >= 2 and count1 >= 4 and count2 >= 4 then 
+		if VorpInv.getItemCount(_source, "tonico_s2") ~= 5 then
 
-		VorpInv.subItem(_source, "agua", 2)
-		VorpInv.subItem(_source, "cogumelo", 4)
-		VorpInv.subItem(_source, "groselha", 4)
+			VorpInv.subItem(_source, "agua", 2)
+			VorpInv.subItem(_source, "cogumelo", 4)
+			VorpInv.subItem(_source, "groselha", 4)
 
-		TriggerClientEvent("progressbar:startMedico", _source)
+			TriggerClientEvent("progressbar:startMedico", _source)
 
-        Wait(20000)
+			Wait(20000)
 
-		VorpInv.addItem(_source, "tonico_s2", 1)
-		TriggerClientEvent("vorp:TipRight", _source, 'Você criou um Elixir de Energia+', 2000)
-		TriggerClientEvent('stress:modify', 1.5)
+			VorpInv.addItem(_source, "tonico_s2", 1)
+			TriggerClientEvent("vorp:TipRight", _source, 'Você criou um Elixir de Energia+', 2000)
+			TriggerClientEvent('stress:modify', 1.5)
+		else
+			TriggerClientEvent("vorp:TipRight", _source, 'Você não consegue carregar mais elixir', 4500)
+		end
 	else
 		TriggerClientEvent("vorp:TipRight", _source, 'Você precisa de: 2 Água, 4 Cogumelos, 4 Groselhas', 4500)
 	end
@@ -239,19 +252,23 @@ AddEventHandler('doctor:estrattoveleno', function()
 	local count1 = VorpInv.getItemCount(_source, "snakepoison")
 	local count2 = VorpInv.getItemCount(_source, "p_belladonna")
 
-	if count >= 1 and count1 >= 5 and count2 >= 3 and VorpInv.getItemCount(_source, "tonico_c1") + 1 <= 5 then 
+	if count >= 1 and count1 >= 5 and count2 >= 3 then 
+		if VorpInv.getItemCount(_source, "veleno_s") ~= 10 then
 
-		VorpInv.subItem(_source, "agua", 1)
-		VorpInv.subItem(_source, "snakepoison", 5)
-		VorpInv.subItem(_source, "p_belladonna", 3)
+			VorpInv.subItem(_source, "agua", 1)
+			VorpInv.subItem(_source, "snakepoison", 5)
+			VorpInv.subItem(_source, "p_belladonna", 3)
 
-		TriggerClientEvent("progressbar:startMedico", _source)
+			TriggerClientEvent("progressbar:startMedico", _source)
 
-        Wait(20000)
-		
-		VorpInv.addItem(_source, "veleno_s",1)
-		TriggerClientEvent("vorp:TipRight", _source, 'Você criou um Extrato de Veneno', 2000)
-		TriggerClientEvent('stress:modify', 1.5)
+			Wait(20000)
+			
+			VorpInv.addItem(_source, "veleno_s",1)
+			TriggerClientEvent("vorp:TipRight", _source, 'Você criou um Extrato de Veneno', 2000)
+			TriggerClientEvent('stress:modify', 1.5)
+		else
+			TriggerClientEvent("vorp:TipRight", _source, 'Você não consegue carregar mais elixir', 4500)
+		end
 	else
 		TriggerClientEvent("vorp:TipRight", _source, 'Você precisa de: 1 Água, 5 Veneno de Cobra, 3 belladona', 4500)
 	end
@@ -359,8 +376,8 @@ RegisterCommand('meds', function(source, args, rawCommand)
 	local medsOnlime = CheckMedOnline()
     TriggerClientEvent('vorp:NotifyLeft', _source, 'Médicos', "Atualmente temos "..medsOnlime.." médicos no estado",'generic_textures', 'tick', 5000, 'COLOR_WHITE') 
 end)
-RegisterCommand('oficiais', function(source, args, rawCommand)
-    local _source = source
-	local PoliceOnline = CheckPoliceOnline()
-    TriggerClientEvent('vorp:NotifyLeft', _source, 'Oficiais', "Atualmente temos "..PoliceOnline.." oficiais no estado",'generic_textures', 'tick', 5000, 'COLOR_WHITE') 
-end)
+-- RegisterCommand('oficiais', function(source, args, rawCommand)
+--     local _source = source
+-- 	local PoliceOnline = CheckPoliceOnline()
+--     TriggerClientEvent('vorp:NotifyLeft', _source, 'Oficiais', "Atualmente temos "..PoliceOnline.." oficiais no estado",'generic_textures', 'tick', 5000, 'COLOR_WHITE') 
+-- end)

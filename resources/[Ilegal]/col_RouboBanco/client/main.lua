@@ -1,6 +1,9 @@
 local robtime = 140 -- Time to rob (in seconds) now its 3.3mins
+local timerCount = robtime
 local isRobbing = false
+local speaked = false
 local started = false
+local maksettu = false
 local Blowedynamite = false
 local missionCompleted = false
 local cooldown = 30*60
@@ -95,6 +98,27 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+--Robbery startpoint Armadillo
+Citizen.CreateThread(function() 
+    while true do
+	Citizen.Wait(0)
+		local playerPed = PlayerPedId()
+		local coords = GetEntityCoords(playerPed)
+		local betweencoords = GetDistanceBetweenCoords(coords, -3668.44, -2630.87, -13.69, true)
+		if betweencoords < 2.0 and isRobbing == false then
+				DrawTxt("Pressione [~e~G~q~] para INICIAR O ROUBO", 0.50, 0.95, 0.7, 0.7, true, 255, 255, 255, 255, true)
+				if IsControlJustReleased(0, 0x760A9C6F) then
+                isRobbing = true
+				active = false     
+				TriggerServerEvent("robbery:startrobberyArmadillo", "Armadillo")
+				local tipo = "guerrilha"
+				local msg = 'Roubo ao BANCO DE ARMADILLO!'
+				local chamado = true
+				TriggerServerEvent("RedM:sendalert",'guerrilha', tipo, msg, coords, chamado)
+			end
+		end
+	end
+end)
 ---SAINT DENIS
 Citizen.CreateThread(function() 
     while true do
@@ -146,6 +170,23 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+--- Armadillo
+Citizen.CreateThread(function() 
+    while true do
+	Citizen.Wait(0)
+		local playerPed = PlayerPedId()
+		local coords = GetEntityCoords(playerPed)
+		local betweencoords = GetDistanceBetweenCoords(coords, -3665.534912109375, -2639.58349609375, -13.72997856140136, true)
+		if betweencoords < 2.0 and isRobbing == true and not active then
+				DrawTxt("Pressione [~e~G~q~] para USAR A DYNAMITE", 0.50, 0.95, 0.7, 0.7, true, 255, 255, 255, 255, true)
+				if IsControlJustReleased(0, 0x760A9C6F) then
+                isRobbing = true 
+				active = true   
+				TriggerServerEvent("robbery:dynamite", coords)				
+			end
+		end
+	end
+end)
 RegisterNetEvent('robbery:startAnimation3')
 AddEventHandler('robbery:startAnimation3', function(coords, BankName)	
 	local _source = source
@@ -171,7 +212,12 @@ AddEventHandler('robbery:startAnimation3', function(coords, BankName)
 	local tipo = "complaint"
 	local msg = 'Roubo ao BANCO DE '..bank..'!'
 	local chamado = true
-	TriggerServerEvent("RedM:sendalert",'police', tipo, msg, coords, chamado)
+	if bank == 'Armadillo' then
+		TriggerServerEvent("RedM:sendalert",'guerrilha', 'guerrilha', msg, coords, chamado)
+	else
+		TriggerServerEvent("RedM:sendalert",'police', tipo, msg, coords, chamado)
+
+	end
 	BlowDynamite(coords)
     TriggerServerEvent("robbery:loot", true, coords, BankName) 
 		Blowedynamite = true                          
@@ -179,7 +225,9 @@ AddEventHandler('robbery:startAnimation3', function(coords, BankName)
 		active = false 
 		Blowedynamite = false 
 		isRobbing = true
-		started = false    
+		speaked = false
+		started = false
+		maksettu = false     
 		Citizen.Wait(6000)
 		ClearPedTasksImmediately(PlayerPedId())
 		ClearPedSecondaryTask(PlayerPedId())            
@@ -201,7 +249,9 @@ AddEventHandler('robbery:loot2', function(coords, BankName)
 	          exports['progressBars']:startUI(360000, "Pegando tudo...")     
               Blowedynamite = false 
               isRobbing = false
-              started = false    
+              speaked = false
+              started = false
+              maksettu = false     
 			  Citizen.Wait(360000)
 	          ClearPedTasksImmediately(PlayerPedId())
 	          ClearPedSecondaryTask(PlayerPedId())
@@ -267,3 +317,22 @@ function BlowDynamite(coords)
 	local playerPed2 = PlayerPedId()
     local coords = GetEntityCoords(playerPed2)	
 end
+
+Citizen.CreateThread(function()	
+	while not HasModelLoaded( GetHashKey("CS_MysteriousStranger") ) do
+    Wait(500)
+    RequestModel( GetHashKey("CS_MysteriousStranger") )
+    end
+    local npc = CreatePed(GetHashKey("CS_MysteriousStranger"), -3665.534912109375, -2639.58349609375, -13.72997856140136, -177.46, false, false, 0, 0) -- VALENTINE
+    while not DoesEntityExist(npc) do
+    Wait(300)
+    end
+    Citizen.InvokeNative(0x283978A15512B2FE, npc, true)
+    FreezeEntityPosition(npc, true)
+    SetEntityInvincible(npc, true)
+    TaskStandStill(npc, -1)
+    SetEntityCanBeDamagedByRelationshipGroup(npc, false, `PLAYER`)
+    SetEntityAsMissionEntity(npc, true, true)
+	SetBlockingOfNonTemporaryEvents(npc, true)
+    SetModelAsNoLongerNeeded(GetHashKey("CS_MysteriousStranger"))
+end)

@@ -29,4 +29,5 @@ Config.Shops = {
 	{ coords = vector3(-313.376,804.9757,118.98), name = "Saloon de Valentine" },
 	{ coords = vector3(1338.929,-1375.34,80.480), name = "Saloon de Rhodes" },
 	{ coords = vector3( 2639.933,-1227.69,53.380), name = "Saloon de Saint Denis" },
+	-- { coords = vector3(-3687.58, -2622.81, -13.53), name = "Armadillo General Store" },
 }

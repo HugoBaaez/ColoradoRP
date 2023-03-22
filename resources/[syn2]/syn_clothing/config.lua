@@ -40,6 +40,7 @@ Config.Cloakroom = {
 	{x = 2552.69,y = -1161.11,z = 53.68, blip = true } , --- SD
 	{x = 2628.8,y = -1221.59,z = 59.58, blip = false } ,
 	{x = -1793.46, y = -394.25, z = 160.34, blip = true }, -- Strawberry
+	{x = -3688.04, y = -2631.04, z = -13.5, blip = true }, -- Strawberry
 --	{x = 2384.15,y = -1210.36,z = 51.81, blip = false } ,
 --	{x = 1790.56,y = -819.13,z = 192.64, blip = false } , -- hideout
 --	{x = 1005.54,y = -1767.8,z = 52.04, blip = false }, -- braithweight

@@ -208,6 +208,8 @@ function harvestPlant(key)
     exports['progressBars']:startUI(10000, 'Você está coletando...')
     Wait(10000)
     ClearPedTasksImmediately(PlayerPedId())
+    print('myPlants', myPlants)
+    print('myPlants', myPlants[key])
 	DeleteObject(myPlants[key].object)
 	table.remove(myPlants, key)
 end
@@ -286,6 +288,7 @@ Citizen.CreateThread(function()
 						if Citizen.InvokeNative(0x91AEF906BCA88877, 0, 0xCEFD9220) then
                             local key = k
                             canPlant = false
+                            print(key)
                             harvestPlant(key)
                             TriggerEvent('stress:modify', 2.5)
                             canPlant = true

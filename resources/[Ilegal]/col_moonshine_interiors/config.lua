@@ -162,4 +162,10 @@ Config.Shacks = {
         ['interior'] = 0,
         ['interior_sets'] = {},
     },
+    ['Judiciário'] = {
+        ['outside'] = vector3(2596.17, -1300.18, 52.82),
+        ['inside'] = vector3(2589.68, -1282.65, 38.2),
+        ['interior'] = 0,
+        ['interior_sets'] = {},
+    },
 }

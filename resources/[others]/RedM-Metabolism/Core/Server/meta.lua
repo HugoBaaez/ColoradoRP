@@ -168,14 +168,14 @@ Citizen.CreateThread(function()
         VorpInv.subItem(data.source, "agua", 1)
         VorpInv.CloseInv(data.source)
         local prop = 'p_water01x'
-        local valor = 30
+        local valor = 15
         TriggerClientEvent('metabolism:beber', data.source, prop, valor)
     end)
     VorpInv.RegisterUsableItem("agua_consumivel", function(data)
         VorpInv.subItem(data.source, "agua_consumivel", 1)
         VorpInv.CloseInv(data.source)
         local prop = 'p_water01x'
-        local valor = 25
+        local valor = 20
         TriggerClientEvent('metabolism:beber', data.source, prop, valor)
     end)
     VorpInv.RegisterUsableItem("milk", function(data)

@@ -1,0 +1,70 @@
+Welcome to Spoony Props for RDR2. 
+---------------------------------------
+We actually create any prop you want. 
+
+Ask us on Discord https://discord.gg/byASpSfwuk.
+-------------------------------------------------------
+
+If buy The Big Pakage you dont need the free props they are included.
+
+Copy all files to the resources folder on your server. 
+Then you have to make a new line in the Server.cfg with ensure spooni_props. 
+Copy the objects.lua into the Spooner folder resources/spooner/data/rdr3/ there.
+Restart the server and you're good to go. 
+
+Open Spooner and have fun.
+
+
+
+Props-Liste
+-mauer1-1
+-mauer1-2
+-mauer1-3
+-mauer1-4
+-mauer1-5
+-turm1
+-treppe1
+-treppe2
+-treppe5
+-pavillion3
+-pavillion4
+-tippi
+-schild1
+-schild2
+-schild3
+-schild3bakery
+-schild3blacksmith
+-schild3gunsmith
+-schild3tobacco
+-schild3wood
+-schild4
+-wall1-1
+-wall1-2
+-wall1-3
+-wall1-4
+-wall1-5
+-wall1-6
+-wall2-1
+-wall2-2
+-wall2-3
+-wall2-4
+-wall2-5
+-wall2-6
+-floor1
+-floor2
+-floor3
+-floor4
+-floor5
+-floor6
+-floor7
+-floor8
+-floor9
+-floor10
+-floor11
+-dach
+-dach1
+-dach2
+-dach3
+-dach4
+-bridge1
+-wand

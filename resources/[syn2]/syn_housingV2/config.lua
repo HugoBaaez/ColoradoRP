@@ -72,7 +72,7 @@ Config.motellocation = {
         PosExit =  {x = -324.035, y = 766.8970, z = 121.63},   
         PosChangingroom = {x=-326.82, y=764.62, z=122.0866}, 
         PosInventory = {x=-325.4, y=767.02, z=122.0866}, 
-        blipsprite = 1116438174, -- blip sprite for motel
+        blipsprite = 4083410444, -- blip sprite for motel
         Name = 'Valentine Motel', -- blip name 
         price = 70, -- price to buy room
         inventorylimit = 100
@@ -82,7 +82,7 @@ Config.motellocation = {
         PosExit =  {x = -324.035, y = 766.8970, z = 121.63}, 
         PosChangingroom = {x=-326.82, y=764.62, z=122.0866}, 
         PosInventory = {x=-325.4, y=767.02, z=122.0866}, 
-        blipsprite = 1116438174, -- blip sprite for motel
+        blipsprite = 4083410444, -- blip sprite for motel
         Name = 'Strawberry Motel', -- blip name 
         price = 70, -- price to buy room
         inventorylimit = 100

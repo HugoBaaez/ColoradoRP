@@ -219,14 +219,12 @@ Citizen.CreateThread(function()
 		local x, y, z = table.unpack(GetEntityCoords(PlayerPedId()))		
         if GetDistanceBetweenCoords(x,y,z, -1092.0, 713.76, 81.04,false) < 2.0 then
             DrawText3D(-1092.0, 713.76, 81.04, "Pressione G para fazer moonshine")
-            if IsControlJustReleased(0, 0x760A9C6F) and active == false then -- g
+            if IsControlJustReleased(0, 0x760A9C6F) then -- g
                 TriggerEvent("moonshiner:client:OpenMenu")
-                active = true
             end
         end
 	end
 end)
-active = false
 RegisterNetEvent('moonshiner:client:OpenMenu')
 AddEventHandler('moonshiner:client:OpenMenu', function()
     showmoonshiner = true
@@ -254,7 +252,6 @@ AddEventHandler('moonshiner:client:OpenMenu', function()
             header = "Fechar",
             params = {
                 event = "col-menu:closeMenu",
-                active = false,
             }
             
         },
@@ -292,7 +289,6 @@ AddEventHandler('moonshiner:client:Misturas', function()
             header = "Fechar",
             params = {
                 event = "col-menu:closeMenu",
-                active = false,
             }
             
         },
@@ -329,7 +325,6 @@ AddEventHandler('moonshiner:client:Bebidas', function()
             header = "Fechar",
             params = {
                 event = "col-menu:closeMenu",
-                active = false,
             }
         },
     }
@@ -345,7 +340,8 @@ AddEventHandler('shiner:moonshine', function()
     
     exports['progressBars']:startUI(30000, "Cozinhando moonshine...")
     Wait(30000)
-    active = false
+    TriggerEvent("col-menu:closeMenu")
+    -- active = false
 end)
 RegisterNetEvent('shiner:mistura')
 AddEventHandler('shiner:mistura', function()
@@ -355,5 +351,6 @@ AddEventHandler('shiner:mistura', function()
     
     exports['progressBars']:startUI(30000, "Cozinhando misturas...")
     Wait(30000)
-    active = false
+    TriggerEvent("col-menu:closeMenu")
+    -- active = false
 end)

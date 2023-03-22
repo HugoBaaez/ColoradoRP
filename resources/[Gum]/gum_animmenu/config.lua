@@ -329,7 +329,14 @@ Config.Anim = {
 	[2104] = 	{female=true,	name="[Shared] Lie 5",			itsAnimation="animShared", 		animDict="amb_rest_sit@world_human_sit_ground@fall_asleep@male_a@sleeping@base", animName="base",delay1=500, 			animDict2="amb_camp@world_camp_jack_es_sleep@male_a@base", animName2="base",delay2=500,		time=-1,		flag=1, offset=vector4(0.10, -0.95, -0.0, 30.0)},
 	[2105] = 	{female=true,	name="[Shared] Abraco 1",			itsAnimation="animShared", 		animDict="mech_carry_box", animName="idle",delay1=500, 			animDict2="mech_carry_box", animName2="idle",delay2=500,		time=-1,		flag=1, offset=vector4(-0.00, 0.35, 0.0, 190.0)},
 	[2106] = 	{female=true,	name="[Shared] Abraco 2",			itsAnimation="animShared", 		animDict="mech_loco_m@generic@carry@box@front@idle", animName="idle",delay1=500, 			animDict2="mech_loco_m@generic@carry@box@front@idle", animName2="idle",delay2=500,		time=-1,		flag=1, offset=vector4(-0.00, 0.12, 0.0, 180.0)},
+	[2107] = 	{female=true,	name="Sexo 1",		itsAnimation="animNorm", 		anim={"script_story@bou1@ig@ig4_discipline", "knockout_rifle_benedict_benedict"},					time=-1,		flag=1},
+	[2108] = 	{female=true,	name="Sexo 2",		itsAnimation="animNorm", 		anim={"script_story@brt1@ig@ig5_drinking_scene", "round_03_montage_p4_drunk^2"},					time=-1,		flag=1},
+	[2109] = 	{female=true,	name="Sexo 3",		itsAnimation="animNorm", 		anim={"script_story@brt3@ig@ig_5_dutchdragscatherine", "ground_flinch_l_01_catherine"},					time=-1,		flag=1},
+	[2110] = 	{female=true,	name="Debrucar 1",		itsAnimation="animNorm", 		anim={"amb_camp@prop_camp_butcher@resting@deer@male_a@idle_a", "idle_b"},					time=-1,		flag=1},
+	[2111] = 	{female=true,	name="Debrucar 2",		itsAnimation="animNorm", 		anim={"mech_inspection@catalog", "buy_rifle_view_enter_plyr"},					time=-1,		flag=1},
+
 	-- [1] = {female=true, name="TEST ANIMACE PROP", itsAnimation="animWithProp", animDict="amb_misc@world_human_twnrec_funeral@wip_base@female_c", animName="base", time=1000, flag=25, props={"p_beefstew_spoon01x", "PH_R_Hand", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}},
     -- [2] = {female=true, name="TEST ANIMACE", itsAnimation="animNorm", animDict="amb_misc@world_human_twnrec_funeral@wip_base@female_c", animName="base", time=1000, flag=25},
     -- [3] = {female=true, name="TEST SCENARIO", itsAnimation="scenario", scenario="WORLD_HUMAN_SCENARIO", time=1000},
+
 }

@@ -53,7 +53,7 @@ AddEventHandler('lto_roulette:start_game', function(action, amount)
 			return false
 		end
 		if action == 'Black' then
-				local win = amount * 2
+				local win = amount * 1.2
 			if has_value(Black, randomNumber) then
 				SendNUIMessage({type = 'hide_roulette'})
 				SetNuiFocus(false, false)
@@ -68,7 +68,7 @@ AddEventHandler('lto_roulette:start_game', function(action, amount)
 				TriggerEvent("vorp:TipBottom", Config.Language.losemoney, 4000) -- from client side
 			end
 		elseif action == 'Red' then
-			        local win = amount * 2
+			        local win = amount * 1.2
 			if has_value(Red, randomNumber) then
 				SendNUIMessage({type = 'hide_roulette'})
 				SetNuiFocus(false, false)
@@ -117,70 +117,58 @@ Citizen.CreateThread(function()
 	while not HasModelLoaded(GetHashKey('p_roulettetable01x')) do
 		Citizen.Wait(0)
 	end
-	RouletteTable1 = CreateObject(GetHashKey('p_roulettetable01x'), 3288.53, -1311.77, 41.75, 0.00, true, false)
+	RouletteTable1 = CreateObject(GetHashKey('p_roulettetable01x'), -3655.36, -2547.4, -14.98, 0.00, true, false)
 	SetEntityAsMissionEntity(RouletteTable1)
 	SetEntityHeading(RouletteTable1, -90.00)
 	
-	-- Blackjack/Slot Tables
-	RequestModel(GetHashKey('p_tablepoker01x'))
-	while not HasModelLoaded(GetHashKey('p_tablepoker01x')) do
-		Citizen.Wait(0)
-	end
-	BJTable1 = CreateObject(GetHashKey('p_tablepoker01x'), 3288.53, -1317.48, 41.75, 0.00, true, false)
-	SlotTable1 = CreateObject(GetHashKey('p_tablepoker01x'), 3288.53, -1324.17, 41.75, 0.00, true, false)
-	SetEntityAsMissionEntity(SlotTable1)
-	SetEntityAsMissionEntity(BJTable1)
-	SetEntityHeading(BJTable1, 180.00)
-	SetEntityHeading(SlotTable1, 180.00)
+	-- -- Blackjack/Slot Tables
+	-- RequestModel(GetHashKey('p_tablepoker01x'))
+	-- while not HasModelLoaded(GetHashKey('p_tablepoker01x')) do
+	-- 	Citizen.Wait(0)
+	-- end
+	-- BJTable1 = CreateObject(GetHashKey('p_tablepoker01x'), -3649.98, -2549.43, -14.98, 0.00, true, false)
+	-- SlotTable1 = CreateObject(GetHashKey('p_tablepoker01x'), -3649.98, -2549.43, -14.98, 0.00, true, false)
+	-- SetEntityAsMissionEntity(SlotTable1)
+	-- SetEntityAsMissionEntity(BJTable1)
+	-- SetEntityHeading(BJTable1, 180.00)
+	-- SetEntityHeading(SlotTable1, 180.00)
 	
 	
 	-- Slot machine on table
-	RequestModel(GetHashKey('p_register06x'))
-	while not HasModelLoaded(GetHashKey('p_register06x')) do
-		Citizen.Wait(0)
-	end
-	Slot1 = CreateObject(GetHashKey('p_register06x'), 3288.97, -1324.15, 42.57, 0.00, true, false)
-	Slot2 = CreateObject(GetHashKey('p_register06x'), 3288.08, -1324.15, 42.57, 0.00, true, false)
-	Slot3 = CreateObject(GetHashKey('p_register06x'), 3288.52, -1324.60, 42.57, 0.00, true, false)
-	Slot4 = CreateObject(GetHashKey('p_register06x'), 3288.52, -1323.75, 42.57, 0.00, true, false)
-	SetEntityAsMissionEntity(Slot1)
-	SetEntityAsMissionEntity(Slot2)
-	SetEntityAsMissionEntity(Slot3)
-	SetEntityAsMissionEntity(Slot4)
-	SetEntityHeading(Slot1, 90.00)
-	SetEntityHeading(Slot2, -90.00)
-	SetEntityHeading(Slot3, 0.00)
-	SetEntityHeading(Slot4, 180.00)
+	-- RequestModel(GetHashKey('p_register06x'))
+	-- while not HasModelLoaded(GetHashKey('p_register06x')) do
+	-- 	Citizen.Wait(0)
+	-- end
+	-- Slot1 = CreateObject(GetHashKey('p_register06x'), 3288.97, -1324.15, 42.57, 0.00, true, false)
+	-- Slot2 = CreateObject(GetHashKey('p_register06x'), 3288.08, -1324.15, 42.57, 0.00, true, false)
+	-- Slot3 = CreateObject(GetHashKey('p_register06x'), 3288.52, -1324.60, 42.57, 0.00, true, false)
+	-- Slot4 = CreateObject(GetHashKey('p_register06x'), 3288.52, -1323.75, 42.57, 0.00, true, false)
+	-- SetEntityAsMissionEntity(Slot1)
+	-- SetEntityAsMissionEntity(Slot2)
+	-- SetEntityAsMissionEntity(Slot3)
+	-- SetEntityAsMissionEntity(Slot4)
+	-- SetEntityHeading(Slot1, 90.00)
+	-- SetEntityHeading(Slot2, -90.00)
+	-- SetEntityHeading(Slot3, 0.00)
+	-- SetEntityHeading(Slot4, 180.00)
 	
     -- Chairs
---[[	RequestModel(GetHashKey('p_chaircomfy05x'))
-	while not HasModelLoaded(GetHashKey('p_chaircomfy05x')) do
-		Citizen.Wait(0)
-	end
-	Chair1 = CreateObject(GetHashKey('p_chaircomfy05x'), 3288.48, -1318.75, 41.76, 0.00, true, false)
-    Chair2 = CreateObject(GetHashKey('p_chaircomfy05x'), 3288.48, -1316.25, 41.76, 0.00, true, false)
-    Chair3 = CreateObject(GetHashKey('p_chaircomfy05x'), 3287.21, -1317.50, 41.76, 0.00, true, false)
-    Chair4 = CreateObject(GetHashKey('p_chaircomfy05x'), 3289.75, -1317.50, 41.76, 0.00, true, false)
-	Chair5 = CreateObject(GetHashKey('p_chaircomfy05x'), 3288.48, -1325.50, 41.76, 0.00, true, false)
-	Chair6 = CreateObject(GetHashKey('p_chaircomfy05x'), 3288.48, -1323.00, 41.76, 0.00, true, false)
-    Chair7 = CreateObject(GetHashKey('p_chaircomfy05x'), 3287.21, -1324.15, 41.76, 0.00, true, false)
-    Chair8 = CreateObject(GetHashKey('p_chaircomfy05x'), 3289.75, -1324.15, 41.76, 0.00, true, false)
-	SetEntityAsMissionEntity(Chair1)
-	SetEntityAsMissionEntity(Chair2)
-	SetEntityAsMissionEntity(Chair3)
-	SetEntityAsMissionEntity(Chair4)
-	SetEntityAsMissionEntity(Chair5)
-	SetEntityAsMissionEntity(Chair6)
-	SetEntityAsMissionEntity(Chair7)
-	SetEntityAsMissionEntity(Chair8)
-	SetEntityHeading(Chair1, 180.00)
-	SetEntityHeading(Chair2, 0.00)
-	SetEntityHeading(Chair3, 90.00)
-	SetEntityHeading(Chair4, -90.00)
-	SetEntityHeading(Chair5, 180.00)
-	SetEntityHeading(Chair6, 0.00)
-	SetEntityHeading(Chair7, 90.00)
-	SetEntityHeading(Chair8, -90.00)]]
+	-- RequestModel(GetHashKey('p_windsorchair03x'))
+	-- while not HasModelLoaded(GetHashKey('p_windsorchair03x')) do
+	-- 	Citizen.Wait(0)
+	-- end
+	-- Chair1 = CreateObject(GetHashKey('p_windsorchair03x'), -3651.26, -2549.35, -14.98, 0.00, true, false)
+    -- Chair2 = CreateObject(GetHashKey('p_windsorchair03x'), -3650.14, -2550.67, -14.98, 0.00, true, false)
+    -- Chair3 = CreateObject(GetHashKey('p_windsorchair03x'), -3648.73, -2549.57, -14.98, 0.00, true, false)
+    -- Chair4 = CreateObject(GetHashKey('p_windsorchair03x'), -3649.92, -2548.17, -14.98, 0.00, true, false)
+	-- SetEntityAsMissionEntity(Chair1)
+	-- SetEntityAsMissionEntity(Chair2)
+	-- SetEntityAsMissionEntity(Chair3)
+	-- SetEntityAsMissionEntity(Chair4)
+	-- SetEntityHeading(Chair1, 90.00)
+	-- SetEntityHeading(Chair2, 180.00)
+	-- SetEntityHeading(Chair3, -90.00)
+	-- SetEntityHeading(Chair4, 0.00)
 	
 	-- NPC St-Denis Port to go on the Boat
 	while not HasModelLoaded( GetHashKey("S_M_M_STGSAILOR_01") ) do
@@ -235,7 +223,7 @@ Citizen.CreateThread(function()
         TriggerEvent("lto_roulette:TeleportBack")
 		end
 		-- Play Roulette
-        elseif not ingame and (Vdist(coords.x, coords.y, coords.z, 3288.53, -1311.77, 42.75) < 1.5) then
+        elseif not ingame and (Vdist(coords.x, coords.y, coords.z, -3655.81, -2546.77, -13.17) < 1.5) then
 		DrawTxt(Config.Language.playroulette, 0.50, 0.85, 0.7, 0.5, true, 255, 255, 255, 255, true)
         if IsControlJustReleased(0,0xD9D0E1C0) then
         TriggerServerEvent("lto_roulette:Bets")
@@ -243,6 +231,14 @@ Citizen.CreateThread(function()
 		end
 	Citizen.Wait(0)
 	end
+end)
+
+Citizen.CreateThread(function()
+    local coordblip = {x = -3653.26, y = -2548.28, z = -13.5}
+    local blip = N_0x554d9d53f696d002(1664425300, coordblip.x, coordblip.y, coordblip.z)
+    SetBlipSprite(blip, 1243830185, 1)
+    SetBlipScale(blip, 0.2)
+    Citizen.InvokeNative(0x9CB1A1623062F402, blip, 'Cassino Armadillo')
 end)
 
 RegisterNetEvent('lto_roulette:Teleport')

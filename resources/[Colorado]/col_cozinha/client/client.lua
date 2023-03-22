@@ -122,9 +122,9 @@ AddEventHandler('def_cookfood:clean', function()
 
     local playerPed = PlayerPedId()
 	cleanWater = true
-    TaskStartScenarioInPlace(playerPed, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), 28000, true, false, false, false)
-    exports['progressBars']:startUI(28000, "Fervendo a água...")
-    Citizen.Wait(28000)
+    TaskStartScenarioInPlace(playerPed, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), 18000, true, false, false, false)
+    exports['progressBars']:startUI(18000, "Fervendo a água...")
+    Citizen.Wait(18000)
     ClearPedTasksImmediately(PlayerPedId())
 
 end)
@@ -163,9 +163,9 @@ AddEventHandler('ml_camping:Getwater', function()
     end
     if canCollect and not isAlreadyCollecting then
         isAlreadyCollecting = true
-        TaskStartScenarioInPlace(ped, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), 20000, true, false, false, false)
-		exports['progressBars']:startUI(20000, "Coletando água...")
-		Citizen.Wait(20000)
+        TaskStartScenarioInPlace(ped, GetHashKey('WORLD_HUMAN_CROUCH_INSPECT'), 10000, true, false, false, false)
+		exports['progressBars']:startUI(10000, "Coletando água...")
+		Citizen.Wait(10000)
 
         ClearPedTasksImmediately(ped)
         ClearPedSecondaryTask(ped)

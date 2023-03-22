@@ -479,7 +479,7 @@ AddEventHandler('doceria:checkbebidas', function()
     if job == "Padeiro" then 
         TriggerClientEvent('padaria:menuBebidas', _source)
     else
-        TriggerClientEvent('RedM:Notify', _source, 'notify', 'Você não sabe fazer bebidas!')
+        TriggerClientEvent('RedM:Notification', _source, 'notify', 'Você não sabe fazer bebidas!')
     end
 end)
 
@@ -494,7 +494,7 @@ AddEventHandler('doceria:checkcomidas', function()
     elseif Character.job == "Padeiro" then 
         TriggerClientEvent('padaria:menuComidas', _source)
     else
-        TriggerClientEvent('RedM:Notify', _source, 'notify', 'Você não sabe fazer comidas!')
+        TriggerClientEvent('RedM:Notification', _source, 'notify', 'Você não sabe fazer comidas!')
     end
 end)
 ------------------------ PADARIA
@@ -508,7 +508,7 @@ AddEventHandler('padaria:checkbebidas', function()
     if job == 'Padeiro' then
         TriggerClientEvent('padaria:menuBebidas', _source)
     else
-        TriggerClientEvent('RedM:Notify', _source, 'notify', 'Você não sabe fazer bebidas!')
+        TriggerClientEvent('RedM:Notification', _source, 'notify', 'Você não sabe fazer bebidas!')
     end
 end)
 
@@ -522,7 +522,7 @@ AddEventHandler('padaria:checkcomidas', function()
     if job == 'Padeiro' then
         TriggerClientEvent('padaria:menuComidas', _source)
     else
-        TriggerClientEvent('RedM:Notify', _source, 'notify', 'Você não sabe fazer comidas!')
+        TriggerClientEvent('RedM:Notification', _source, 'notify', 'Você não sabe fazer comidas!')
     end
 end)
 --------------------------------------- DOCERIA

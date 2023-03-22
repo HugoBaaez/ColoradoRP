@@ -37,11 +37,9 @@ Citizen.CreateThread(function()
 			currentshop = i
 			if GetDistanceBetweenCoords(coords, Config.Shops[currentshop].coords.x, Config.Shops[currentshop].coords.y, Config.Shops[currentshop].coords.z, true)  < 1.2 then
 					DrawTxt(Config.rob, 0.50, 0.95, 0.7, 0.7, true, 255, 255, 255, 255, true)
-					--print(cooldown)
 				if IsControlJustReleased(0, 0xD9D0E1C0) then 
 					if cooldown == 0 then
 						TriggerServerEvent("wcrp_robbery:startToRob") 
-						--isRobbing = true  
 					end
 				end
 			end			
@@ -62,14 +60,9 @@ AddEventHandler("wcrp:robOk",function()
 			if lock then 
 			TriggerServerEvent("startanim")
 			cooldown = 30*60
-			Wait(Config.Policealert)        
-		--	ExecuteCommand("alertpolice") --Chamando policia
-			local text = 'Roubo a '.. Config.Shops[i].name.. ''
-			TriggerServerEvent("RedM:sendalert",'police', 'complaint', text, coords, true)
-		--	print("chamado policia")
-			--Wait(Config.Cooldown)
 			isRobbing = true  
 			elseif not lock then 
+			isRobbing = false
 			TriggerEvent("vorp:TipRight", "Você quebrou a lockpick", 5000)
 			end
 		end
@@ -101,7 +94,14 @@ AddEventHandler('wcrp_robbery:startAnimation', function()
 	Wait(1000)
     if testplayer4 == 100 then   
 	TaskStartScenarioInPlace(playerPed, GetHashKey('world_human_shop_browse_counter'), 360000, true, false, false, false)
+	local text = 'Roubo a '.. Config.Shops[i].name.. ''
+	if Config.Shops[i].name == 'Armadillo General Store' then
+		TriggerServerEvent("RedM:sendalert",'guerrilha', 'guerrilha', text, coords, true)
+	else
+		TriggerServerEvent("RedM:sendalert",'police', 'complaint', text, coords, true)
+	end	
 	exports['progressBars']:startUI(Config.LockpickTime, "Pegando Tudo...")
+	DisableControlAction(1, 0x80F28E95, true)
 	FreezeEntityPosition(PlayerPedId(),true)
     Citizen.Wait(1000)
 	Citizen.Wait(Config.LockpickTime)

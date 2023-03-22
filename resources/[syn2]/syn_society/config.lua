@@ -42,7 +42,7 @@ Config.jobs = {
             {x=1361.56, y=-1303.22, z=77.76},
             {x=2508.43, y=-1308.72, z=48.95},
             {x=-763.41, y=-1271.52, z=43.99},
-            {x = -3621.87, y = -2603.71, z = -13.34}, -- Armadillo
+            -- {x = -3621.87, y = -2603.71, z = -13.34}, -- Armadillo
             {x = -1807.88, y = -349.9, z = 164.66},
           --  {x=-3624.99, y=-2601.39, z=-13.39},
           --  {x=2907.72, y=1312.85, z=44.93},
@@ -55,7 +55,7 @@ Config.jobs = {
             {x=1361.56, y=-1303.22, z=77.76},
             {x=2508.43, y=-1308.72, z=48.95},
             {x=-763.41, y=-1271.52, z=43.99},
-            {x = -3625.31, y = -2601.65, z = -13.34},-- Armadillo
+            -- {x = -3625.31, y = -2601.65, z = -13.34},-- Armadillo
             {x = -1807.88, y = -349.9, z = 164.66},
           --  {x=-3624.99, y=-2601.39, z=-13.39},
           --  {x=2907.72, y=1312.85, z=44.93},
@@ -268,7 +268,7 @@ Config.jobs = {
         jobmenu = { 
             {x=2640.08, y=-1222.74, z=53.38},
         },
-        blipsprite = 1654787099,
+        blipsprite = 1879260108,
 		Name = 'Saloon da bastilha',
         recruitmentrank = 2,
         bossrank = 2,
@@ -400,7 +400,7 @@ Config.jobs = {
         jobmenu = { 
             {x = -3698.42, y = -2594.82, z = -13.31},
         },
-        blipsprite = 1654787099,
+        blipsprite = 1879260108,
         showblip = true,
 		Name = 'Saloon de Armadillo',
         recruitmentrank = 2,
@@ -464,7 +464,7 @@ Config.jobs = {
         jobmenu = { 
             {x = 1784.830, y = -816.677, z = 189.40},
         },
-        blipsprite = 1654787099,
+        blipsprite = 1879260108,
         showblip = true,
 		Name = 'Saloon de Valentine',
         recruitmentrank = 2,
@@ -485,7 +485,7 @@ Config.jobs = {
         jobmenu = { 
             {x = -819.807, y = -1321.07, z = 43.678},
         },
-        blipsprite = 1654787099,
+        blipsprite = 1879260108,
         showblip = true,
 		Name = 'Saloon de BlackWater',
         recruitmentrank = 2,
@@ -505,7 +505,7 @@ Config.jobs = {
         jobmenu = { 
             {x = 1338.18, y = -1368.74, z = 80.49},
         },
-        blipsprite = 1654787099,
+        blipsprite = 1879260108,
         showblip = true,
 		Name = 'Saloon de Rhodes',
         recruitmentrank = 2,
@@ -771,6 +771,25 @@ Config.jobs = {
         salary = false,
 
     },
+    Guerrilha = {	   
+        Pos = { 
+            {x = -3622.18, y = -2600.23, z = -13.44},    
+        }, 
+        jobmenu = { 
+            {x = -3622.18, y = -2600.23, z = -13.44},
+        },
+        blipsprite = 1181380553, -- sprite of blip. find more here https://filmcrz.github.io/blips/
+        showblip = true, -- new line
+		Name = 'Guerrilha', -- name of blip
+        recruitmentrank = 3,
+        bossrank = 3, -- the boss rank, able to hire/fire/set salaries (make sure you add the ranks as i did in the database table called society from 0 to the boss rank)
+        containerid = 1, -- this has to be a unique number that matches the number set on the database table container ! 
+        containername = "Guerrilha Inv.", -- the name displayed when the container is open
+        billing = true, -- allow players with this job to use billing by doing /bill amount
+        webhook = "https://discord.com/api/webhooks/989019931209252894/PceWaDGCFq7Tgs8YxMFg6OCqv99i5qQdaAEANDMj7hCEUp31FIOf8POIJ9lBhtrpgUyO", -- if you have webhook enabled all the information important to this job will be logged both in the admin webhook and here 
+        salary = true, -- (added line) enable/disable salary system.
+
+    },
 }
 -------------------
 Config.alertsfunction = false 
@@ -805,13 +824,14 @@ Config.ondutycommand = "onduty"
 Config.offdutycommad = "offduty"
 Config.checkduty = "checkduty"
 Config.nosalaryoffduty = true -- dont pay salary to off duty players for the jobs listed below 
-Config.dutyjobs = {"Estado", 'police', 'doctor'}
+Config.dutyjobs = {"Estado", 'police', 'doctor', 'guerrilha'}
 Config.afkoffdutytimer = 20 -- go off duty if you are alerted and afk for 20 minutes
 Config.ondutyinstant = true -- instantly go on duty when command is used 
 Config.ondutytime = 2.5 -- minutes 
 Config.dutywebhooks = { 
     doctor = "https://discord.com/api/webhooks/1069376904416739428/5I4YXAZAWhSDCiUSuKTCmZBzhEt4OzGA7VIBiiPd34vR2kGKtFOXO4D0dxrCDupsrR_C",
     police = "https://discord.com/api/webhooks/989021615654309908/M2tlH2JaDLWo1sUM8AgjNRcttluHkt5xG-ZsKRsB6W3TL7CZamQR51sBxAODs-cbnIo4",
+    guerrilha = "https://discord.com/api/webhooks/989021615654309908/M2tlH2JaDLWo1sUM8AgjNRcttluHkt5xG-ZsKRsB6W3TL7CZamQR51sBxAODs-cbnIo4",
     Estado = "https://discord.com/api/webhooks/1067262509477793803/19oATXL8M_tLhjEhBh9lZ4mxy5aqJ3lsA_wOFuyzic1WxBUkKn58NzTuUlzC8tgJMA4c"
 }
 ----------------

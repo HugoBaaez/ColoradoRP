@@ -168,54 +168,39 @@ Config.FishItems = {
         xpreq = 100,
     },
     [7] = {
-        model = `A_C_FISHLARGEMOUTHBASS_01_MS`,
-        xp = 3,
-        xpreq = 250,
-    },
-    [8] = {
         model = `A_C_FISHREDFINPICKEREL_01_SM`,
         xp = 2,
         xpreq = 200,
     },
-    [9] = {
+    [8] = {
         model = `A_C_FISHROCKBASS_01_SM`,
         xp = 1,
         xpreq = 0,
     },
-    [10] = {
+    [9] = {
         model = `A_C_FISHSMALLMOUTHBASS_01_MS`,
         xp = 2,
         xpreq = 250,
     },
-    [11] = {
+    [10] = {
         model = `A_C_FISHPERCH_01_SM`,
         xp = 1,
         xpreq = 0,
     },
-    [12] = {
+    [11] = {
         model = `A_C_FISHCHAINPICKEREL_01_MS`,
         xp = 2,
         xpreq = 100,
     },
-    [13] = {
+    [12] = {
         model = `A_C_FISHPERCH_01_MS`,
         xp = 2,
         xpreq = 100,
     },
-    [14] = {
-        model = `A_C_FISHRAINBOWTROUT_01_MS`,
-        xp = 3,
-        xpreq = 400,
-    },
-    [15] = {
+    [13] = {
         model = `A_C_FISHREDFINPICKEREL_01_MS`,
         xp = 2,
         xpreq = 150,
-    },
-    [16] = {
-        model = `A_C_FISHSALMONSOCKEYE_01_MS`,
-        xp = 3,
-        xpreq = 500,
     },
 }
 

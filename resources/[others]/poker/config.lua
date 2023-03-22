@@ -13,6 +13,139 @@ end)
 
 Config = {}
 
+---------------------------------------------------------------------------
+--[[
+    You can trigger different events when a players sits/leaves in a table
+    toggle = true  | means the player just sat in the table
+    toggle = false | means the player just left the table
+    [This function is client side only]
+]]
+function cl_isPlaying(toggle)
+    if toggle then
+        --add code
+    else
+        --add code
+    end
+end
+---------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------
+Config.command = {
+    name = '',   --leaving it empty or not string the command will not activate
+    ace  = false --for ace permission only 
+}
+--[[
+    New Admin Feature, in order to reset poker tables live
+    with a simple command, ` /command Valentine ` will reset the appropriate poker table
+    [This function is client side only]
+]]
+function get_resetCommand(ID, arguments)
+    -- arguments are an array of strings. /command hello world -> arguments[1] == 'hello' arguments[2] == 'world'
+    if type(arguments[1]) == 'string' and VorpCore.getUser(ID).getUsedCharacter.group == 'admin' then
+        post_manualReset(arguments[1])
+    end
+end
+------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------
+--[[
+    This a logger function, it sents out different cases for you to record.
+    [This function is server side only]
+        [number] ID   -> the player's server id
+
+        [string] case -> with this you can determine which URL, title and description will be posted
+
+        [table]  data -> this is the main value you want to keep a track
+        data.money - contains the remaining money of player
+        data.bet   - contains the bet values [Supported by CASES: bet]
+        data.won   - contains the win values [Supported by CASES: won]
+        data.lost  - contains the loss values [Supported by CASES: lost]
+
+        [string] poker_table -> where the event took place
+
+        [string] reason -> Which event the player triggered
+        Buy-In | Big Blind | Small Blind | Raised | Called | All-In | Left | Won | Lost
+        -You can use these for extra cases for translation or extra information inside your webhook json
+
+        CASES:
+        buy-in | bet | left | dropped | 
+]]
+function post_log(ID, case, data, poker_table, reason)
+    
+    -----------------------
+    --REMOVE ME IF USE
+    if true then return end
+    -----------------------
+
+    local URL, title, desc, steam = "", "", "", GetPlayerIdentifier(ID, 0)
+    if case == 'buy-in' then
+        -- URL   = "" --based on poker_tables ? unique url : action unique url
+        title = ""
+        desc  = reason.."\n"..steam.."\n@"..poker_table.."\n$"..tostring(data.money) --example
+    elseif case == 'bet' then
+        -- URL   = "" --based on poker_tables ? unique url : action unique url
+        title = ""
+        desc  = reason.."\n"..steam.."\n@"..poker_table.."\nBet - $"..tostring(data.bet).."\nRemaining - $"..tostring(data.money) --example
+    elseif case == 'left' then
+        URL   = ""
+        title = ""
+        desc  = reason.."\n"..steam.."\n@"..poker_table.."\nMoney that player should receive for leaving: $"..tostring(data.money) --example
+    elseif case == 'dropped' then
+        -- URL   = "" --based on poker_tables ? unique url : action unique url
+        title = ""
+        --reason = the playerdrop event reason
+        desc  = reason.."\n"..steam.."\n@"..poker_table.."\nMoney that player should receive for leaving: $"..tostring(data.money) --example
+    elseif case == 'won' then
+        -- URL   = "" --based on poker_tables ? unique url : action unique url
+        title = ""
+        desc  = reason.."\n"..steam.."\n@"..poker_table.."\nWon - $"..tostring(data.won).."\nRemaining - $"..tostring(data.money) --example
+    elseif case == 'lost' then
+        -- URL   = "" --based on poker_tables ? unique url : action unique url
+        title = ""
+        desc  = reason.."\n"..steam.."\n@"..poker_table.."\nLost - $"..tostring(data.lost).."\nRemaining - $"..tostring(data.money) --example
+    end
+    --This is a raw post request example to your webhook.
+    -- PerformHttpRequest(URL, function(err, text, headers) end, 'POST', json.encode({
+    --     username = "Poker - Webhook",
+    --     avatar_url = "",
+    --     embeds = {
+    --         {
+    --             ["author"] = {
+    --                 ["name"] = "",
+    --                 ["icon_url"] = ""
+    --             },
+    --             ["title"] = title,
+    --             ["url"] = "https://discord.com/api/webhooks/1087397333597167636/nfc9B9Fv2L4df61mLscg46wbaW2P8C7cnegsHGRZycZCJ_XyeU-YoTruE9CAu_lHB4fk",
+    --             ["description"] = desc,
+    --             ["color"] = 00000000,
+    --             ["fields"] = {
+    --                 {
+    --                     ["name"] = "",
+    --                     ["value"] = "",
+    --                     ["inline"] = true
+    --                 },
+    --                 {
+    --                     ["name"] = "",
+    --                     ["value"] = ""
+    --                 },
+    --             },
+    --             ["thumbnail"] = {
+    --                 ["url"] = ""
+    --             },
+    --             ["image"] = {
+    --                 ["url"] = ""
+    --             },
+    --             ["footer"] = {
+    --                 ["text"] = ""..os.date("!%c"),
+    --                 ["icon_url"] = ""
+    --             },
+    --         },
+
+    --     },
+    -- }), { ['Content-Type'] = 'application/json' })
+end
+---------------------------------------------------------------------------------------------------------
+
 function sv_notifyme(ID, title, message, timer, display)
     if display then
         TriggerClientEvent('f_notify:sendNotification', ID, message)
@@ -62,6 +195,8 @@ Config.tables = {
     vector -> coordinates of the poker table prop
     table -> the name of the poker table object
     charis -> the name of the poker table chair objects
+    offset -> is a degree value ranging from 0.0 to 360.0 this means you can rotate props around the table
+    to fit them appropriately in table seats for custom tables
     deck -> sleeve choices below:
     (any wrong input will revert back to default)
    ------------
@@ -83,6 +218,8 @@ Config.tables = {
         vector = vector3(-304.53515625, 801.1351928710938, 117.97854614257812),
         table  = 'p_tablepoker01x',
         chairs = 'p_windsorchair03x',
+        --multi_chair = true --This enables multiple chair models the chair key must be changed to an array of string
+        --chairs = { 'p_windsorchair03x', 'p_chair14x' }
         deck   = 'valentine',
         offset = 18.5
     },
@@ -93,13 +230,13 @@ Config.tables = {
         deck   = 'default',
         offset = 0.5
     },
-    Saint_Denis = {
-        vector = vector3(2630.739990234375, -1226.25048828125, 52.3793716430664),
-        table  = 'p_tablepoker04x',
-        chairs = 'p_chair14x',
+    Armadillo = {
+        vector = vector3(-3650.14990234375, -2549.889892578125, -15.1037540435791),
+        table  = 'p_tablepoker01x',
+        chairs = 'p_windsorchair03x',
         deck   = 'default',
         offset = 0.5
-    },
+    }
 }
 --//////////////////////////////////////////////////////////////////////////////////////////////////////
 

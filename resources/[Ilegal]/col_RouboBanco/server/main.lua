@@ -48,7 +48,30 @@ AddEventHandler("robbery:startrobbery", function(nome)
     end
 end)
 
+RegisterServerEvent("robbery:startrobberyArmadillo")
+AddEventHandler("robbery:startrobberyArmadillo", function(nome)
+    local _source = source
+    local player = VorpCore.getUser(_source).getUsedCharacter
+    local playername = player.firstname.. ' ' ..player.lastname
+    local checkPD = checkGuerrilha()
+    BankName = nome
 
+    -- verifica se o banco já foi roubado
+    if hasBeenRobbed then
+        TriggerClientEvent('vorp:TipRight', _source, 'Este banco já foi roubado!', 5000)
+        return
+    end
+
+    -- executa o evento
+    if checkPD == 1 then
+        if nome == "Armadillo" then
+            TriggerEvent('robbery:talk', _source)
+        end
+        SendWebhookMessage(wbhk,"```prolog\n[BANCOS]: ".. playername .." \nINICIOU ROUBO AO BANCO DE "..nome..""..os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S").." \r```")
+    elseif checkPD == 0 then
+        TriggerClientEvent('vorp:TipRight', _source, 'Não há policiais suficientes', 5000)
+    end
+end)
 
 function checkPDreq()
     local users = GetPlayers()
@@ -69,7 +92,24 @@ function checkPDreq()
     return(1)
 
 end
+function checkGuerrilha()
+    local users = GetPlayers()
+    local guerrilhaon = 0
 
+    for _k,_v in pairs(users) do
+        local users = VorpCore.getUser(_v)
+        local character = users.getUsedCharacter
+        
+        if character.job == "guerrilha" then
+            guerrilhaon = guerrilhaon + 1
+        end   
+    end
+    
+    if guerrilhaon < 6 then
+        return(0)
+    end
+    return(1)
+end
 RegisterServerEvent('robbery:talk')
 AddEventHandler('robbery:talk', function(source)
     local _source = source
@@ -82,7 +122,7 @@ AddEventHandler("robbery:dynamite", function(coords)
     local _source = source
     local Character = VorpCore.getUser(source).getUsedCharacter
     local count = VORP.getItemCount(_source, "dynamite")
-
+    print(count)
     if count >= 1 then      
         VORP.subItem(_source,"dynamite", 1)  
         TriggerClientEvent('robbery:startAnimation3', _source, coords, BankName)

@@ -95,7 +95,7 @@ RegisterCommand("mainmenu", function(source, args, rawCommand)
         })
         SetNuiFocus(true, true)
     else
-        TriggerEvent('RedM:Notify', 'notify', 'Você não pode fazer isso!')
+        TriggerEvent('RedM:Notification', 'notify', 'Você não pode fazer isso!')
     end
 end, false)
 

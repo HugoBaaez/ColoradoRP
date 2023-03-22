@@ -22,7 +22,7 @@ Citizen.CreateThread(function()
                     if jobcheck(Config.job, playerjob) and tonumber(playerrank) >= Config.jobrankcraft then
                         TriggerEvent("indios:client:OpenMenu")
                     else
-                        TriggerEvent("RedM:Notify",'notify', 'Você não tem permissão!')
+                        TriggerEvent("RedM:Notification",'notify', 'Você não tem permissão!')
                     end
                 end
             end
@@ -36,7 +36,7 @@ Citizen.CreateThread(function()
                     if jobcheck(Config.job, playerjob) and tonumber(playerrank) >= Config.jobrankcraft then
                         TriggerEvent("indios:client:OpenMenu")
                     else
-                        TriggerEvent("RedM:Notify",'notify', 'Você não tem permissão!')
+                        TriggerEvent("RedM:Notification",'notify', 'Você não tem permissão!')
                     end
                 end
             end
@@ -50,7 +50,7 @@ Citizen.CreateThread(function()
                         if jobcheck(Config.job, playerjob) and tonumber(playerrank) >= Config.jobrankcraft then
                             TriggerEvent("indios:client:OpenMenu")
                         else
-                            TriggerEvent("RedM:Notify",'notify', 'Você não tem permissão!')
+                            TriggerEvent("RedM:Notification",'notify', 'Você não tem permissão!')
                         end
                     end
                 end
@@ -268,8 +268,9 @@ RegisterCommand('lobo1', function (source, args, rawCommand)
         ClearPedTasksImmediately(ped)
         Citizen.InvokeNative(0xD3A7B003ED343FD9 , PlayerPedId(),  0x1FC12C9C, true, true, true)
         SetMonModel("MP_A_C_Wolf_01")
+        TriggerServerEvent('indios:webhook', "Lobo")
     else
-        TriggerEvent("RedM:Notify",'notify', 'Você não tem permissão!')
+        TriggerEvent("RedM:Notification",'notify', 'Você não tem permissão!')
     end
 end)
 
@@ -282,7 +283,8 @@ RegisterCommand('coruja', function (source, args, rawCommand)
         ClearPedTasksImmediately(ped)
         Citizen.InvokeNative(0xD3A7B003ED343FD9 , PlayerPedId(),  0x1FC12C9C, true, true, true)
         SetMonModel("A_C_Owl_01")
+        TriggerServerEvent('indios:webhook', "Coruja")
     else
-        TriggerEvent("RedM:Notify",'notify', 'Você não tem permissão!')
+        TriggerEvent("RedM:Notification",'notify', 'Você não tem permissão!')
     end
 end)

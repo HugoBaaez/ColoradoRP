@@ -105,7 +105,7 @@ Config.Buy_Spot = {
         butcher = false,
         blip = true,
         blip_name = "Loja de Valentine",
-        blip_type = 1475879922,
+        blip_type = 819673798,
         center = {-322.73, 801.77, 117.93, 5.0},
         enable_tax = true,
         min_max = {40.0, 100.0},
@@ -135,11 +135,11 @@ Config.Buy_Spot = {
                 coord = {-322.965, 804.7943, 117.93},
                 camer = {-322.465, 804.7943, 118.10, 96.13},
             },
-            cafe_consumivel = {
-                name = "Café",   props = "p_mugcoffee01x",    price = 0.40,   tax = 0.03,
-                coord = {-323.56, 796.73, 117.66, 7.87},
-                camer = {-323.64, 796.55, 117.85, -168.82},
-            },
+            -- cafe_consumivel = {
+            --     name = "Café",   props = "p_mugcoffee01x",    price = 0.40,   tax = 0.03,
+            --     coord = {-323.56, 796.73, 117.66, 7.87},
+            --     camer = {-323.64, 796.55, 117.85, -168.82},
+            -- },
             consumable_haycube = {
                 name = "Feno em Cubo", props = "s_horsnack_haycube01x", price = 1.30, tax = 0.03,
                 coord = {-324.06, 796.59, 117.69, 7.87}, 
@@ -155,11 +155,11 @@ Config.Buy_Spot = {
                 coord = {-325.28, 799.57, 117.94, 91.36},
                 camer = {-324.65, 799.68, 118.22, 99.66},
             },
-            biscoito = {
-                name = "Biscoitos",  props = "p_biscuits02x",  price = 0.40,   tax = 0.03,
-                coord = {-319.70, 802.02, 118.19, 108.28},
-                camer = {-320.19, 801.93, 118.32, -77.66},
-            },
+            -- biscoito = {
+            --     name = "Biscoitos",  props = "p_biscuits02x",  price = 0.40,   tax = 0.03,
+            --     coord = {-319.70, 802.02, 118.19, 108.28},
+            --     camer = {-320.19, 801.93, 118.32, -77.66},
+            -- },
             hairpomade = {
                 name = "Pomada de cabelo", props = "p_boxgelatin01x", price = 0.70, tax = 0.03,
                 coord = {-319.97, 803.60, 118.18, 108.28},
@@ -190,16 +190,16 @@ Config.Buy_Spot = {
                 coord = {-322.59, 799.93, 117.88, 50.65},
                 camer = {-322.12, 799.53, 118.28, 52.47},
             },
-            salmao_enlatado = {
-                name = "Salmão Enlatado", props = "s_canbeansused01x", price = 0.80,   tax = 0.03,
-                coord = {-319.43, 800.25, 118.24, 282.00},
-                camer = {-319.10, 799.12, 118.24, 282.00},
-            },
-            feijaoenlatado = {
-                name = "Feijão Enlatdo",   props = "s_canbeansused01x", price = 0.80,   tax = 0.03,
-                coord = {-319.47, 800.74, 118.19, 9.59},
-                camer = {-320.09, 800.63, 118.47, -81.62},
-            },
+            -- salmao_enlatado = {
+            --     name = "Salmão Enlatado", props = "s_canbeansused01x", price = 0.80,   tax = 0.03,
+            --     coord = {-319.43, 800.25, 118.24, 282.00},
+            --     camer = {-319.10, 799.12, 118.24, 282.00},
+            -- },
+            -- feijaoenlatado = {
+            --     name = "Feijão Enlatdo",   props = "s_canbeansused01x", price = 0.80,   tax = 0.03,
+            --     coord = {-319.47, 800.74, 118.19, 9.59},
+            --     camer = {-320.09, 800.63, 118.47, -81.62},
+            -- },
             tabacomascar = {
                 name = "Tabaco de Mascar", props = "s_tobaccotin01x", price = 1.00, tax = 0.03,
                 coord = {-321.12, 797.15, 117.60},
@@ -211,7 +211,7 @@ Config.Buy_Spot = {
         butcher = false,
         blip = true,
         blip_name = "Blackwater store",
-        blip_type = 1475879922,
+        blip_type = 819673798,
         center = {-785.49, -1324.54, 42.88, 10.0},
         enable_tax = true,
         min_max = {40.0, 100.0},
@@ -231,11 +231,11 @@ Config.Buy_Spot = {
                 coord = {-788.02, -1321.26, 43.68, 43.00},
                 camer = {-788.02, -1321.68, 43.94, 0.61},
             },
-            salmao_enlatado = {
-                name = "Salmão Enlatado", props = "s_canbeansused01x", price = 0.80, tax = 0.03,
-                coord = {-784.801, -1327.25, 43.683},
-                camer = {-784.791, -1326.50, 44.083,-175.36},
-            },
+            -- salmao_enlatado = {
+            --     name = "Salmão Enlatado", props = "s_canbeansused01x", price = 0.80, tax = 0.03,
+            --     coord = {-784.801, -1327.25, 43.683},
+            --     camer = {-784.791, -1326.50, 44.083,-175.36},
+            -- },
             cigarro = {
                 name = "Cigarro",    props = "p_cigarette_cs02x",  price = 0.90,   tax = 0.03,
                 coord = {-788.63, -1327.39, 43.94, 177.39},
@@ -266,11 +266,11 @@ Config.Buy_Spot = {
                 coord = {-786.269, -1323.11, 43.90},
                 camer = {-786.269, -1323.91, 44.084, 2.75},
             },
-            cafe_consumivel = {
-                name = "Café",   props = "p_mugcoffee01x",    price = 0.40,   tax = 0.03,
-                coord = {-786.82, -1322.26, 43.93, 287.68},
-                camer = {-787.14, -1322.39, 44.06, -67.55},
-            },
+            -- cafe_consumivel = {
+            --     name = "Café",   props = "p_mugcoffee01x",    price = 0.40,   tax = 0.03,
+            --     coord = {-786.82, -1322.26, 43.93, 287.68},
+            --     camer = {-787.14, -1322.39, 44.06, -67.55},
+            -- },
             garrafavazia = {
                 name = "Garrafa Vazia", props = "p_bottletequilafull02x",   price = 0.10,   tax = 0.03,
                 coord = {-787.05, -1327.38, 43.92, -148.84},
@@ -281,11 +281,11 @@ Config.Buy_Spot = {
                 coord = {-785.65, -1325.12, 43.51, 272.00},
                 camer = {-785.87, -1324.60, 43.87, -157.23},
             },
-            biscoito = {
-                name = "Biscoitos",  props = "p_biscuits02x",  price = 0.40,   tax = 0.03,
-                coord = {-785.50, -1327.26, 43.66, 357.49},
-                camer = {-785.53, -1326.91, 43.80, -175.36},
-            },
+            -- biscoito = {
+            --     name = "Biscoitos",  props = "p_biscuits02x",  price = 0.40,   tax = 0.03,
+            --     coord = {-785.50, -1327.26, 43.66, 357.49},
+            --     camer = {-785.53, -1326.91, 43.80, -175.36},
+            -- },
             maca = {
                 name = "Maçã",    props = "s_inv_apple01x",   price = 0.20,   tax = 0.03,
                 coord = {-783.76, -1327.28, 43.70, -88.56},
@@ -302,7 +302,7 @@ Config.Buy_Spot = {
         butcher = false,
         blip = true,
         blip_name = "Loja de Saint Denis",
-        blip_type = 1475879922,
+        blip_type = 819673798,
         center = {2829.72, -1313.29, 46.17, 10.0},
         enable_tax = true,
         min_max = {40.0, 100.0},
@@ -327,21 +327,21 @@ Config.Buy_Spot = {
                 coord = {2834.07, -1313.01, 46.80, 225.39},
                 camer = {2833.72, -1312.71, 46.99, -130.89},
             },
-            cafe_consumivel = {
-                name = "Café",   props = "p_mugcoffee01x",    price = 1.00,   tax = 0.03,
-                coord = {2831.63, -1309.64, 47.25, 287.68},
-                camer = {2831.45, -1309.86, 47.39, -41.89},
-            },
-            salmao_enlatado = {
-                name = "Salmão Enlatado", props = "s_canbeansused01x", price = 0.80, tax = 0.03,
-                coord = {2833.32, -1311.08, 46.81},
-                camer = {2833.52, -1311.18, 46.95, 325.47},
-            },
-            feijaoenlatado = {
-                name = "Feijão enlatado", props = "s_canbeansused01x", price = 0.80, tax = 0.03,
-                coord = {2832.50, -1310.50, 46.85},
-                camer = {2831.943, -1311.14, 46.955, 323.35},
-            },
+            -- cafe_consumivel = {
+            --     name = "Café",   props = "p_mugcoffee01x",    price = 1.00,   tax = 0.03,
+            --     coord = {2831.63, -1309.64, 47.25, 287.68},
+            --     camer = {2831.45, -1309.86, 47.39, -41.89},
+            -- },
+            -- salmao_enlatado = {
+            --     name = "Salmão Enlatado", props = "s_canbeansused01x", price = 0.80, tax = 0.03,
+            --     coord = {2833.32, -1311.08, 46.81},
+            --     camer = {2833.52, -1311.18, 46.95, 325.47},
+            -- },
+            -- feijaoenlatado = {
+            --     name = "Feijão enlatado", props = "s_canbeansused01x", price = 0.80, tax = 0.03,
+            --     coord = {2832.50, -1310.50, 46.85},
+            --     camer = {2831.943, -1311.14, 46.955, 323.35},
+            -- },
             telegram = {
                 name = "Papel para telegrama", props = "s_inv_paper02e_x", price = 0.20, tax = 0.03,
                 coord = {2827.52, -1321.00, 47.26},
@@ -357,11 +357,11 @@ Config.Buy_Spot = {
                 coord = {2828.07, -1310.21, 46.80, 272.00},
                 camer = {2828.45, -1310.53, 47.08, 49.22},
             },
-            biscoito = {
-                name = "Biscoitos",  props = "p_biscuits02x",  price = 1,   tax = 0.03,
-                coord = {2825.95, -1312.78, 46.80, 357.49},
-                camer = {2826.29, -1313.04, 46.98, 49.22},
-            },
+            -- biscoito = {
+            --     name = "Biscoitos",  props = "p_biscuits02x",  price = 1,   tax = 0.03,
+            --     coord = {2825.95, -1312.78, 46.80, 357.49},
+            --     camer = {2826.29, -1313.04, 46.98, 49.22},
+            -- },
             maca = {
                 name = "Maçã",    props = "s_inv_apple01x",   price = 0.30,   tax = 0.03,
                 coord = {2828.66, -1314.52, 46.73},
@@ -384,7 +384,7 @@ Config.Buy_Spot = {
         butcher = false,
         blip = true,
         blip_name = "Loja de Strawberry",
-        blip_type = 1475879922,
+        blip_type = 819673798,
         center = {-1791.75, -385.58, 160.34, 10.0},
         enable_tax = true,
         min_max = {40.0, 100.0},
@@ -404,21 +404,21 @@ Config.Buy_Spot = {
                 coord = {-1792.967, -384.9832, 160.1349},
                 camer = {-1792.967, -384.9832, 160.1349, 147.86},
             },
-            cafe_consumivel = {
-                name = "Café",   props = "p_mugcoffee01x",    price = 1.00,   tax = 0.03,
-                coord = {-1790.523, -386.0093, 160.1279},
-                camer = {-1790.523, -386.0093, 160.1279, 233.41},
-            },
-            salmao_enlatado = {
-                name = "Salmão Enlatado", props = "s_canbeansused01x", price = 0.80, tax = 0.03,
-                coord = {-1792.683, -388.6552, 159.7805},
-                camer = {-1792.683, -388.6552, 159.7805, 147.46},
-            },
-            feijaoenlatado = {
-                name = "Feijão enlatado", props = "s_canbeansused01x", price = 0.80, tax = 0.03,
-                coord = {-1793.632, -387.9778, 159.7805},
-                camer = {-1793.632, -387.9778, 159.7805, 137.52},
-            },
+            -- cafe_consumivel = {
+            --     name = "Café",   props = "p_mugcoffee01x",    price = 1.00,   tax = 0.03,
+            --     coord = {-1790.523, -386.0093, 160.1279},
+            --     camer = {-1790.523, -386.0093, 160.1279, 233.41},
+            -- },
+            -- salmao_enlatado = {
+            --     name = "Salmão Enlatado", props = "s_canbeansused01x", price = 0.80, tax = 0.03,
+            --     coord = {-1792.683, -388.6552, 159.7805},
+            --     camer = {-1792.683, -388.6552, 159.7805, 147.46},
+            -- },
+            -- feijaoenlatado = {
+            --     name = "Feijão enlatado", props = "s_canbeansused01x", price = 0.80, tax = 0.03,
+            --     coord = {-1793.632, -387.9778, 159.7805},
+            --     camer = {-1793.632, -387.9778, 159.7805, 137.52},
+            -- },
             telegram = {
                 name = "Papel para telegrama", props = "s_inv_paper02e_x", price = 0.20, tax = 0.03,
                 coord = {-1790.887, -387.6599, 160.3719},
@@ -461,7 +461,7 @@ Config.Buy_Spot = {
         butcher = false,
         blip = true,
         blip_name = "Loja de Sementes",
-        blip_type = 1475879922,
+        blip_type = 819673798,
         center = {2821.58, -1225.90, 47.75, 10.0},
         enable_tax = false,
         min_max = {40.0, 100.0},
@@ -512,7 +512,7 @@ Config.Buy_Spot = {
         butcher = false,
         blip = true,
         blip_name = "Rhodes store",
-        blip_type = 1475879922,
+        blip_type = 819673798,
         center = {1329.91, -1292.27, 78.64, 10.0},
         enable_tax = true,
         min_max = {40.0, 100.0},
@@ -537,11 +537,11 @@ Config.Buy_Spot = {
                 coord = {1327.04, -1288.45, 76.81, -24.56},
                 camer = {1326.89, -1288.75, 76.97, -26.68},
             },
-            cafe_consumivel = {
-                name = "Café",   props = "p_mugcoffee01x",    price = 0.40,   tax = 0.03,
-                coord = {1325.24, -1289.07, 77.05, 48.24},
-                camer = {1325.49, -1289.19, 77.18, 64.23},
-            },
+            -- cafe_consumivel = {
+            --     name = "Café",   props = "p_mugcoffee01x",    price = 0.40,   tax = 0.03,
+            --     coord = {1325.24, -1289.07, 77.05, 48.24},
+            --     camer = {1325.49, -1289.19, 77.18, 64.23},
+            -- },
             garrafavazia = {
                 name = "Garrafa Vazia", props = "p_bottletequilafull02x",   price = 0.10,   tax = 0.03,
                 coord = {1324.61, -1293.48, 76.82, 154.03},
@@ -562,11 +562,11 @@ Config.Buy_Spot = {
                 coord = {1329.88, -1289.84, 76.78, -24.97},
                 camer = {1329.69, -1290.41, 77.00, -22.74},
             },
-            salmao_enlatado = {
-                name = "Salmão Enlatado", props = "s_canbeansused01x", price = 0.80, tax = 0.03,
-                coord = {1324.35, -1290.93, 77.05},
-                camer = {1324.75, -1290.93, 77.22, 71.05},
-            },
+            -- salmao_enlatado = {
+            --     name = "Salmão Enlatado", props = "s_canbeansused01x", price = 0.80, tax = 0.03,
+            --     coord = {1324.35, -1290.93, 77.05},
+            --     camer = {1324.75, -1290.93, 77.22, 71.05},
+            -- },
             consumable_haycube = {
                 name = "Feno em Cubo", props = "s_horsnack_haycube01x", price = 1.30, tax = 0.03,
                 coord = {1328.84, -1293.98, 77.06},
@@ -583,7 +583,7 @@ Config.Buy_Spot = {
         butcher = false,
         blip = true,
         blip_name = "Armadilo",
-        blip_type = 1475879922,
+        blip_type = 819673798,
         center = {-3684.88, -2626.52, -13.43, 10.0},
         enable_tax = true,
         min_max = {40.0, 100.0},
@@ -638,18 +638,23 @@ Config.Buy_Spot = {
                 coord = {-3684.046, -2622.233, -13.90135},
                 camer = {-3684.046, -2622.233, -13.90135, 4.71}
             },
-            dynamite = {
-                name = "Dinamite", props = "p_dynamite02x", price = 700, tax = 0.03,
-                coord = {-3689.433, -2626.063, -13.63341},
-                camer = {-3689.433, -2626.063, -13.63341, 356.61},
+            telegram = {
+                name = "Papel para Telegrama", props = "s_inv_paper02e_x", price = 0.20, tax = 0.03,
+                coord = {-3688.699219, -2623.715820, -12.933513},
+                camer = {-3688.699219, -2623.715820, -12.933513, 271.73},
             },
+            -- dynamite = {
+            --     name = "Dinamite", props = "p_dynamite02x", price = 700, tax = 0.03,
+            --     coord = {-3689.433, -2626.063, -13.63341},
+            --     camer = {-3689.433, -2626.063, -13.63341, 356.61},
+            -- },
         }
     },
     Emerald_Ranch = {
         butcher = false,
         blip = true,
         blip_name = "Emerald",
-        blip_type = 1475879922,
+        blip_type = 819673798,
         center = {1419.44, 376.85, 90.32, 10.0},
         enable_tax = false,
         min_max = {40.0, 100.0},
@@ -751,7 +756,7 @@ Config.Sell_Spot = {
         center = {-751.12, -1284.87, 43.29},
         j_coord = {-751.12, -1279.34, 43.37},
         expand_cd = {2838.19, -1364.30, 46.27},
-        box_tax = {2.0, 2.3},--TAX | Price
+        box_tax = {2.0, 7.3},--TAX | Price
         butcher_tax = 1.00,--For Carcass
 
         cart_spawn = "huntercart01",
@@ -783,10 +788,10 @@ Config.Sell_Spot = {
                 price = 0.07,
                 tax = 0.10,
             },
-            Fish_meat = {
-                price = 0.05,
-                tax = 0.10,
-            },
+            -- Fish_meat = {
+            --     price = 0.05,
+            --     tax = 0.10,
+            -- },
         }
     },
     Rhodes_Butcher = {
@@ -800,7 +805,7 @@ Config.Sell_Spot = {
         center = {1296.38, -1279.60, 75.85},
         j_coord = {1305.92, -1277.13, 75.97},
         expand_cd = {2838.19, -1364.30, 46.27},
-        box_tax = {2.0, 1.33},--TAX | Price
+        box_tax = {2.0, 4.33},--TAX | Price
         butcher_tax = 1.00,--For Carcass
 
         cart_spawn = "huntercart01",
@@ -832,10 +837,10 @@ Config.Sell_Spot = {
                 price = 0.07,
                 tax = 0.10,
             },
-            Fish_meat = {
-                price = 0.05,
-                tax = 0.10,
-            },
+            -- Fish_meat = {
+            --     price = 0.05,
+            --     tax = 0.10,
+            -- },
         }
     },
     Annesburg_Butcher = {
@@ -849,7 +854,7 @@ Config.Sell_Spot = {
         center = {2932.60, 1301.90, 44.49},
         j_coord = {2939.21, 1308.10, 44.49},
         expand_cd = {2838.19, -1364.30, 46.27},
-        box_tax = {2.0, 1.7},--TAX | Price
+        box_tax = {2.0, 5.7},--TAX | Price
         butcher_tax = 1.00,--For Carcass
 
         cart_spawn = "huntercart01",
@@ -881,10 +886,10 @@ Config.Sell_Spot = {
                 price = 0.07,
                 tax = 0.10,
             },
-            Fish_meat = {
-                price = 0.05,
-                tax = 0.10,
-            },
+            -- Fish_meat = {
+            --     price = 0.05,
+            --     tax = 0.10,
+            -- },
         }
     },
     Armadillo_Butcher = {
@@ -898,7 +903,7 @@ Config.Sell_Spot = {
         center = {-3691.36, -2620.23, -13.73},
         j_coord = {-3695.49, -2622.63, -13.78},
         expand_cd = {2838.19, -1364.30, 46.27},
-        box_tax = {2.0, 2.0},--TAX | Price
+        box_tax = {1.0, 8.0},--TAX | Price
         butcher_tax = 1.00,--For Carcass
 
         cart_spawn = "huntercart01",
@@ -930,10 +935,10 @@ Config.Sell_Spot = {
                 price = 0.07,
                 tax = 0.10,
             },
-            Fish_meat = {
-                price = 0.05,
-                tax = 0.10,
-            },
+            -- Fish_meat = {
+            --     price = 0.05,
+            --     tax = 0.10,
+            -- },
         }
     },
     Strawberry_Butcher = {
@@ -947,7 +952,7 @@ Config.Sell_Spot = {
         center = {-1752.00, -392.638, 156.25},
         j_coord = {-1743.73, -393.301, 156.78},
         expand_cd = {2838.19, -1364.30, 46.27},
-        box_tax = {2.0, 1.7},--TAX | Price
+        box_tax = {2.0, 4.7},--TAX | Price
         butcher_tax = 1.00,--For Carcass
 
         cart_spawn = "huntercart01",
@@ -979,10 +984,10 @@ Config.Sell_Spot = {
                 price = 0.07,
                 tax = 0.10,
             },
-            Fish_meat = {
-                price = 0.05,
-                tax = 0.10,
-            },
+            -- Fish_meat = {
+            --     price = 0.05,
+            --     tax = 0.10,
+            -- },
         }
     },
    Venda_prod_roubados = {
@@ -1043,7 +1048,7 @@ Config.Sell_Spot = {
         blip = true,
         blip_name = "Verdureira",
         blip_job = "",
-        blip_type = 1475879922,
+        blip_type = 819673798,
         enable_tax = false,
         min_max = {40.0, 100.0},
         center = {-841.154, -1366.09, 43.938},

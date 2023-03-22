@@ -34,7 +34,6 @@ function startPlay()
 end
 
 function stopPlay()
-	print("stoplay")
     resetGameVariables()
     inTable = false
     TriggerServerEvent('ak_blackjack:Request_Leave', target_table)
@@ -43,7 +42,6 @@ function stopPlay()
 end
 
 function resetGameVariables()
-	print("reset")
     playerCards = {}
     otherplayersCards = {}
     dealerCards = {}
@@ -138,13 +136,14 @@ function CallPrompt()
     end)
 end
 
+
 Citizen.CreateThread(function()
     while true do
         Wait(0)
         local pos = GetEntityCoords(PlayerPedId())
 
-        if (Vdist(pos.x, pos.y, pos.z, -311.081, 801.2246, 118.98) < 1.3) then -- Valentine
-			DrawText3Ds(-311.081, 801.2246, 118.98, "Pressione [G] para jogar")
+        if (Vdist(pos.x, pos.y, pos.z, -3649.76, -2555.16, -14.98) < 2.2) then -- Rhodes
+			DrawText3Ds(-3649.76, -2555.16, -14.98, "Pressione [G] para jogar")
             if IsControlJustPressed(0, 0x760A9C6F) then
 				stopPlay()
 				Citizen.Wait(2000)
@@ -162,48 +161,10 @@ Citizen.CreateThread(function()
         Wait(0)
         local pos = GetEntityCoords(PlayerPedId())
 
-        if (Vdist(pos.x, pos.y, pos.z, 1339.635, -1372.17, 84.096) < 1.8) then -- Rhodes
-			DrawText3Ds(1339.635, -1372.17, 84.096, "Pressione [G] para jogar")
+        if (Vdist(pos.x, pos.y, pos.z, -3657.12, -2553.67, -14.98) < 2.2) then --BlackWater
+			DrawText3Ds(-3657.12, -2553.67, -14.98, "Pressione [G] para jogar")
             if IsControlJustPressed(0, 0x760A9C6F) then
-				stopPlay()
-				Citizen.Wait(2000)
-				local player = PlayerPedId()
-                StartBlackJack()
-            end
-            
-		else
-			Citizen.Wait(1000)
-        end
-	end
-end)
-Citizen.CreateThread(function()
-    while true do
-        Wait(0)
-        local pos = GetEntityCoords(PlayerPedId())
-
-        if (Vdist(pos.x, pos.y, pos.z, -813.202, -1324.12, 47.689) < 1.8) then --BlackWater
-			DrawText3Ds(-813.202, -1324.12, 47.689, "Pressione [G] para jogar")
-            if IsControlJustPressed(0, 0x760A9C6F) then
-				stopPlay()
-				Citizen.Wait(2000)
-				local player = PlayerPedId()
-                StartBlackJack()
-            end
-            
-		else
-			Citizen.Wait(1000)
-        end
-	end
-end)
-Citizen.CreateThread(function()
-    while true do
-        Wait(0)
-        local pos = GetEntityCoords(PlayerPedId())
-
-        if (Vdist(pos.x, pos.y, pos.z, -3707.95, -2596.45, -13.32) < 1.8) then -- Armadillo
-			DrawText3Ds(-3707.95, -2596.45, -13.32, "Pressione [G] para jogar")
-            if IsControlJustPressed(0, 0x760A9C6F) then
-				stopPlay()
+				-- stopPlay()
 				Citizen.Wait(2000)
 				local player = PlayerPedId()
                 StartBlackJack()
@@ -247,7 +208,6 @@ function StartBlackJack()
             Citizen.Wait(0)
 			distance = Vdist(GetEntityCoords(ped) , v ) < 2.5
 			target_table = i
-
             if not inTable then
 				
 				TriggerEvent("vorp:Tip", "Blackjack você não deve exceder 21. As cartas de rosto são 10 e ases são 10 ou 1. Quem chegar mais perto de 21 ganha!", 10000) -- from client side
@@ -330,8 +290,6 @@ AddEventHandler('ak_blackjack:ReceiveCard', function(card, type , target)
 		PlaySoundFrontend("enter", "RDRO_Winners_Screen_Sounds", true, 0)
 	end
     if type == "player" then
-        print(card)
-		print(target)
         if target == GetPlayerServerId(PlayerId()) then
             table.insert(playerCards, card)
             SendNUIMessage({type = 'player' , cards = playerCards})
@@ -339,7 +297,6 @@ AddEventHandler('ak_blackjack:ReceiveCard', function(card, type , target)
             local test = false
             for k ,v in pairs (otherplayersCards) do
                 if v.source == target then
-                    print("mam juz ")
                     test = true
                     table.insert(v.card , card)
                 end
@@ -349,7 +306,6 @@ AddEventHandler('ak_blackjack:ReceiveCard', function(card, type , target)
                 table.insert(test2 , card)
                 otherplayersCards[#otherplayersCards + 1] = {source = target,  card = test2}
             end
-			print(json.encode(otherplayersCards))
             SendNUIMessage({type = 'other' , cards = otherplayersCards})
         end
     else
@@ -413,7 +369,7 @@ Citizen.CreateThread(function()
     Wait(500)
     RequestModel( GetHashKey("mp_fm_stakeout_poker_males_01") )
     end
-    local Dealer = CreatePed(GetHashKey("mp_fm_stakeout_poker_males_01"), -311.162, 800.1871, 117.98, 13.46, false, false, 0, 0) -- VALENTINE
+    local Dealer = CreatePed(GetHashKey("mp_fm_stakeout_poker_males_01"), -3657.12, -2553.67, -14.98, 293.37, false, false, 0, 0) -- VALENTINE
     while not DoesEntityExist(Dealer) do
     Wait(300)
     end
@@ -430,7 +386,7 @@ Citizen.CreateThread(function()
     Wait(500)
     RequestModel( GetHashKey("mp_fm_stakeout_poker_males_01") )
     end
-    local Dealer = CreatePed(GetHashKey("mp_fm_stakeout_poker_males_01"), 1338.642, -1372.02, 83.390, 260.0, false, false, 0, 0) -- RHODES
+    local Dealer = CreatePed(GetHashKey("mp_fm_stakeout_poker_males_01"), -3649.76, -2555.16, -14.98, 33.84, false, false, 0, 0) -- RHODES
     while not DoesEntityExist(Dealer) do
     Wait(300)
     end
@@ -442,41 +398,6 @@ Citizen.CreateThread(function()
     SetEntityAsMissionEntity(Dealer, true, true)
 	SetBlockingOfNonTemporaryEvents(Dealer, true)
     SetModelAsNoLongerNeeded(GetHashKey("mp_fm_stakeout_poker_males_01"))
-
-    while not HasModelLoaded( GetHashKey("mp_fm_stakeout_poker_males_01") ) do
-    Wait(500)
-    RequestModel( GetHashKey("mp_fm_stakeout_poker_males_01") )
-    end
-    local Dealer = CreatePed(GetHashKey("mp_fm_stakeout_poker_males_01"), -813.273, -1323.29, 46.885, 177.33, false, false, 0, 0) -- BlackWater
-    while not DoesEntityExist(Dealer) do
-    Wait(300)
-    end
-    Citizen.InvokeNative(0x283978A15512B2FE, Dealer, true)
-    FreezeEntityPosition(Dealer, true)
-    SetEntityInvincible(Dealer, true)
-    TaskStandStill(Dealer, -1)
-    SetEntityCanBeDamagedByRelationshipGroup(Dealer, false, `PLAYER`)
-    SetEntityAsMissionEntity(Dealer, true, true)
-    SetBlockingOfNonTemporaryEvents(Dealer, true)
-    SetModelAsNoLongerNeeded(GetHashKey("mp_fm_stakeout_poker_males_01"))
-
-    --[[while not HasModelLoaded( GetHashKey("mp_fm_stakeout_poker_males_01") ) do
-    Wait(500)
-    RequestModel( GetHashKey("mp_fm_stakeout_poker_males_01") )
-    end
-    local Dealer = CreatePed(GetHashKey("mp_fm_stakeout_poker_males_01"), -3706.44, -2596.91, -13.32, 53.95, false, false, 0, 0) -- Armadillo
-    while not DoesEntityExist(Dealer) do
-    Wait(300)
-    end
-    Citizen.InvokeNative(0x283978A15512B2FE, Dealer, true)
-    FreezeEntityPosition(Dealer, true)
-    SetEntityInvincible(Dealer, true)
-    TaskStandStill(Dealer, -1)
-    SetEntityCanBeDamagedByRelationshipGroup(Dealer, false, `PLAYER`)
-    SetEntityAsMissionEntity(Dealer, true, true)
-    SetBlockingOfNonTemporaryEvents(Dealer, true)
-    SetModelAsNoLongerNeeded(GetHashKey("mp_fm_stakeout_poker_males_01"))]]
-	
 end)
 
 function DrawTxt(str, x, y, w, h, enableShadow, col1, col2, col3, a, centre)

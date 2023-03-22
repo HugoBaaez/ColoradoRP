@@ -79,12 +79,9 @@ AddEventHandler('FrankieSellToNPC:CheckTabAndSellItMyGuy', function(Coords)
 
             if itemCount ~= nil then
                 if sellFcked == 1 then
-                    print(json.encode("sorte "..luck))
                     if luck > 8 then
                         TriggerClientEvent("vorp:TipRight", _source, 'Eu não quero suas coisas, seu idiota', 6000)
                     else
-                        print(json.encode("quantidade "..itemCount))
-                        print(json.encode("item "..item.item))
                         if itemCount >= AmountToSell then
                             Inventory.subItem(_source, item.item, AmountToSell)
                             local price = AmountToSell* (item.priceMax - item.priceMin) + item.priceMin
@@ -116,7 +113,6 @@ AddEventHandler("policenotify3", function(players, coords)
     
     
     if checkPD == 1 then
-        print(json.encode(checkPD))
         for each, player in ipairs(players) do
             TriggerEvent("vorp:getCharacter", player, function(user)
                 if user ~= nil then
@@ -137,16 +133,16 @@ AddEventHandler("moonshiner:original", function()
     local count = Inventory.getItemCount(_source, "acucar")
     local count2 = Inventory.getItemCount(_source, "agua")
     local count3 = Inventory.getItemCount(_source, "milho")
-	if count >= 1 and count2 >= 5 and count3 >= 5 then		    
+	if count >= 1 and count2 >= 2 and count3 >= 3 then		    
         Inventory.subItem(_source,"acucar", 1)
-        Inventory.subItem(_source,"agua", 5)
-        Inventory.subItem(_source,"milho", 5) 
+        Inventory.subItem(_source,"agua", 2)
+        Inventory.subItem(_source,"milho", 3) 
         TriggerClientEvent('shiner:moonshine', _source)
         Wait(30000)
         Inventory.addItem(_source, "moonshine", 5)
-            
+        TriggerClientEvent("vorp:NotifyLeft", _source, "Sucesso", "Você recebeu 5 Moonshine", "menu_textures", "cross", 3000, "COLOR_WHITE")
     else
-        TriggerClientEvent("vorp:NotifyLeft", _source, "~e~Erro!", "Você precisa de: 1 Açucar, 5 Água e 5 Milhos.", "menu_textures", "cross", 3000, "COLOR_WHITE")
+        TriggerClientEvent("vorp:NotifyLeft", _source, "~e~Erro!", "Você precisa de: 1 Açucar, 2 Água e 3 Milhos.", "menu_textures", "cross", 3000, "COLOR_WHITE")
     end
 end)
 
@@ -162,10 +158,10 @@ AddEventHandler("moonshiner:tropical", function()
         Inventory.subItem(_source,"alcool", 2)
         TriggerClientEvent('shiner:moonshine', _source)
         Wait(30000)
-        Inventory.addItem(_source, "tropicalPunchMoonshine", 1)
-            
+        Inventory.addItem(_source, "tropicalPunchMoonshine", 5)
+        TriggerClientEvent("vorp:NotifyLeft", _source, "Sucesso", "Você recebeu 5 Moonshine Tropical", "menu_textures", "cross", 3000, "COLOR_WHITE")
     else
-        TriggerClientEvent("vorp:NotifyLeft", _source, "~e~Erro!", "Você precisa de: 1 Mosto, 1 Alcool", "menu_textures", "cross", 3000, "COLOR_WHITE")
+        TriggerClientEvent("vorp:NotifyLeft", _source, "~e~Erro!", "Você precisa de: 1 Mosto, 2 Alcool", "menu_textures", "cross", 3000, "COLOR_WHITE")
     end
 end)
 
@@ -177,14 +173,14 @@ AddEventHandler("moonshiner:alcool", function()
     local count = Inventory.getItemCount(_source, "Yarrow")
     local count2 = Inventory.getItemCount(_source, "agua")
 	if count >= 3 and count2 >= 1 then		    
-        Inventory.subItem(_source,"Yarrow", 4)
+        Inventory.subItem(_source,"Yarrow", 2)
         Inventory.subItem(_source,"agua", 1)
         TriggerClientEvent('shiner:mistura', _source)
         Wait(30000)
         Inventory.addItem(_source, "alcool", 1)
-            
+        TriggerClientEvent("vorp:NotifyLeft", _source, "Sucesso", "Você recebeu 1 Alcool", "menu_textures", "cross", 3000, "COLOR_WHITE")
     else
-        TriggerClientEvent("vorp:NotifyLeft", _source, "~e~Erro!", "Você precisa de: 4 milefólio, 1 Água", "menu_textures", "cross", 3000, "COLOR_WHITE")
+        TriggerClientEvent("vorp:NotifyLeft", _source, "~e~Erro!", "Você precisa de: 2 Milefólio, 1 Água", "menu_textures", "cross", 3000, "COLOR_WHITE")
     end
 end)
 
@@ -197,14 +193,15 @@ AddEventHandler("moonshiner:mosto", function()
     local count2 = Inventory.getItemCount(_source, "ginseng_alaska")
     local count3 = Inventory.getItemCount(_source, "ginseng_americano")
     local count4 = Inventory.getItemCount(_source, "agua")
-	if count >= 2 and count2 >= 2 and cout3 >= 2 and count >= 1 then		    
+	if count >= 2 and count2 >= 2 and count3 >= 2 and count4 >= 1 then		    
         Inventory.subItem(_source,"Agarita", 2)
         Inventory.subItem(_source,"ginseng_alaska", 2)
         Inventory.subItem(_source,"ginseng_americano", 2)
         Inventory.subItem(_source,"agua", 1)
         TriggerClientEvent('shiner:mistura', _source)
         Wait(30000)
-        Inventory.addItem(_source, "tropicalPunchMash", 1)
+        Inventory.addItem(_source, "tropicalPunchMash", 2)
+        TriggerClientEvent("vorp:NotifyLeft", _source, "Sucesso", "Você recebeu 2 Mosto de Ginseng", "menu_textures", "cross", 3000, "COLOR_WHITE")
             
     else
         TriggerClientEvent("vorp:NotifyLeft", _source, "~e~Erro!", "Você precisa: 2 Agarita, 2 Ginseng do Alasca, 2 Ginseng Americano, 1 Água", "menu_textures", "cross", 3000, "COLOR_WHITE")

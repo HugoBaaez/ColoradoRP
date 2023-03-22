@@ -119,7 +119,7 @@ end)
 Citizen.CreateThread(function()
 	for k, v in pairs(Config.Blips) do
         local blip = N_0x554d9d53f696d002(1664425300, v.x, v.y, v.z)
-		SetBlipSprite(blip, 2719371534, 1)
+		SetBlipSprite(blip, 3442726182, 1)
 		SetBlipScale(blip, 0.2)
 		Citizen.InvokeNative(0x9CB1A1623062F402, blip, 'Iscas')
 	end  

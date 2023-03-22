@@ -65,6 +65,21 @@ function showNotification(alertType, alertMessage, name) {
     typeOfAlert = 'Pombo da Cavalaria';
     image = 'images/sheriff-badge.png';
   }
+   else if (alertType == 'guerrilha') {
+    css = `guerrilha`;
+    typeOfAlert = 'Pombo da Guerrilha';
+    image = 'images/guerrilha.png';
+  }
+  else if (alertType == 'salary') {
+    css = `salary`;
+    typeOfAlert = 'Sálario';
+    image = 'images/salary.png';
+  } else if (alertType == 'notify') {
+    css = `notify`;
+    typeOfAlert = 'Aviso';
+    image = 'images/notify.png';
+  }
+  
   var html = `
     <div class="background ${css}">
     <div class="image">

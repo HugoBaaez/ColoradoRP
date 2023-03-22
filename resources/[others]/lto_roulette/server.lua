@@ -43,7 +43,7 @@ AddEventHandler('lto_roulette:givemoney', function(action, amount)
     local player = VorpCore.getUser(_source).getUsedCharacter
     local playername = player.firstname.. ' ' ..player.lastname
 	if action == 'Black' or action == 'Red' then
-		local win = amount*2
+		local win = amount*1.2
         TriggerEvent("vorp:addMoney", source, 0, win)
         SendWebhookMessage(wbhk,"```prolog\n[ROLETA]: ".. action .." \n[ "..playername.. " ganhou " ..win.."] "..os.date("\n[Data]: %d/%m/%Y [Hora]: %H:%M:%S").." \r```") 
 	elseif action == 'Green' then

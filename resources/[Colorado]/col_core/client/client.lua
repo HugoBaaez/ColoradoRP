@@ -14,25 +14,25 @@ Citizen.CreateThread(function()
     end
 end)
 -------------------- BARCOS
-local ragdoll = true
-CreateThread(function()
-    while true do
-        Wait(2)
-        if IsControlJustPressed(0, 0x26E9DC00) then -- Z
-            if ragdoll then
-                ragdoll = false
-                ClearPedSecondaryTask(PlayerPedId())
-                ClearPedTasks(PlayerPedId())
-                ExecuteCommand('annullere')
-            else 
-                ragdoll = true
-                local myPed = PlayerPedId()
-                SetPedToRagdoll(myPed, 1000, 1000, 0, 0, 0, 0)
-            end
-            Wait(500)
-        end
-    end
-end)
+-- local ragdoll = true
+-- CreateThread(function()
+--     while true do
+--         Wait(2)
+--         if IsControlJustPressed(0, 0xCEE12B50) then -- mouse3
+--             if ragdoll then
+--                 ragdoll = false
+--                 ClearPedSecondaryTask(PlayerPedId())
+--                 ClearPedTasks(PlayerPedId())
+--                 ExecuteCommand('annullere')
+--             else 
+--                 ragdoll = true
+--                 local myPed = PlayerPedId()
+--                 SetPedToRagdoll(myPed, 1000, 1000, 0, 0, 0, 0)
+--             end
+--             Wait(500)
+--         end
+--     end
+-- end)
 -------------------- X
 -------------------- X
 CreateThread(function()
@@ -98,7 +98,7 @@ local blips = {}
 
 RegisterCommand('alertdoctor', function(source, args, rawCommand)
     if IsEntityDead(PlayerPedId()) then
-        TriggerEvent('RedM:Notify', 'notify', 'Você não pode fazer isso!')
+        TriggerEvent('RedM:Notification', 'notify', 'Você não pode fazer isso!')
     else
         TriggerEvent("vorpinputs:getInput", "Mensagem", "Anuncio",function(cb)
             local mensagem = tostring(cb)
@@ -113,7 +113,7 @@ RegisterCommand('alertdoctor', function(source, args, rawCommand)
 end)
 RegisterCommand('alertpolice', function(source, args, rawCommand)
     if IsEntityDead(PlayerPedId()) then                    
-        TriggerEvent('RedM:Notify', 'notify', 'Você não pode fazer isso!')
+        TriggerEvent('RedM:Notification', 'notify', 'Você não pode fazer isso!')
     else
         local chamado = true
         local tipo = "complaint"
@@ -121,6 +121,19 @@ RegisterCommand('alertpolice', function(source, args, rawCommand)
         local coords = GetEntityCoords(PlayerPedId())
         animSendPombo()
         TriggerServerEvent("RedM:sendalert",'police', tipo, msg, coords, chamado)                    
+    end
+end)
+
+RegisterCommand('alertguerirlha', function(source, args, rawCommand)
+    if IsEntityDead(PlayerPedId()) then                    
+        TriggerEvent('RedM:Notification', 'notify', 'Você não pode fazer isso!')
+    else
+        local chamado = true
+        local tipo = "guerrilha"
+        local msg = 'Chamado guerrilha,\n verifique as coordenadas'
+        local coords = GetEntityCoords(PlayerPedId())
+        animSendPombo()
+        TriggerServerEvent("RedM:sendalert",'guerrilha', tipo, msg, coords, chamado)                    
     end
 end)
 
