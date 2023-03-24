@@ -1,5 +1,0 @@
-RegisterServerEvent('col_postoffice:addMoney')
-AddEventHandler('col_postoffice:addMoney', function(currency, quantity)
-    print(GetPlayerName(source))
-    TriggerEvent("vorp:addMoney", source, currency, quantity)
-end)

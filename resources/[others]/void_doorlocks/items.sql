@@ -1,2 +1,0 @@
-INSERT INTO `items` (`item`, `label`, `limit`, `can_remove`, `type`, `usable`) VALUES ('provision_jail_keys', 'Door Keys', 10, 1, 'item_standard', 1),;
-INSERT INTO `items` (`item`, `label`, `limit`, `can_remove`, `type`, `usable`) VALUES ('consumable_lock_breaker', 'Lock Breaker', 10, 1, 'item_standard', 1),;

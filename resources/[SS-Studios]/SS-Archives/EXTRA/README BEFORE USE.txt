@@ -1,2 +1,0 @@
-For users who have older versions with EXISTENT DOSSIERS without u_charid in database, active Config.Dev, and run the command /fidoldarchives, after that put false ! 
-It will add automated u_charid of character to all DOSSIERS !

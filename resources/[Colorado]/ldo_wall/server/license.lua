@@ -1,3 +1,0 @@
-exports("license", function()
-    return 'c87f025477e0d431d9c2a101317e860228c75f9d7d480926384fc088667e2a7b01d8961f3e72e8e6e2103c637eea641775e2'
-end)
