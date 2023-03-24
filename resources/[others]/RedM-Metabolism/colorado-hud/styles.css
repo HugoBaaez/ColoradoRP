@@ -1,0 +1,119 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: rgb(255, 255, 255);
+  font-family: 'Aleo';
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  padding: 40px;
+  opacity: 0;
+  transition: all 1s ease-in-out;
+}
+
+/* HEADER AREA */
+
+header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+#logo{
+  width: 100%;
+  margin-left: calc(50% - 30px)
+}
+
+.control {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+
+.control span {
+  font-size: 14px;
+}
+
+.control div {
+  width: 35px;
+  height: 35px;
+  background-color: rgba(2, 2, 2, 0.35);
+  border: 1px solid #2F2F2C;
+  border-radius: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* MAIN AREA */
+
+.main{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+}
+
+.main{
+  align-items:flex-end;
+  margin-top: 150px;
+}
+
+.alert{
+  opacity: 0;
+  transition: all 1s ease-in-out;
+  position: relative;
+}
+
+.alert p{
+  position: absolute;
+  bottom: 20px;
+  left: 100px;
+  color: white;
+  font-size: 12px;
+}
+
+/* FOOTER AREA */
+footer {
+  position: absolute;
+  bottom: 5px;
+  right: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+#controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+.controlf {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  margin: 10px;
+}
+
+.controlf img {
+  height: 35px;
+  object-fit: cover;
+  object-position: bottom;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 35px;
+}
+
+#stress-white, #food-red, #water-red, #health-red, #stamina-red {
+  width: 35px;
+  height: 0px;
+}
