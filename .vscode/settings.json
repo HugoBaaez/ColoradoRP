@@ -1,0 +1,12 @@
+{
+    "Lua.runtime.version": "LuaJIT",
+    "Lua.diagnostics.globals": [
+        "ngx",
+        "RegisterServerEvent",
+        "TriggerEvent",
+        "username"
+    ],
+    "Lua.workspace.library": [
+        "${3rd}/OpenResty/library"
+    ]
+}

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<CMapData>
+	<flags value="2"/>
+	<contentFlags value="65"/>
+	<streamingExtentsMin x="-3097.850830" y="-2766.758789" z="-355.226677"/>
+	<streamingExtentsMax x="-2290.166748" y="-1084.908936" z="547.205627"/>
+	<entitiesExtentsMin x="-2697.850830" y="-2366.758789" z="44.773323"/>
+	<entitiesExtentsMax x="-2690.166748" y="-1484.908936" z="147.205627"/>
+	<entities>
+		<Item type="CEntityDef">
+			<archetypeName>p_craftedtable01x</archetypeName>
+			<flags value="1572897"/>
+			<position x="-2697.850830" y="-2366.758789" z="44.773323"/>
+			<rotation w="0.989184" x="-0.104661" y="0.001612" z="-0.102751"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>p_craftedtable01x</archetypeName>
+			<flags value="1572897"/>
+			<position x="-2690.166748" y="-1484.908936" z="147.205627"/>
+			<rotation w="0.513500" x="0.011356" y="-0.065268" z="-0.855529"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+	</entities>
+</CMapData>

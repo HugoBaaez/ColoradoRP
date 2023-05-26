@@ -1,0 +1,52 @@
+ALTER TABLE `loadout` ADD COLUMN `dropped` INT(11) NOT NULL DEFAULT 0;
+ALTER TABLE `loadout` ADD COLUMN `comps` LONGTEXT NOT NULL DEFAULT '{}';
+ALTER TABLE `loadout` ADD COLUMN `used2` tinyint(4) NOT NULL DEFAULT 0;
+
+INSERT INTO `items`(`item`, `label`, `limit`, `can_remove`, `type`, `usable`) VALUES 
+    ('ammorepeaterexplosive', 'Repeater Ammo Explosive', 10, 1, 'item_standard', 1),
+    ('ammorepeaterexpress', 'Repeater Ammo Express', 10, 1, 'item_standard', 1),
+    ('ammorepeaternormal', 'Repeater Ammo Normal', 10, 1, 'item_standard', 1),
+    ('ammorepeatervelocity', 'Repeater Ammo Velocity', 10, 1, 'item_standard', 1),
+    ('ammorepeatersplitpoint', 'Repeater Ammo Splitpoint', 10, 1, 'item_standard', 1),
+    ('ammorevolverexplosive', 'Revolver Ammo Explosive', 10, 1, 'item_standard', 1),
+    ('ammorevolverexpress', 'Revolver Ammo Express', 10, 1, 'item_standard', 1),
+    ('ammorevolvernormal', 'Revolver Ammo Normal', 10, 1, 'item_standard', 1),
+    ('ammorevolvervelocity', 'Revolver Ammo Velocity', 10, 1, 'item_standard', 1),
+    ('ammorevolversplitpoint', 'Revolver Ammo Splitpoint', 10, 1, 'item_standard', 1),
+    ('ammorifleexplosive', 'Rifle Ammo Explosive', 10, 1, 'item_standard', 1),
+    ('ammorifleexpress', 'Rifle Ammo Express', 10, 1, 'item_standard', 1),
+    ('ammoriflenormal', 'Rifle Ammo Normal', 10, 1, 'item_standard', 1),
+    ('ammoriflevelocity', 'Rifle Ammo Velocity', 10, 1, 'item_standard', 1),
+    ('ammoriflesplitpoint', 'Rifle Ammo Splitpoint', 10, 1, 'item_standard', 1),
+    ('ammoelephant', 'Elephant Rifle Ammo', 10, 1, 'item_standard', 1),
+    ('ammoshotgunincendiary', 'Shotgun Ammo Incendiary', 10, 1, 'item_standard', 1),
+    ('ammoshotgunexplosive', 'Shotgun Ammo Explosive', 10, 1, 'item_standard', 1),
+    ('ammoshotgunnormal', 'Shotgun Ammo Normal', 10, 1, 'item_standard', 1),
+    ('ammoshotgunslug', 'Shotgun Ammo Slug', 10, 1, 'item_standard', 1),
+    ('ammopistolexplosive', 'Pistol Ammo Explosive', 10, 1, 'item_standard', 1),
+    ('ammopistolexpress', 'Pistol Ammo Express', 10, 1, 'item_standard', 1),
+    ('ammopistolnormal', 'Pistol Ammo Normal', 10, 1, 'item_standard', 1),
+    ('ammopistolvelocity', 'Pistol Ammo Velocity', 10, 1, 'item_standard', 1),
+    ('ammopistolsplitpoint', 'Pistol Ammo Splitpoint', 10, 1, 'item_standard', 1),
+    ('ammoarrowdynamite', 'Arrow Dynamite', 10, 1, 'item_standard', 1),
+    ('ammoarrowfire', 'Arrow Fire', 10, 1, 'item_standard', 1),
+    ('ammoarrownormal', 'Arrow Normal', 10, 1, 'item_standard', 1),
+    ('ammoarrowimproved', 'Arrow Improved', 10, 1, 'item_standard', 1),
+    ('ammoarrowsmallgame', 'Arrow Small Game', 10, 1, 'item_standard', 1),
+    ('ammoarrowpoison', 'Arrow Poison', 10, 1, 'item_standard', 1),
+    ('ammovarmint', 'Varmint Ammo', 10, 1, 'item_standard', 1),
+    ('ammovarminttranq', 'Varmint Tranquilizer Ammo', 10, 1, 'item_standard', 1),
+    ('ammoknives', 'Knives Ammo', 10, 1, 'item_standard', 1),
+    ('ammotomahawk', 'Tonmahawk Ammo', 10, 1, 'item_standard', 1),
+    ('ammopoisonbottle', 'Poison Bottle Ammo', 10, 1, 'item_standard', 1),
+    ('ammobola', 'Bola Ammo', 10, 1, 'item_standard', 1),
+    ('ammobolahawk', 'Bola Hawkmoth Ammo', 10, 1, 'item_standard', 1),
+    ('ammobolaintertwined', 'Bola Intertwined Ammo', 10, 1, 'item_standard', 1),
+    ('ammobolaironspiked', 'Bola Ironspiked Ammo', 10, 1, 'item_standard', 1),
+    ('ammodynamite', 'Dynamite Ammo', 10, 1, 'item_standard', 1),
+    ('ammovoldynamite', 'Volatile Dynamite Ammo', 10, 1, 'item_standard', 1),
+    ('ammomolotov', 'Molotov Ammo', 10, 1, 'item_standard', 1),
+    ('ammovolmolotov', 'Volatile Molotov Ammo', 10, 1, 'item_standard', 1);
+
+--########################## DELETE EXISTING COMPONENTS ########################## 
+UPDATE loadout SET comps = '{}';

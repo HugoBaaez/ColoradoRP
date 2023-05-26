@@ -1,0 +1,1 @@
+INSERT INTO `items` (`item`, `label`, `limit`, `can_remove`, `type`, `usable`) VALUES ('camera', 'Camera', 1, 1, 'item_standard', 1);
